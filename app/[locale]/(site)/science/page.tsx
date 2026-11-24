@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { preload } from 'react-dom';
 import type { Locale } from '@/lib/i18n/config';
 import { getTranslator } from '@/lib/i18n/dictionary';
 import { MaybePlaceholder, PlaceholderPill } from '@/components/ui/PlaceholderPill';
@@ -18,6 +19,8 @@ export async function generateMetadata({
 export default async function SciencePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = (await params) as { locale: Locale };
   const t = getTranslator(locale);
+  // The poster is the largest paint on this page; fetch it early.
+  preload('/video/tomato-decay-poster.jpg', { as: 'image', fetchPriority: 'high' });
   return (
     <>
       <section className="section-y">

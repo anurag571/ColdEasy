@@ -31,15 +31,19 @@ export function TomatoTimelapse() {
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting) return;
-        setLoad(true);
-        if (!reduced) {
+        io.disconnect();
+        if (reduced) return;
+        // Wait for the page to finish loading so the clip never competes with first paint.
+        const start = () => {
+          setLoad(true);
           video.muted = true;
           video.play().then(
             () => setState('playing'),
             () => setState('idle'),
           );
-        }
-        io.disconnect();
+        };
+        if (document.readyState === 'complete') start();
+        else window.addEventListener('load', start, { once: true });
       },
       { rootMargin: '200px 0px', threshold: 0.4 },
     );

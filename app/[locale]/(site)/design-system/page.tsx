@@ -42,7 +42,7 @@ function Swatch({ name, hex }: { name: string; hex: string }) {
   return (
     <li className="overflow-hidden rounded-2xl border border-line">
       <div
-        className="flex h-20 items-end p-3 font-heading text-sm font-bold"
+        className="flex h-20 items-end p-3 font-heading text-xl font-bold"
         style={{ background: hex, color: text }}
       >
         {name}

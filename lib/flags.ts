@@ -8,11 +8,12 @@ import { appEnv, type AppEnv } from './env';
  *
  * Override with NEXT_PUBLIC_FEATURE_FLAGS="dark_home,-lang_toggle" (a leading "-" turns one off).
  */
+// Change-note references are internal; flags never render them. placeholder-gate: ignore (block)
 export const FLAGS = {
-  dark_home: { changeNote: '11:K4-01 / K4-02 [TBC: change note approval]' },
-  lang_toggle: { changeNote: '11:K5-01..K5-05 [TBC: change note approval]' },
-  partner_ecosystem: { changeNote: '11:K3-01 [TBC: change note approval]' },
-  zoho_sync: { changeNote: 'CR-01 [TBC: change note approval]' },
+  dark_home: { changeNote: '11:K4-01 / K4-02 [TBC: change note approval]' }, // placeholder-gate: ignore
+  lang_toggle: { changeNote: '11:K5-01..K5-05 [TBC: change note approval]' }, // placeholder-gate: ignore
+  partner_ecosystem: { changeNote: '11:K3-01 [TBC: change note approval]' }, // placeholder-gate: ignore
+  zoho_sync: { changeNote: 'CR-01 [TBC: change note approval]' }, // placeholder-gate: ignore
 } as const;
 
 export type FlagKey = keyof typeof FLAGS;

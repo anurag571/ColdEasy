@@ -4,6 +4,10 @@ import { securityHeaders } from './lib/security/headers';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  experimental: {
+    // Branded 404 for unmatched URLs; the root layout lives under app/[locale].
+    globalNotFound: true,
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
   },

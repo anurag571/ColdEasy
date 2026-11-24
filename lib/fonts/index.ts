@@ -19,5 +19,8 @@ export const poppins = localFont({
   ],
   variable: '--font-poppins',
   display: 'swap',
+  // Body text paints first in the size-adjusted fallback, then swaps without layout shift.
+  // Not preloading Poppins keeps ~45 KB off the critical path on Slow 4G (LCP budget, docs/02 §3).
+  preload: false,
   fallback: ['ui-sans-serif', 'system-ui', 'sans-serif'],
 });
