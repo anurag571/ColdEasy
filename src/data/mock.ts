@@ -922,36 +922,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
 ];
 
-// Exact 5 Milestones from client brief
-export const JOURNEY_MILESTONES = [
-  {
-    year: '2019–20',
-    title: 'The problem',
-    event: 'Started working on post-harvest losses and decentralized cold storage.',
-  },
-  {
-    year: '2020–24',
-    title: 'Building the technology',
-    event: 'Developed and tested cooling systems for low-resource environments.',
-  },
-  {
-    year: '2024–25',
-    title: 'Learning from the field',
-    event:
-      'Deployment showed that users needed cooling closer to the point of production and sale.',
-  },
-  {
-    year: '2025–26',
-    title: 'ColdEasy Box',
-    event: 'Developed a portable, electricity-free solution for vendors and small producers.',
-  },
-  {
-    year: 'Today',
-    title: 'Building accessible cooling at scale',
-    event: 'Expanding across geographies, use cases and product categories.',
-  },
-];
-
 export const PARTNERS_CATEGORIES = ['Deployment', 'Finance', 'Research', 'CSR', 'Ecosystem'];
 
 export const PARTNERS_LOGOS = [

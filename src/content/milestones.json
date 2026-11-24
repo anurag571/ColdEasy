@@ -1,0 +1,37 @@
+[
+  {
+    "id": "milestone-1",
+    "date": "[TBC]",
+    "title": "[TBC]",
+    "description": "[TBC]",
+    "order": 1
+  },
+  {
+    "id": "milestone-2",
+    "date": "[TBC]",
+    "title": "[TBC]",
+    "description": "[TBC]",
+    "order": 2
+  },
+  {
+    "id": "milestone-3",
+    "date": "[TBC]",
+    "title": "[TBC]",
+    "description": "[TBC]",
+    "order": 3
+  },
+  {
+    "id": "milestone-4",
+    "date": "[TBC]",
+    "title": "[TBC]",
+    "description": "[TBC]",
+    "order": 4
+  },
+  {
+    "id": "milestone-5",
+    "date": "[TBC]",
+    "title": "[TBC]",
+    "description": "[TBC]",
+    "order": 5
+  }
+]

@@ -1,7 +1,28 @@
 import React from 'react';
 import { SectionHeading } from '../components/SectionHeading';
-import { TEAM_MEMBERS, JOURNEY_MILESTONES, PARTNERS_CATEGORIES } from '../data/mock';
+import { TEAM_MEMBERS, PARTNERS_CATEGORIES } from '../data/mock';
+import milestonesData from '../content/milestones.json';
 import { MessageCircle, ShoppingBag, Linkedin, Compass, Target } from 'lucide-react';
+
+interface Milestone {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  image?: string;
+  order: number;
+}
+
+const journeyMilestones = [...(milestonesData as Milestone[])].sort((a, b) => {
+  const aTime = Date.parse(a.date);
+  const bTime = Date.parse(b.date);
+  const aDated = !Number.isNaN(aTime);
+  const bDated = !Number.isNaN(bTime);
+  if (aDated && bDated && aTime !== bTime) return aTime - bTime;
+  if (aDated && !bDated) return -1;
+  if (!aDated && bDated) return 1;
+  return a.order - b.order;
+});
 
 export const AboutPage: React.FC = () => {
   return (
@@ -117,13 +138,10 @@ export const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. JOURNEY TIMELINE (Exact 5 milestones from client brief) */}
+      {/* 4. JOURNEY TIMELINE, from src/content/milestones.json */}
       <section className="w-full bg-white py-16 md:py-24 border-b border-ink/5">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <SectionHeading
-            title="OUR JOURNEY"
-            subtitle="From post-harvest research to field cooling solutions across India."
-          />
+          <SectionHeading title="OUR JOURNEY" subtitle="[TBC]" />
 
           {/* Desktop Horizontal Timeline */}
           <div className="hidden lg:block relative mt-12 mb-8">
@@ -137,17 +155,31 @@ export const AboutPage: React.FC = () => {
               <span className="w-1/4 h-full bg-leaf" />
             </div>
 
-            <div className="grid grid-cols-5 gap-6 relative z-10">
-              {JOURNEY_MILESTONES.map((item, idx) => (
-                <div key={idx} className="flex flex-col items-center text-center">
+            <div
+              className="grid gap-6 relative z-10"
+              style={{
+                gridTemplateColumns: `repeat(${journeyMilestones.length}, minmax(0, 1fr))`,
+              }}
+            >
+              {journeyMilestones.map((item, idx) => (
+                <div key={item.id} className="flex flex-col items-center text-center">
                   <div className="w-14 h-14 rounded-full bg-white border-2 border-ink flex items-center justify-center font-heading font-extrabold text-xs text-ink shadow-sm mb-4">
-                    0{idx + 1}
+                    {String(idx + 1).padStart(2, '0')}
                   </div>
-                  <span className="font-heading font-bold text-sm text-leaf">{item.year}</span>
+                  <span className="font-heading font-bold text-sm text-leaf">{item.date}</span>
                   <span className="font-heading font-semibold text-xs text-ink mt-1">
                     {item.title}
                   </span>
-                  <p className="text-xs text-ink-60 mt-2 font-body leading-relaxed">{item.event}</p>
+                  <p className="text-xs text-ink-60 mt-2 font-body leading-relaxed">
+                    {item.description}
+                  </p>
+                  {item.image && item.image !== '[TBC]' && (
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="mt-3 w-full aspect-[4/3] object-cover rounded-xl"
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -165,16 +197,23 @@ export const AboutPage: React.FC = () => {
               <span className="w-full h-1/4 bg-leaf" />
             </div>
 
-            {JOURNEY_MILESTONES.map((item, idx) => (
-              <div key={idx} className="relative pl-6">
+            {journeyMilestones.map((item, idx) => (
+              <div key={item.id} className="relative pl-6">
                 <div className="absolute -left-[23px] top-0 w-6 h-6 rounded-full bg-white border-2 border-ink flex items-center justify-center font-heading font-bold text-[10px] text-ink">
                   {idx + 1}
                 </div>
-                <span className="font-heading font-bold text-xs text-leaf">{item.year}</span>
+                <span className="font-heading font-bold text-xs text-leaf">{item.date}</span>
                 <span className="font-heading font-semibold text-xs text-ink ml-2">
                   {item.title}
                 </span>
-                <p className="text-xs text-ink-60 mt-1 font-body">{item.event}</p>
+                <p className="text-xs text-ink-60 mt-1 font-body">{item.description}</p>
+                {item.image && item.image !== '[TBC]' && (
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="mt-2 w-full max-w-xs aspect-[4/3] object-cover rounded-xl"
+                  />
+                )}
               </div>
             ))}
           </div>

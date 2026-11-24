@@ -52,3 +52,18 @@ Only names that start with `VITE_` are embedded in the browser bundle. Do not pu
 Hash routes work without a server fallback. Point the host at `dist/index.html` for `/`.
 
 Do not commit `.env.local`.
+
+## How ColdEasy updates milestones
+
+The About page timeline reads `src/content/milestones.json`. Edit that file and save. No other code change is needed.
+
+Each milestone is one object:
+
+- `id`: a short unique name, such as `milestone-1`. Do not repeat an id.
+- `date`: the year, or the month and year, written as text. Example: `2024` or `March 2024`. Write `[TBC]` until ColdEasy confirms the date.
+- `title`: up to 6 words.
+- `description`: up to 25 words.
+- `image`: optional. After the photo is in `public/milestones/`, set this to its path, such as `/milestones/photo.jpg`. Leave the field out until a photo is supplied.
+- `order`: a whole number. The page lists milestones by date. When a date is `[TBC]`, or two dates are the same, the lower `order` comes first.
+
+Keep 5 to 8 milestones. Do not add an award, a funder, or a partner name until ColdEasy has confirmed it. The dev server picks up a saved file. A published site needs `npm run build` again.
