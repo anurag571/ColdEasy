@@ -7,8 +7,6 @@ import { Play, Pause, RotateCcw, Box, Wind, Sparkles } from 'lucide-react';
 
 export interface HowItWorksSectionProps {
   mode?: 'full' | 'compact';
-  topColor?: string;
-  bottomColor?: string;
   className?: string;
 }
 
@@ -64,8 +62,6 @@ const AIRFLOW_STEPS: AirflowStep[] = [
 
 export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
   mode = 'full',
-  topColor = '#F5F3EC',
-  bottomColor = '#FFFFFF',
   className = '',
 }) => {
   const { t } = useLanguage();
@@ -399,22 +395,6 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
         background: 'linear-gradient(to bottom, #EEE8DB 0%, #E4DCCB 100%)',
       }}
     >
-      <div
-        className="absolute top-0 inset-x-0 h-24 pointer-events-none z-10"
-        style={{
-          background: `linear-gradient(to bottom, ${topColor} 0%, rgba(238, 232, 219, 0) 100%)`,
-        }}
-        aria-hidden="true"
-      />
-
-      <div
-        className="absolute bottom-0 inset-x-0 h-24 pointer-events-none z-10"
-        style={{
-          background: `linear-gradient(to top, ${bottomColor} 0%, rgba(228, 220, 203, 0) 100%)`,
-        }}
-        aria-hidden="true"
-      />
-
       <div className="relative z-10 max-w-[900px] mx-auto px-4 sm:px-6 py-14 sm:py-16 md:py-20 text-center">
         <SectionHeading
           title={t('works.title', 'HOW COLDEASY WORKS')}
