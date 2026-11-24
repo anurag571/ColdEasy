@@ -97,26 +97,19 @@ export const ImpactPage: React.FC = () => {
             </div>
 
             <div className="lg:col-span-5 flex justify-center">
-              {/* Genuine photo placeholder per brief */}
-              <div className="w-full max-w-md bg-white rounded-[28px] p-4 border border-ink/10 shadow-md">
-                <div className="aspect-[4/3] rounded-2xl bg-sand/60 border border-dashed border-ink/20 flex flex-col items-center justify-center p-6 text-center">
-                  <div className="w-12 h-12 rounded-full bg-leaf-light flex items-center justify-center text-leaf font-bold mb-2">
-                    CE
-                  </div>
-                  <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink">
+              <figure className="w-full bg-white rounded-[28px] p-4 border border-ink/10 shadow-md">
+                <img
+                  src="/impact/field-deployment.jpg"
+                  alt={t('impact.photo_sub')}
+                  className="w-full h-auto rounded-2xl object-contain"
+                />
+                <figcaption className="mt-3 text-center">
+                  <span className="block text-xs font-heading font-bold uppercase tracking-wider text-ink">
                     {t('impact.photo_title')}
                   </span>
-                  <span className="text-[11px] text-ink-40 mt-1 font-body">
-                    {t('impact.photo_sub')}
-                  </span>
-                  <span className="text-[10px] text-ink-40 mt-2 font-mono">
-                    // TODO(client): Verified field deployment photo
-                  </span>
-                </div>
-                <p className="mt-3 text-center text-xs text-ink-60 font-body">
-                  {t('impact.photo_caption')}
-                </p>
-              </div>
+                  <p className="mt-1 text-xs text-ink-60 font-body">{t('impact.photo_caption')}</p>
+                </figcaption>
+              </figure>
             </div>
           </div>
         </div>
