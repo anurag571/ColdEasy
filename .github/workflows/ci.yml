@@ -1,0 +1,100 @@
+name: CI
+
+# Every pull request and every push to main runs all build gates (docs/02 §8, docs/10).
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  NEXT_PUBLIC_APP_ENV: preview
+
+jobs:
+  quality:
+    name: Lint, types, unit tests, content gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Placeholder gate (reports on preview, blocks production)
+        run: npm run gate:placeholders
+      - name: Claims gate
+        run: npm run gate:claims
+      - name: Secrets gate (source)
+        run: npm run gate:secrets
+
+  database:
+    name: Migrations, seed and RLS policy tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+      - run: npm run db:local:test
+
+  build-e2e:
+    name: Build, bundle secrets, e2e + axe, links, Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx next build
+      - name: Secrets gate (browser bundle)
+        run: npm run gate:secrets:build
+      - run: npx playwright install --with-deps chromium
+      - name: End-to-end and accessibility (axe)
+        run: npm run e2e
+      - name: Link check
+        run: |
+          npx next start -p 3000 &
+          npx --yes wait-on@8.0.5 http://localhost:3000 --timeout 60000
+          npm run gate:links
+          kill %1
+      - name: Lighthouse budgets (mobile, Slow 4G)
+        run: npm run gate:lighthouse
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: reports
+          path: |
+            playwright-report
+            test-results
+            .lighthouseci
+          retention-days: 7
