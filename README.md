@@ -84,6 +84,26 @@ Each partner is one object inside `partners`:
 
 The five category buttons filter this list. `All` shows every partner. A shareable link looks like `#/about/partners-csr`. `#partners-csr` opens the same page.
 
+## How ColdEasy updates media coverage
+
+The home page “As featured in” row reads `src/content/media.json`. Edit that file and save. No other code change is needed.
+
+Each mention is one object:
+
+- `id`: a short unique name. Do not repeat an id.
+- `outlet`: the publication name shown when a logo file is missing.
+- `url`: the article or post address.
+- `headline`: the page title, copied word for word. Write `[CONFIRM]` until it has been checked. Do not paraphrase it.
+- `published_date`: `YYYY-MM-DD`, or `null` when the date is not confirmed.
+- `type`: `article` or `social`. A social card says “View on Instagram” and does not load an embed.
+- `logo`: optional path after a white or single-colour SVG is saved in `public/media/`. Example: `/media/times-of-india.svg`. Leave it empty until that file exists. Do not paste a logo address from the outlet’s website.
+- `image`: the file path after the photo is saved in `public/media/`. Example: `/media/times-of-india.jpg`. Leave it empty until ColdEasy supplies the file. Do not paste an image address from the outlet’s website.
+- `excerpt`: leave empty unless ColdEasy has marked a quote as approved.
+- `order`: a whole number. Lower numbers come first.
+- `is_published`: set to `false` to hide a mention.
+
+Do not add a quote from an article unless `excerpt` is an approved quote.
+
 ## How ColdEasy updates languages
 
 English copy for the header, footer, home, product cards, and contact page is in `src/locales/en.json`. Hindi, Telugu, Kannada, Tamil, Marathi, and Bangla use the same keys in `hi.json`, `te.json`, `kn.json`, `ta.json`, `mr.json`, and `bn.json`.

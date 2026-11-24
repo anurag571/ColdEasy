@@ -279,6 +279,10 @@ html.dark div.bg-ink.text-white {
   color: #14120e !important;
 }
 
+html.dark .media-logo {
+  filter: brightness(0) invert(1);
+}
+
 /* How It Works section background in dark mode */
 html.dark #how-it-works {
   background: linear-gradient(to bottom, #221e17 0%, #181510 100%) !important;

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "times-of-india",
+    "outlet": "The Times of India",
+    "url": "https://timesofindia.indiatimes.com/life-style/food-news/no-electricity-no-problem-this-man-has-built-a-vegetable-cooling-crate-that-works-without-electricity/articleshow/130193111.cms",
+    "headline": "No electricity, no problem: This man has built a vegetable cooling crate that works without electricity",
+    "published_date": "2026-04-11",
+    "type": "article",
+    "logo": "/media/times-of-india.svg",
+    "image": "/media/times-of-india.jpg",
+    "excerpt": "",
+    "order": 1,
+    "is_published": true
+  },
+  {
+    "id": "the-better-india",
+    "outlet": "The Better India",
+    "url": "https://thebetterindia.com/innovation/water-cooled-crate-keeps-vegetables-fresh-india-11712597",
+    "headline": "In the Peak of Summer, This Innovative Crate Can Help Vendors Keep Vegetables Fresh Without Electricity",
+    "published_date": "2026-04-10",
+    "type": "article",
+    "logo": "/media/the-better-india.svg",
+    "image": "/media/the-better-india.jpg",
+    "excerpt": "",
+    "order": 2,
+    "is_published": true
+  },
+  {
+    "id": "ahmedabad-mirror",
+    "outlet": "Ahmedabad Mirror",
+    "url": "https://www.ahmedabadmirror.com/indian-grassroots-innovations-go-global/81914955.html",
+    "headline": "Indian grassroots innovations go global",
+    "published_date": "2026-06-04",
+    "type": "article",
+    "logo": "/media/ahmedabad-mirror.svg",
+    "image": "/media/ahmedabad-mirror.jpg",
+    "excerpt": "",
+    "order": 3,
+    "is_published": true
+  },
+  {
+    "id": "instagram",
+    "outlet": "Instagram",
+    "url": "https://www.instagram.com/p/DeMeqahP8tE/",
+    "headline": "[CONFIRM]",
+    "published_date": null,
+    "type": "social",
+    "logo": "/media/instagram.svg",
+    "image": "/media/instagram.jpg",
+    "excerpt": "",
+    "order": 4,
+    "is_published": true
+  }
+]

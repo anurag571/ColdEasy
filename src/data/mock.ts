@@ -789,54 +789,6 @@ export const TESTIMONIAL_STORIES: TestimonialStory[] = [
   },
 ];
 
-export interface MediaMention {
-  id: string;
-  outlet: string;
-  headline: string;
-  caption: string;
-  url?: string;
-}
-
-// 5 Verified Media Mentions from the client brief
-export const MEDIA_MENTIONS: MediaMention[] = [
-  {
-    id: 'toi',
-    outlet: 'The Times of India',
-    headline: 'Zero-power cool storage',
-    caption: 'Temperate’s ColdEasy crate demonstrates sustainable post-harvest preservation.',
-    url: '#', // TODO(client): Add exact article URL
-  },
-  {
-    id: 'better-india',
-    outlet: 'The Better India',
-    headline: 'Innovation in rural storage',
-    caption: 'How passive evaporative cooling is rescuing farm profits without electrical grids.',
-    url: '#', // TODO(client): Add exact article URL
-  },
-  {
-    id: 'plate-india',
-    outlet: 'The Plate India',
-    headline: 'The agri-tech cold chain revolution',
-    caption:
-      'Why passive thermodynamic structures are solving the final-mile food spoilage challenge.',
-    url: '#', // TODO(client): Add exact article URL
-  },
-  {
-    id: 'ahmedabad-mirror',
-    outlet: 'Ahmedabad Mirror',
-    headline: 'Empowering rural livelihoods',
-    caption: 'Decentralized cooling innovation transforming farm gate and vendor storage.',
-    url: '#', // TODO(client): Add exact article URL
-  },
-  {
-    id: 'network18',
-    outlet: 'Network18',
-    headline: 'Empowering smallholder vendors',
-    caption: 'Affordable hardware designed directly for Indian roadside produce sellers.',
-    url: '#', // TODO(client): Add exact article URL
-  },
-];
-
 // 8 Verified FAQs from the client brief
 export const FAQS: FaqItem[] = [
   {
