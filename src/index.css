@@ -20,8 +20,33 @@
   --color-ink-60: #5e554e;
   --color-ink-40: #a39e98;
 
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+}
+
+html[data-script='devanagari'] {
   --font-heading: 'Montserrat', 'Noto Sans Devanagari', sans-serif;
   --font-body: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+}
+
+html[data-script='telugu'] {
+  --font-heading: 'Montserrat', 'Noto Sans Telugu', sans-serif;
+  --font-body: 'Poppins', 'Noto Sans Telugu', sans-serif;
+}
+
+html[data-script='kannada'] {
+  --font-heading: 'Montserrat', 'Noto Sans Kannada', sans-serif;
+  --font-body: 'Poppins', 'Noto Sans Kannada', sans-serif;
+}
+
+html[data-script='tamil'] {
+  --font-heading: 'Montserrat', 'Noto Sans Tamil', sans-serif;
+  --font-body: 'Poppins', 'Noto Sans Tamil', sans-serif;
+}
+
+html[data-script='bengali'] {
+  --font-heading: 'Montserrat', 'Noto Sans Bengali', sans-serif;
+  --font-body: 'Poppins', 'Noto Sans Bengali', sans-serif;
 }
 
 /* ==========================================================================

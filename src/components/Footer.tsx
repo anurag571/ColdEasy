@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Logo } from './Logo';
+import { useLanguage } from '../context/LanguageContext';
 import { MessageCircle, ChevronDown, ShieldCheck, Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const { t } = useLanguage();
   const [isContactHovered, setIsContactHovered] = useState(false);
   const [openSection, setOpenSection] = useState<string | null>(null);
 
@@ -11,24 +13,24 @@ export const Footer: React.FC = () => {
   };
 
   const navLinks = [
-    { label: 'Home', href: '#/' },
-    { label: 'Products', href: '#/products' },
-    { label: 'Science', href: '#/science' },
-    { label: 'Impact', href: '#/impact' },
-    { label: 'Resources', href: '#/impact#resources' },
-    { label: 'Track Order', href: '#/track' },
-    { label: 'About Us', href: '#/about' },
+    { label: t('nav.home'), href: '#/' },
+    { label: t('nav.products'), href: '#/products' },
+    { label: t('nav.science'), href: '#/science' },
+    { label: t('nav.impact'), href: '#/impact' },
+    { label: t('nav.resources'), href: '#/impact#resources' },
+    { label: t('nav.track'), href: '#/track' },
+    { label: t('nav.about'), href: '#/about' },
   ];
 
   const partnerLinks = [
-    { label: 'Become a Distributor', href: '#/partner/distributor' },
-    { label: 'Become a Partner', href: '#/partner/partner' },
-    { label: 'Become an Affiliate Partner', href: '#/partner/affiliate' },
+    { label: t('footer.distributor'), href: '#/partner/distributor' },
+    { label: t('footer.partner'), href: '#/partner/partner' },
+    { label: t('footer.affiliate'), href: '#/partner/affiliate' },
   ];
 
   const legalLinks = [
-    { label: 'Terms & Conditions', href: '#/terms' },
-    { label: 'Privacy Policy', href: '#/privacy' },
+    { label: t('footer.terms'), href: '#/terms' },
+    { label: t('footer.privacy'), href: '#/privacy' },
   ];
 
   const socialIcons = [
@@ -94,9 +96,9 @@ export const Footer: React.FC = () => {
             <div>
               <Logo variant="horizontal-reversed" height={42} />
               <p className="mt-3 text-sm text-[#EDE8DE]/80 font-body">
-                Effortless Cooling, Everyday.
+                {t('footer.tagline')}
               </p>
-              <p className="mt-1 text-xs text-[#EDE8DE]/60 font-body">Product of Temperate</p>
+              <p className="mt-1 text-xs text-[#EDE8DE]/60 font-body">{t('footer.product_of')}</p>
 
               {/* Social icons: large icons on white circles with brand colours */}
               <div className="flex items-center gap-3.5 mt-6">
@@ -117,7 +119,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <p className="text-xs text-[#EDE8DE]/60 mt-8 font-body">
-              © 2026 ColdEasy. All Rights Reserved.
+              {t('footer.copyright')}
             </p>
           </div>
 
@@ -125,7 +127,7 @@ export const Footer: React.FC = () => {
           <div className="col-span-5 grid grid-cols-2 gap-6">
             <div>
               <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-sky mb-4">
-                Navigation
+                {t('footer.nav_heading')}
               </h4>
               <ul className="space-y-2.5 text-sm text-[#EDE8DE]/85 font-body">
                 {navLinks.map((link) => (
@@ -145,7 +147,7 @@ export const Footer: React.FC = () => {
                     href="#/contact"
                     className="hover:text-white transition-colors inline-flex items-center gap-1.5 font-medium text-marigold"
                   >
-                    Contact Us
+                    {t('nav.contact')}
                   </a>
                   <div
                     className={`mt-2 p-3.5 rounded-2xl bg-white/10 backdrop-blur-xs text-xs space-y-2 border border-white/15 transition-all duration-300 ${
@@ -164,7 +166,7 @@ export const Footer: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-2 text-[#EDE8DE]/95">
                       <Clock className="w-3.5 h-3.5 text-sky shrink-0" />
-                      <span>Mon-Fri, 8am-8pm</span>
+                      <span>{t('contact.hours')}</span>
                     </div>
                     <a
                       href="https://share.google/LrIPpJB1AfAGYPMW0"
@@ -173,7 +175,7 @@ export const Footer: React.FC = () => {
                       className="flex items-start gap-2 text-[#EDE8DE]/95 hover:text-white underline decoration-dotted"
                     >
                       <MapPin className="w-3.5 h-3.5 text-sky shrink-0 mt-0.5" />
-                      <span>Find on Google Maps</span>
+                      <span>{t('footer.maps')}</span>
                     </a>
                   </div>
                 </li>
@@ -182,7 +184,7 @@ export const Footer: React.FC = () => {
 
             <div>
               <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-olive mb-4">
-                Partner With Us
+                {t('footer.partner_heading')}
               </h4>
               <ul className="space-y-2.5 text-sm text-[#EDE8DE]/85 font-body">
                 {partnerLinks.map((link) => (
@@ -204,7 +206,7 @@ export const Footer: React.FC = () => {
                 <ShieldCheck className="w-6 h-6 text-sky shrink-0" />
                 <div className="text-left">
                   <span className="text-xs font-semibold text-white tracking-wide">
-                    Secure payment by Razorpay
+                    {t('footer.secure_razorpay')}
                   </span>
                 </div>
               </div>
@@ -217,7 +219,7 @@ export const Footer: React.FC = () => {
                 className="w-full py-3 px-5 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-leaf/90 transition-all shadow-md flex items-center justify-center gap-2 text-center"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
-                Connect on WhatsApp
+                {t('topbar.connect_wa')}
               </a>
             </div>
 
@@ -240,9 +242,9 @@ export const Footer: React.FC = () => {
           <div>
             <Logo variant="horizontal-reversed" height={36} />
             <p className="mt-3 text-sm text-[#EDE8DE]/80 font-body">
-              Effortless Cooling, Everyday.
+              {t('footer.tagline')}
             </p>
-            <p className="text-xs text-[#EDE8DE]/60 font-body">Product of Temperate</p>
+            <p className="text-xs text-[#EDE8DE]/60 font-body">{t('footer.product_of')}</p>
 
             <div className="flex items-center gap-3 mt-5">
               {socialIcons.map((soc) => (
@@ -269,13 +271,13 @@ export const Footer: React.FC = () => {
             className="w-full py-3.5 px-6 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm text-center"
           >
             <MessageCircle className="w-4 h-4 fill-current" />
-            Connect on WhatsApp
+            {t('topbar.connect_wa')}
           </a>
 
           {/* Secure payment by Razorpay */}
           <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-sky shrink-0" />
-            <span className="text-xs font-semibold text-white">Secure payment by Razorpay</span>
+            <span className="text-xs font-semibold text-white">{t('footer.secure_razorpay')}</span>
           </div>
 
           {/* Collapsible Section 1: Navigation */}
@@ -284,7 +286,7 @@ export const Footer: React.FC = () => {
               onClick={() => toggleMobileSection('nav')}
               className="w-full flex items-center justify-between text-xs font-heading font-bold uppercase tracking-wider text-sky py-2 cursor-pointer"
             >
-              <span>Navigation</span>
+              <span>{t('footer.nav_heading')}</span>
               <ChevronDown
                 className={`w-4 h-4 transition-transform ${
                   openSection === 'nav' ? 'rotate-180' : ''
@@ -301,17 +303,17 @@ export const Footer: React.FC = () => {
                   </li>
                 ))}
                 <li className="pt-2 text-xs text-[#EDE8DE]/75 border-t border-white/10 space-y-1">
-                  <div className="font-semibold text-marigold">Contact:</div>
-                  <div>Phone: +91 91829 68542</div>
-                  <div>Email: info@coldeasy.in</div>
-                  <div>Hours: Mon-Fri, 8am-8pm</div>
+                  <div className="font-semibold text-marigold">{t('footer.contact_label')}</div>
+                  <div>{t('footer.phone')}</div>
+                  <div>{t('footer.email')}</div>
+                  <div>{t('footer.hours')}</div>
                   <a
                     href="https://share.google/LrIPpJB1AfAGYPMW0"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sky hover:underline block"
                   >
-                    View on Google Maps →
+                    {t('footer.maps_short')}
                   </a>
                 </li>
               </ul>
@@ -324,7 +326,7 @@ export const Footer: React.FC = () => {
               onClick={() => toggleMobileSection('partner')}
               className="w-full flex items-center justify-between text-xs font-heading font-bold uppercase tracking-wider text-olive py-2 cursor-pointer"
             >
-              <span>Partner With Us</span>
+              <span>{t('footer.partner_heading')}</span>
               <ChevronDown
                 className={`w-4 h-4 transition-transform ${
                   openSection === 'partner' ? 'rotate-180' : ''
@@ -356,7 +358,7 @@ export const Footer: React.FC = () => {
                 </React.Fragment>
               ))}
             </div>
-            <div>© 2026 ColdEasy. All Rights Reserved.</div>
+            <div>{t('footer.copyright')}</div>
           </div>
         </div>
       </div>

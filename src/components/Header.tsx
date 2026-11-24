@@ -12,6 +12,7 @@ import {
 import { Logo } from './Logo';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
+import { LanguageMenu } from './LanguageMenu';
 
 interface HeaderProps {
   currentRoute: string;
@@ -22,7 +23,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isContactHovered, setIsContactHovered] = useState(false);
   const { totalItems, setIsCartOpen } = useCart();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const navClass =
+    language === 'en'
+      ? 'uppercase tracking-wider'
+      : 'normal-case tracking-normal break-words';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,12 +57,12 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
 
   // TODO(client): the brief lists two different navs.
   const navLinks = [
-    { label: t('nav.home', 'Home'), href: '#/' },
-    { label: t('nav.products', 'Products'), href: '#/products' },
-    { label: t('nav.science', 'Science'), href: '#/science' },
-    { label: t('nav.impact', 'Impact'), href: '#/impact' },
-    { label: t('nav.about', 'About Us'), href: '#/about' },
-    { label: t('nav.contact', 'Contact Us'), href: '#/contact' },
+    { label: t('nav.home'), href: '#/' },
+    { label: t('nav.products'), href: '#/products' },
+    { label: t('nav.science'), href: '#/science' },
+    { label: t('nav.impact'), href: '#/impact' },
+    { label: t('nav.about'), href: '#/about' },
+    { label: t('nav.contact'), href: '#/contact' },
   ];
 
   const isCurrent = (href: string) => {
@@ -72,15 +77,15 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
       <nav
         aria-label="Main Navigation"
         className={`w-full bg-cream sticky top-[36px] z-30 transition-all duration-250 ${
-          isScrolled ? 'h-[56px] shadow-xs border-b border-ink/10' : 'h-[72px] md:h-[80px]'
+          isScrolled ? 'min-h-[56px] shadow-xs border-b border-ink/10' : 'min-h-[72px] md:min-h-[80px]'
         }`}
       >
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 min-h-[inherit] py-2 flex items-center justify-between gap-3">
           {/* Logo on the left */}
           <a
             href="#/"
             className="flex items-center gap-2 group focus:outline-hidden focus:ring-2 focus:ring-leaf/40 rounded-lg p-1"
-            aria-label="ColdEasy - Back to Home"
+            aria-label={t('header.home')}
           >
             <Logo
               variant="horizontal-color"
@@ -92,8 +97,8 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
             <div
-              className={`flex items-center transition-all duration-250 font-heading font-semibold text-xs lg:text-sm uppercase tracking-wider ${
-                isScrolled ? 'gap-5 lg:gap-7' : 'gap-6 lg:gap-8'
+              className={`flex flex-wrap items-center transition-all duration-250 font-heading font-semibold text-xs lg:text-sm ${navClass} ${
+                isScrolled ? 'gap-x-5 gap-y-1 lg:gap-x-7' : 'gap-x-6 gap-y-1 lg:gap-x-8'
               }`}
             >
               {navLinks.map((link) => {
@@ -130,7 +135,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
                             >
                               <Phone className="w-4 h-4 text-leaf shrink-0" />
                               <div className="flex flex-col text-left">
-                                <span className="text-[11px] font-bold">Call Us</span>
+                                <span className="text-[11px] font-bold">{t('header.call')}</span>
                                 <span className="text-[10px] text-ink-60 font-body">
                                   +91 91829 68542
                                 </span>
@@ -143,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
                             >
                               <Mail className="w-4 h-4 text-sky shrink-0" />
                               <div className="flex flex-col text-left">
-                                <span className="text-[11px] font-bold">Email</span>
+                                <span className="text-[11px] font-bold">{t('header.email')}</span>
                                 <span className="text-[10px] text-ink-60 font-body">
                                   info@coldeasy.in
                                 </span>
@@ -158,9 +163,9 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
                             >
                               <MapPin className="w-4 h-4 text-marigold shrink-0" />
                               <div className="flex flex-col text-left">
-                                <span className="text-[11px] font-bold">Address</span>
+                                <span className="text-[11px] font-bold">{t('header.address')}</span>
                                 <span className="text-[10px] text-ink-60 font-body">
-                                  Google Maps
+                                  {t('header.maps')}
                                 </span>
                               </div>
                             </a>
@@ -187,6 +192,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
                 );
               })}
             </div>
+            <LanguageMenu />
           </div>
 
           {/* Mobile Right Controls: WhatsApp, Cart, Hamburger */}
@@ -196,7 +202,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full text-leaf hover:bg-leaf-light transition-colors"
-              aria-label="WhatsApp Contact"
+              aria-label={t('header.whatsapp')}
             >
               <MessageCircle className="w-5 h-5 fill-current" />
             </a>
@@ -204,7 +210,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative p-2 rounded-full text-ink hover:bg-sand transition-colors cursor-pointer"
-              aria-label={`Cart with ${totalItems} items`}
+              aria-label={t('header.cart_count', { count: totalItems })}
             >
               <ShoppingBag className="w-5 h-5" />
               {totalItems > 0 && (
@@ -217,7 +223,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-xl text-ink hover:bg-sand transition-colors cursor-pointer"
-              aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+              aria-label={isMobileMenuOpen ? t('header.close_menu') : t('header.open_menu')}
               aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -236,7 +242,10 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
           <div className="p-6 flex-1 flex flex-col justify-between overflow-y-auto">
             <div>
               {/* Navigation Links */}
-              <div className="flex flex-col space-y-4 font-heading font-semibold text-lg uppercase tracking-wider">
+              <div className="mb-6">
+                <LanguageMenu align="left" onSelect={() => setIsMobileMenuOpen(false)} />
+              </div>
+              <div className={`flex flex-col space-y-4 font-heading font-semibold text-lg ${navClass}`}>
                 {navLinks.map((link) => {
                   const active = isCurrent(link.href);
                   return (
@@ -262,7 +271,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full py-3 px-6 rounded-full border border-ink-40 text-ink font-heading font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-sand"
               >
-                {t('nav.track', 'Track Order')}
+                {t('nav.track')}
               </a>
 
               <a
@@ -270,7 +279,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full py-3.5 px-6 rounded-full bg-leaf text-white font-heading font-semibold text-sm uppercase tracking-wider flex items-center justify-center gap-2"
               >
-                {t('nav.buy_box', 'Buy ColdEasy Box')}
+                {t('nav.buy_box')}
               </a>
 
               <a
@@ -280,7 +289,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
                 className="w-full py-3 px-6 rounded-full border border-ink-40 text-ink font-heading font-medium text-sm uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-sand"
               >
                 <MessageCircle className="w-4 h-4 text-leaf" />
-                {t('topbar.connect_wa', 'Connect on WhatsApp')}
+                {t('topbar.connect_wa')}
               </a>
             </div>
           </div>

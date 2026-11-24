@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, MessageCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { MobileSignupModal } from './MobileSignupModal';
 
 interface TopBarProps {
@@ -9,6 +10,7 @@ interface TopBarProps {
 
 export const TopBar: React.FC<TopBarProps> = ({ onShowToast }) => {
   const { totalItems, setIsCartOpen } = useCart();
+  const { t } = useLanguage();
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
@@ -21,7 +23,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onShowToast }) => {
 
   const handleSignupSuccess = () => {
     setIsSignedUp(true);
-    onShowToast("You're in. We'll message you on WhatsApp.");
+    onShowToast(t('topbar.signup_toast'));
   };
 
   return (
@@ -35,13 +37,13 @@ export const TopBar: React.FC<TopBarProps> = ({ onShowToast }) => {
           {!isSignedUp && (
             <div className="flex items-center gap-2">
               <span className="font-semibold tracking-tight text-[11px] sm:text-xs text-ink">
-                Sign up to LEARN MORE
+                {t('topbar.signup_learn')}
               </span>
               <button
                 onClick={() => setIsSignupModalOpen(true)}
                 className="px-2.5 py-0.5 rounded-full bg-ink text-white text-[11px] font-semibold uppercase tracking-wider hover:bg-ink/80 transition-transform active:scale-95 cursor-pointer"
               >
-                Sign Up
+                {t('topbar.signup_btn')}
               </button>
             </div>
           )}
@@ -53,19 +55,19 @@ export const TopBar: React.FC<TopBarProps> = ({ onShowToast }) => {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-ink/10 hover:bg-ink/15 text-ink font-semibold text-[11px] sm:text-xs transition-colors cursor-pointer"
-              aria-label="WhatsApp"
+              aria-label={t('topbar.whatsapp')}
             >
               <MessageCircle className="w-3.5 h-3.5 fill-current text-[#128C7E]" />
-              <span className="hidden sm:inline">WhatsApp</span>
+              <span className="hidden sm:inline">{t('topbar.whatsapp')}</span>
             </a>
 
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-ink/10 hover:bg-ink/15 text-ink font-semibold text-[11px] sm:text-xs transition-colors cursor-pointer"
-              aria-label={`Shopping cart with ${totalItems} items`}
+              aria-label={t('topbar.cart_count', { count: totalItems })}
             >
               <ShoppingBag className="w-3.5 h-3.5" />
-              <span>Cart</span>
+              <span>{t('topbar.cart')}</span>
               <span className="inline-flex items-center justify-center min-w-4.5 h-4.5 px-1 rounded-full bg-leaf text-white text-[10px] font-bold">
                 {totalItems}
               </span>

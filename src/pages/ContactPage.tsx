@@ -4,8 +4,10 @@ import { INDIAN_STATES_AND_UTS } from '../data/mock';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { track } from '../lib/track';
 import { Mail, Phone, MessageCircle, MapPin, ExternalLink, CheckCircle2, Send } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const ContactPage: React.FC = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     mobile: '',
@@ -22,14 +24,14 @@ export const ContactPage: React.FC = () => {
   const validate = () => {
     const errs: Record<string, string> = {};
     if (!formData.name.trim()) {
-      errs.name = 'Please enter your name.';
+      errs.name = t('contact.name_error');
     }
     const cleanMobile = formData.mobile.replace(/\D/g, '');
     if (!/^[6-9]\d{9}$/.test(cleanMobile)) {
-      errs.mobile = 'Enter a valid 10-digit Indian mobile starting with 6, 7, 8, or 9.';
+      errs.mobile = t('contact.mobile_error');
     }
     if (formData.pincode && !/^\d{6}$/.test(formData.pincode.trim())) {
-      errs.pincode = 'PIN code must be exactly 6 digits.';
+      errs.pincode = t('contact.pincode_error');
     }
     return errs;
   };
@@ -57,8 +59,8 @@ export const ContactPage: React.FC = () => {
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="mb-10">
           <SectionHeading
-            title="GET IN TOUCH"
-            subtitle="Connect directly with our engineering and deployment support desks."
+            title={t('contact.title')}
+            subtitle={t('contact.subtitle')}
           />
         </div>
 
@@ -74,14 +76,14 @@ export const ContactPage: React.FC = () => {
                 <Mail className="w-6 h-6 text-leaf" />
               </div>
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink-60 block">
-                Email
+                {t('contact.email')}
               </span>
               <h3 className="font-heading font-bold text-base text-ink mt-1 truncate">
                 info@coldeasy.in
               </h3>
             </div>
             <span className="mt-4 text-xs font-semibold text-leaf inline-flex items-center gap-1">
-              Send Email →
+              {t('contact.send_email')}
             </span>
           </a>
 
@@ -95,13 +97,13 @@ export const ContactPage: React.FC = () => {
                 <Phone className="w-6 h-6 text-leaf" />
               </div>
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink-60 block">
-                Call Us
+                {t('contact.call')}
               </span>
               <h3 className="font-heading font-bold text-base text-ink mt-1">+91 91829 68542</h3>
-              <p className="text-[11px] text-ink-60 mt-1 font-body">Mon–Fri, 8am–8pm</p>
+              <p className="text-[11px] text-ink-60 mt-1 font-body">{t('contact.hours')}</p>
             </div>
             <span className="mt-4 text-xs font-semibold text-leaf inline-flex items-center gap-1">
-              Call Now →
+              {t('contact.call_now')}
             </span>
           </a>
 
@@ -117,15 +119,15 @@ export const ContactPage: React.FC = () => {
                 <MessageCircle className="w-6 h-6 text-ink" />
               </div>
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink-60 block">
-                WhatsApp
+                {t('contact.whatsapp')}
               </span>
-              <h3 className="font-heading font-bold text-base text-ink mt-1">Chat Directly</h3>
+              <h3 className="font-heading font-bold text-base text-ink mt-1 break-words">{t('contact.chat')}</h3>
               <p className="text-[11px] text-ink-60 mt-1 font-body">
-                Quick replies for product questions
+                {t('contact.chat_hint')}
               </p>
             </div>
             <span className="mt-4 text-xs font-semibold text-leaf inline-flex items-center gap-1">
-              Open WhatsApp →
+              {t('contact.open_whatsapp')}
             </span>
           </a>
 
@@ -136,12 +138,12 @@ export const ContactPage: React.FC = () => {
                 <MapPin className="w-6 h-6 text-leaf" />
               </div>
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink-60 block">
-                Office & Lab
+                {t('contact.office')}
               </span>
               <h3 className="font-heading font-bold text-xs text-ink mt-1 leading-snug">
-                Temperate Technologies
+                {t('contact.company')}
               </h3>
-              <p className="text-[11px] text-ink-60 mt-1">Bangalore & Hyderabad, India</p>
+              <p className="text-[11px] text-ink-60 mt-1 break-words">{t('contact.cities')}</p>
             </div>
 
             <div className="mt-4 pt-3 border-t border-ink/5 flex items-center justify-between">
@@ -151,7 +153,7 @@ export const ContactPage: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-xs font-semibold text-leaf hover:underline inline-flex items-center gap-1"
               >
-                Open in Google Maps <ExternalLink className="w-3 h-3" />
+                {t('contact.open_maps')} <ExternalLink className="w-3 h-3" />
               </a>
             </div>
           </div>
@@ -160,8 +162,8 @@ export const ContactPage: React.FC = () => {
         {/* Map Image Placeholder */}
         <div className="mb-14 rounded-[24px] bg-white p-4 border border-ink/10 shadow-xs overflow-hidden">
           <ImagePlaceholder
-            label="MAP: ColdEasy Headquarters & Thermal Testing Centre"
-            sublabel="Bangalore & Hyderabad Technology Hubs"
+            label={t('contact.map_label')}
+            sublabel={t('contact.map_sub')}
             aspectRatio="aspect-[21/9] sm:aspect-[32/9]"
             className="bg-sand/70"
           />
@@ -170,11 +172,10 @@ export const ContactPage: React.FC = () => {
         {/* 2. Contact Form */}
         <div className="max-w-2xl mx-auto bg-white rounded-[28px] p-6 sm:p-10 border border-ink/10 shadow-md">
           <h3 className="font-heading font-bold text-xl uppercase tracking-wider text-ink mb-2">
-            Send an Enquiry
+            {t('contact.form_title')}
           </h3>
           <p className="text-xs sm:text-sm text-ink-60 font-body mb-8">
-            Tell us about your produce and requirements. Our agri-cooling specialists will get back
-            to you shortly.
+            {t('contact.form_desc')}
           </p>
 
           {!isSubmitted ? (
@@ -182,13 +183,13 @@ export const ContactPage: React.FC = () => {
               {/* Name */}
               <div>
                 <label className="block text-xs font-heading font-bold uppercase tracking-wider text-ink mb-1.5">
-                  Full Name *
+                  {t('contact.name')}
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Your Name"
+                  placeholder={t('contact.name_placeholder')}
                   className="w-full px-4 py-3 rounded-full border border-ink-40/60 text-xs sm:text-sm font-medium focus:border-leaf focus:outline-hidden"
                 />
                 {errors.name && (
@@ -199,7 +200,7 @@ export const ContactPage: React.FC = () => {
               {/* Mobile */}
               <div>
                 <label className="block text-xs font-heading font-bold uppercase tracking-wider text-ink mb-1.5">
-                  Mobile Number (+91) *
+                  {t('contact.mobile')}
                 </label>
                 <div className="flex rounded-full border border-ink-40/60 overflow-hidden bg-white">
                   <span className="px-3.5 py-3 bg-sand text-ink-60 text-xs sm:text-sm font-semibold border-r border-ink-40/40 select-none flex items-center">
@@ -222,7 +223,7 @@ export const ContactPage: React.FC = () => {
               {/* Email (optional) */}
               <div>
                 <label className="block text-xs font-heading font-bold uppercase tracking-wider text-ink mb-1.5">
-                  Email Address (Optional)
+                  {t('contact.email_field')}
                 </label>
                 <input
                   type="email"
@@ -236,18 +237,18 @@ export const ContactPage: React.FC = () => {
               {/* I am a */}
               <div>
                 <label className="block text-xs font-heading font-bold uppercase tracking-wider text-ink mb-1.5">
-                  I am a
+                  {t('contact.role')}
                 </label>
                 <select
                   value={formData.userRole}
                   onChange={(e) => setFormData({ ...formData, userRole: e.target.value })}
                   className="w-full px-4 py-3 rounded-full border border-ink-40/60 text-xs sm:text-sm font-medium focus:border-leaf focus:outline-hidden bg-white"
                 >
-                  <option value="Farmer">Farmer</option>
-                  <option value="Vendor or retailer">Vendor or retailer</option>
-                  <option value="FPO or cooperative">FPO or cooperative</option>
-                  <option value="Business">Business</option>
-                  <option value="Other">Other</option>
+                  <option value="Farmer">{t('contact.role.farmer')}</option>
+                  <option value="Vendor or retailer">{t('contact.role.vendor')}</option>
+                  <option value="FPO or cooperative">{t('contact.role.fpo')}</option>
+                  <option value="Business">{t('contact.role.business')}</option>
+                  <option value="Other">{t('contact.role.other')}</option>
                 </select>
               </div>
 
@@ -255,7 +256,7 @@ export const ContactPage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-heading font-bold uppercase tracking-wider text-ink mb-1.5">
-                    State / Union Territory
+                    {t('contact.state')}
                   </label>
                   <select
                     value={formData.state}
@@ -272,7 +273,7 @@ export const ContactPage: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-heading font-bold uppercase tracking-wider text-ink mb-1.5">
-                    PIN Code
+                    {t('contact.pincode')}
                   </label>
                   <input
                     type="text"
@@ -291,13 +292,13 @@ export const ContactPage: React.FC = () => {
               {/* Message */}
               <div>
                 <label className="block text-xs font-heading font-bold uppercase tracking-wider text-ink mb-1.5">
-                  Message
+                  {t('contact.message')}
                 </label>
                 <textarea
                   rows={4}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Tell us about the crops you store, volumes, or distribution interests..."
+                  placeholder={t('contact.message_placeholder')}
                   className="w-full p-4 rounded-2xl border border-ink-40/60 text-xs sm:text-sm font-medium focus:border-leaf focus:outline-hidden"
                 />
               </div>
@@ -307,7 +308,7 @@ export const ContactPage: React.FC = () => {
                 className="w-full py-4 px-6 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-leaf/90 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
                 <Send className="w-4 h-4" />
-                Submit Message
+                {t('contact.submit')}
               </button>
             </form>
           ) : (
@@ -316,11 +317,10 @@ export const ContactPage: React.FC = () => {
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <h4 className="font-heading font-bold text-xl uppercase tracking-wider text-ink">
-                Thank you!
+                {t('contact.thanks')}
               </h4>
               <p className="text-sm text-ink-60 font-body max-w-md mx-auto">
-                Your message has been recorded. Our regional field operations team will connect with
-                you on WhatsApp within 1 working day.
+                {t('contact.thanks_desc')}
               </p>
               <button
                 onClick={() => {
@@ -337,7 +337,7 @@ export const ContactPage: React.FC = () => {
                 }}
                 className="py-2.5 px-6 rounded-full bg-sand text-ink text-xs font-heading font-semibold uppercase tracking-wider hover:bg-sand/80"
               >
-                Send Another Message
+                {t('contact.another')}
               </button>
             </div>
           )}

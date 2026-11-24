@@ -7,22 +7,19 @@ export const ComparisonSection: React.FC = () => {
   const { t } = useLanguage();
 
   const fridgePoints = [
-    { type: 'cross', text: 'Requires electricity' },
-    { type: 'check', text: 'Can store meat, fish & dairy products' },
-    { type: 'cross', text: 'Ethylene can accumulate and accelerates ripening' },
-    { type: 'cross', text: 'Stationary' },
-    { type: 'none', text: 'Compressor-based cooling' },
+    { type: 'cross', text: t('comparison.pt1_fridge') },
+    { type: 'check', text: t('comparison.pt2_fridge') },
+    { type: 'cross', text: t('comparison.pt3_fridge') },
+    { type: 'cross', text: t('comparison.pt4_fridge') },
+    { type: 'none', text: t('comparison.pt5_fridge') },
   ];
 
   const coldEasyPoints = [
-    { type: 'check', text: 'Works without electricity' },
-    { type: 'cross', text: 'Not designed for meat & fish' },
-    {
-      type: 'check',
-      text: 'Constant airflow allows ethylene-rich air to escape and keeps produce fresh',
-    },
-    { type: 'check', text: 'Portable & easy to deploy' },
-    { type: 'none', text: 'Evaporation-based cooling' },
+    { type: 'check', text: t('comparison.pt1_coldeasy') },
+    { type: 'cross', text: t('comparison.pt2_coldeasy') },
+    { type: 'check', text: t('comparison.pt3_coldeasy') },
+    { type: 'check', text: t('comparison.pt4_coldeasy') },
+    { type: 'none', text: t('comparison.pt5_coldeasy') },
   ];
 
   const renderIcon = (type: string) => {
@@ -54,8 +51,8 @@ export const ComparisonSection: React.FC = () => {
     >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <SectionHeading
-          title={t('comparison.title', 'FRIDGE VS COLDEASY BOX')}
-          subtitle="Same goal, different approach. Built specifically for fresh produce and flowers where compressors fail or cost too much."
+          title={t('comparison.title')}
+          subtitle={t('comparison.subtitle')}
           isCentered
         />
 
@@ -66,7 +63,7 @@ export const ComparisonSection: React.FC = () => {
             <div className="w-full max-w-2xl rounded-2xl bg-sand/40 border border-ink/10 p-3 overflow-hidden flex items-center justify-center shadow-xs">
               <img
                 src="/assets/aistudio/fridge_vs_coldeasy_comparison.jpg"
-                alt="Refrigerator vs ColdEasy Comparison"
+                alt={t('comparison.alt')}
                 className="w-full h-auto object-contain rounded-xl max-h-[420px]"
                 loading="lazy"
               />
@@ -80,7 +77,7 @@ export const ComparisonSection: React.FC = () => {
               <div className="flex items-center gap-2 pb-2 border-b border-ink/10">
                 <span className="w-2.5 h-2.5 rounded-full bg-chilli" />
                 <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-ink">
-                  Conventional Fridge
+                  {t('comparison.fridge_title')}
                 </h3>
               </div>
 
@@ -104,7 +101,7 @@ export const ComparisonSection: React.FC = () => {
               <div className="flex items-center gap-2 pb-2 border-b border-leaf/30">
                 <span className="w-2.5 h-2.5 rounded-full bg-leaf" />
                 <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-leaf">
-                  ColdEasy Box
+                  {t('comparison.coldeasy_title')}
                 </h3>
               </div>
 

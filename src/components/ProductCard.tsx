@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { Share2, ArrowRight } from 'lucide-react';
 import { EmiInfoModal } from './EmiInfoModal';
 import { track } from '../lib/track';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProductCardProps {
   product: Product;
@@ -22,6 +23,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onShowToast,
 }) => {
   const { addToCart } = useCart();
+  const { t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const [touchSwiped, setTouchSwiped] = useState(false);
   const [showEmiModal, setShowEmiModal] = useState(false);
@@ -54,11 +56,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         });
       } catch {
         await navigator.clipboard.writeText(url);
-        onShowToast?.('Link copied');
+        onShowToast?.(t('product.link_copied'));
       }
     } else {
       await navigator.clipboard.writeText(url);
-      onShowToast?.('Link copied');
+      onShowToast?.(t('product.link_copied'));
     }
   };
 
@@ -92,7 +94,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               </div>
             ) : (
               <ImagePlaceholder
-                label="Images coming soon"
+                label={t('product.images_soon')}
                 sublabel={product.name}
                 aspectRatio="aspect-[4/3]"
               />
@@ -104,10 +106,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <div className="absolute top-3 right-3 z-10">
               <span className="px-3 py-1 rounded-full bg-chilli text-white text-xs font-heading font-bold uppercase tracking-wider shadow-xs">
                 {isHovered
-                  ? 'OUT OF STOCK'
+                  ? t('product.out_of_stock')
                   : badgeStyle === 'sold-out'
-                    ? 'SOLD OUT'
-                    : 'OUT OF STOCK'}
+                    ? t('product.sold_out')
+                    : t('product.out_of_stock')}
               </span>
             </div>
           )}
@@ -147,7 +149,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </>
           ) : (
             <span className="text-sm font-heading font-bold text-leaf bg-leaf-light px-3 py-1 rounded-full">
-              Price coming soon
+              {t('product.price_soon')}
             </span>
           )}
         </div>
@@ -155,7 +157,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* EMI line for eligible products only */}
         {product.emiEligible && (
           <div className="mt-1 flex items-center gap-1.5 text-xs text-olive font-medium">
-            <span>EMI from ₹{product.emiFromPerMonth || '1,420'}/month</span>
+            <span>{t('product.emi', { amount: product.emiFromPerMonth || '1,420' })}</span>
             <button
               type="button"
               onClick={(e) => {
@@ -163,8 +165,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 setShowEmiModal(true);
               }}
               className="w-4 h-4 rounded-full bg-sand hover:bg-olive/20 text-ink-60 flex items-center justify-center text-[10px] font-bold cursor-pointer transition-colors"
-              aria-label="EMI details"
-              title="EMI details"
+              aria-label={t('product.emi_details')}
+              title={t('product.emi_details')}
             >
               i
             </button>
@@ -181,13 +183,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               onClick={handleBuyNow}
               className="flex-1 py-3 px-4 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-xs cursor-pointer"
             >
-              BUY NOW
+              {t('product.buy_now')}
             </button>
             <button
               onClick={handleShare}
               className="p-3 rounded-full bg-sand hover:bg-leaf-light text-ink hover:text-leaf transition-colors cursor-pointer"
-              aria-label={`Share ${product.name}`}
-              title="Share product link"
+              aria-label={t('product.share_named', { name: product.name })}
+              title={t('product.share')}
             >
               <Share2 className="w-4 h-4" />
             </button>
@@ -198,7 +200,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               disabled
               className="w-full py-3 px-4 rounded-full bg-ink/10 text-ink-40 font-heading font-bold text-xs uppercase tracking-wider cursor-not-allowed"
             >
-              {badgeStyle === 'sold-out' ? 'SOLD OUT' : 'OUT OF STOCK'}
+              {badgeStyle === 'sold-out' ? t('product.sold_out') : t('product.out_of_stock')}
             </button>
             {onNotifyClick && (
               <button
@@ -209,7 +211,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 }}
                 className="text-xs font-semibold text-leaf hover:underline cursor-pointer block w-full text-center py-1"
               >
-                Notify me when back in stock →
+                {t('product.notify')}
               </button>
             )}
           </div>
@@ -219,7 +221,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               href={`#/products/${product.slug}`}
               className="w-full inline-block py-3 px-4 rounded-full border border-ink/20 text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-colors text-center"
             >
-              View Details
+              {t('product.view_details')}
             </a>
           </div>
         )}
@@ -227,7 +229,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* View product link that appears on hover */}
         <div className="mt-2 text-center">
           <span className="inline-flex items-center gap-1 text-[11px] font-heading font-semibold text-leaf group-hover:opacity-100 opacity-60 transition-opacity">
-            View product{' '}
+            {t('product.view_product')}{' '}
             <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
           </span>
         </div>

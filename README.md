@@ -83,3 +83,11 @@ Each partner is one object inside `partners`:
 - `published`: set to `false` to keep a confirmed partner off the page.
 
 The five category buttons filter this list. `All` shows every partner. A shareable link looks like `#/about/partners-csr`. `#partners-csr` opens the same page.
+
+## How ColdEasy updates languages
+
+English copy for the header, footer, home, product cards, and contact page is in `src/locales/en.json`. Hindi, Telugu, Kannada, Tamil, Marathi, and Bangla use the same keys in `hi.json`, `te.json`, `kn.json`, `ta.json`, `mr.json`, and `bn.json`.
+
+Each of those files currently says `[TRANSLATION PENDING]`. The site shows the English line until a reviewer replaces that value. Do not machine-translate a language into the file. A language goes live only after its named reviewer approves it.
+
+The header menu shows each language in its own script. The choice is saved in the browser. Product names, science, checkout, and legal pages stay in English until their copy is added to these files.

@@ -9,6 +9,7 @@ import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { NotifyModal } from '../components/NotifyModal';
 import { ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HomePageProps {
   onShowToast: (message: string) => void;
@@ -17,9 +18,10 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
   const [selectedNotifyProduct, setSelectedNotifyProduct] = useState<Product | null>(null);
   const { addToCart } = useCart();
+  const { t } = useLanguage();
 
   const handleNotifySuccess = (phone: string) => {
-    onShowToast(`You're on the alert list (+91 ${phone})! We'll notify you on WhatsApp.`);
+    onShowToast(t('bestsellers.alert', { phone }));
   };
 
   // Best Sellers: Exactly 3 products (ColdEasy Box, AutoBox 3 Box, AutoBox 2 Box)
@@ -47,36 +49,34 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
             <div className="lg:col-span-7 flex flex-col items-start text-left">
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-leaf-light text-leaf text-xs font-heading font-extrabold uppercase tracking-wider mb-4 border border-leaf/20">
                 <span className="w-2 h-2 rounded-full bg-leaf animate-pulse" />
-                Zero-Electricity Evaporative Cooling
+                {t('hero.badge')}
               </span>
 
-              <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-[56px] text-ink leading-[1.1] tracking-tight">
-                Effortless cooling at your door step
+              <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-[56px] text-ink leading-[1.1] tracking-tight break-words">
+                {t('hero.headline')}
               </h1>
 
-              <p className="mt-4 text-lg sm:text-2xl text-leaf font-heading font-bold">
-                Freshness Reimagined, made for everyday
+              <p className="mt-4 text-lg sm:text-2xl text-leaf font-heading font-bold break-words">
+                {t('hero.subhead')}
               </p>
 
-              <p className="mt-3 text-xs sm:text-base text-ink-60 font-body max-w-xl leading-relaxed">
-                ColdEasy Box keeps fruits and vegetables fresh for longer without using electricity.
-                It uses water-based cooling to lower temperature and maintain high humidity, which
-                reduces spoilage and weight loss.
+              <p className="mt-3 text-xs sm:text-base text-ink-60 font-body max-w-xl leading-relaxed break-words">
+                {t('hero.desc')}
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
                 <a
                   href="#/products/coldeasy-box"
-                  className="py-4 px-10 rounded-full bg-leaf text-white font-heading font-extrabold text-sm uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-lg hover:shadow-xl"
+                  className="py-4 px-10 rounded-full bg-leaf text-white font-heading font-extrabold text-sm uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-lg hover:shadow-xl break-words"
                 >
-                  BUY NOW
+                  {t('hero.cta_buy')}
                 </a>
 
                 <a
                   href="#how-it-works"
                   className="py-4 px-6 rounded-full border border-ink/20 text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-all text-center"
                 >
-                  How It Works ↓
+                  {t('hero.cta_works')}
                 </a>
               </div>
             </div>
@@ -86,7 +86,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
               <div className="relative w-full max-w-[460px] p-6 sm:p-8 rounded-[32px] bg-[#EFE9DD] border border-ink/10 shadow-xl flex items-center justify-center">
                 <img
                   src="/products/coldeasy-box/front.png"
-                  alt="ColdEasy Box on soft background"
+                  alt={t('hero.image_alt')}
                   className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500 drop-shadow-md"
                   loading="eager"
                 />
@@ -105,17 +105,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
           <div className="flex items-center justify-between mb-8 pb-4 border-b border-ink/10">
             <div>
               <h2 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-wider text-ink">
-                BEST SELLERS
+                {t('bestsellers.title')}
               </h2>
               <p className="text-xs sm:text-sm text-ink-60 font-body mt-0.5">
-                Effortless cooling, everyday.
+                {t('bestsellers.subtitle')}
               </p>
             </div>
             <a
               href="#/products"
               className="inline-flex items-center gap-1.5 font-heading font-bold text-xs uppercase tracking-wider text-leaf hover:underline"
             >
-              <span>VIEW PRODUCTS</span>
+              <span>{t('bestsellers.view_all')}</span>
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -146,7 +146,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                         />
                       ) : (
                         <ImagePlaceholder
-                          label="Images coming soon"
+                          label={t('bestsellers.images_soon')}
                           sublabel={prod.name}
                           aspectRatio="aspect-[4/3]"
                           className="w-full"
@@ -154,7 +154,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                       )}
                       {isSoldOut && (
                         <div className="absolute top-3 right-3 bg-chilli text-white text-[10px] font-heading font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-                          SOLD OUT
+                          {t('bestsellers.sold_out')}
                         </div>
                       )}
                     </div>
@@ -198,7 +198,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                         onClick={(e) => handleBuyNow(e, prod)}
                         className="w-full py-3 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-leaf/90 transition-all text-center shadow-xs cursor-pointer active:scale-95"
                       >
-                        BUY NOW
+                        {t('product.buy_now')}
                       </button>
                     )}
                   </div>

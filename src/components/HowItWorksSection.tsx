@@ -397,17 +397,14 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
     >
       <div className="relative z-10 max-w-[900px] mx-auto px-4 sm:px-6 py-14 sm:py-16 md:py-20 text-center">
         <SectionHeading
-          title={t('works.title', 'HOW COLDEASY WORKS')}
-          subtitle={t(
-            'works.subtitle',
-            'Passive evaporative cooling (SEEC) powered purely by thermodynamic airflow. Cooling without electricity.',
-          )}
+          title={t('works.title')}
+          subtitle={t('works.subtitle')}
           isCentered
         />
 
         {/* Dual Mode Switcher Bar */}
         <div className="flex justify-center mt-6 mb-8">
-          <div className="inline-flex items-center p-1.5 rounded-full bg-white/80 backdrop-blur-xs border border-ink/10 shadow-sm">
+          <div className="inline-flex flex-wrap items-center justify-center gap-1 p-1.5 rounded-full bg-white/80 backdrop-blur-xs border border-ink/10 shadow-sm max-w-full">
             <button
               type="button"
               onClick={() => handlePerspectiveChange('hardware')}
@@ -418,7 +415,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               }`}
             >
               <Box className="w-4 h-4" />
-              <span>1. 3D Hardware Assembly</span>
+              <span className="break-words">{t('works.hardware')}</span>
             </button>
             <button
               type="button"
@@ -430,7 +427,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               }`}
             >
               <Wind className="w-4 h-4" />
-              <span>2. SEEC Airflow & Physics</span>
+              <span className="break-words">{t('works.airflow')}</span>
             </button>
           </div>
         </div>
