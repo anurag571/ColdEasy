@@ -195,16 +195,22 @@ export const PRODUCTS: Product[] = [
       'Automated water distribution across three stacked crates. High-capacity cooling for retailers, mandi vendors and aggregation points.',
     images: {
       main: {
-        url: '/products/coldeasy-autobox-3/solar.jpeg',
-        label: 'ColdEasy AutoBox – 3 Box, Solar Powered Setup',
-        sublabel: 'Triple-tier crate stack with automated water pipe, solar panel, and controller',
+        url: '/products/coldeasy-autobox-3/ac-grid.jpg',
+        label: 'ColdEasy AutoBox – 3 Box, AC Grid Setup',
+        sublabel: 'Three stacked crates with wall-plug controller and water line',
       },
       hover: {
-        url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
+        url: '/products/coldeasy-autobox-3/ac-grid.jpg',
         label: 'ColdEasy AutoBox – 3 Box, AC Grid Setup',
-        sublabel: 'Triple-tier crate stack with automated wall-plug AC controller',
+        sublabel: 'Three stacked crates with wall-plug controller and water line',
       },
       gallery: [
+        {
+          id: 'autobox-3-ac-grid',
+          url: '/products/coldeasy-autobox-3/ac-grid.jpg',
+          label: 'ColdEasy AutoBox 3 – AC Grid Setup',
+          sublabel: 'Three stacked crates with wall-plug controller and water line',
+        },
         {
           id: 'autobox-3-solar',
           url: '/products/coldeasy-autobox-3/solar.jpeg',
@@ -260,6 +266,12 @@ export const PRODUCTS: Product[] = [
           },
         ],
         grid: [
+          {
+            id: 'autobox-3-ac-grid',
+            url: '/products/coldeasy-autobox-3/ac-grid.jpg',
+            label: 'ColdEasy AutoBox 3 – AC Grid Setup',
+            sublabel: 'Three stacked crates with wall-plug controller and water line',
+          },
           {
             id: 'autobox-3-grid-front',
             url: '/products/coldeasy-autobox-3/grid-front.jpeg',
@@ -352,14 +364,40 @@ export const PRODUCTS: Product[] = [
       'Automated water feed for two stacked crates. Compact footprint for roadside stalls and retail store display.',
     images: {
       main: {
-        label: 'Images coming soon',
-        sublabel: 'ColdEasy has not supplied AutoBox 2 photos',
+        url: '/products/coldeasy-autobox-2/solar.jpg',
+        label: 'ColdEasy AutoBox – 2 Box, Solar Powered Setup',
+        sublabel: 'Two stacked crates with solar panel, cables, and pump controller',
       },
       hover: {
-        label: 'Images coming soon',
-        sublabel: 'ColdEasy has not supplied AutoBox 2 photos',
+        url: '/products/coldeasy-autobox-2/solar.jpg',
+        label: 'ColdEasy AutoBox – 2 Box, Solar Powered Setup',
+        sublabel: 'Two stacked crates with solar panel, cables, and pump controller',
       },
-      gallery: [],
+      gallery: [
+        {
+          id: 'autobox-2-solar',
+          url: '/products/coldeasy-autobox-2/solar.jpg',
+          label: 'ColdEasy AutoBox 2 – Solar Powered Setup',
+          sublabel: 'Two stacked crates with solar panel, cables, and pump controller',
+        },
+      ],
+      variantGalleries: {
+        solar: [
+          {
+            id: 'autobox-2-solar',
+            url: '/products/coldeasy-autobox-2/solar.jpg',
+            label: 'ColdEasy AutoBox 2 – Solar Powered Setup',
+            sublabel: 'Two stacked crates with solar panel, cables, and pump controller',
+          },
+        ],
+        grid: [
+          {
+            id: 'autobox-2-grid',
+            label: 'Images coming soon',
+            sublabel: 'ColdEasy has not supplied an AutoBox 2 AC grid photo',
+          },
+        ],
+      },
     },
     highlights: [
       'Tomato shelf life [TBC]',
