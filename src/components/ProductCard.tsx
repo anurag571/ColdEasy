@@ -87,9 +87,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <img
                   src={currentImageData.url}
                   alt={currentImageData.label || product.name}
-                  className={`w-full h-full object-contain transition-transform duration-250 ease-out group-hover:scale-105 ${
-                    !product.inStock ? 'opacity-65 grayscale' : ''
-                  }`}
+                  className="w-full h-full object-contain transition-transform duration-250 ease-out group-hover:scale-105"
                   loading="lazy"
                 />
               </div>
@@ -98,7 +96,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 label={currentImageData.label}
                 sublabel={currentImageData.sublabel}
                 aspectRatio="aspect-[4/3]"
-                isGreyscale={!product.inStock}
               />
             )}
           </div>

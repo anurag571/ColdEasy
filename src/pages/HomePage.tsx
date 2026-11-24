@@ -144,9 +144,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                             : prod.images.main.url
                         }
                         alt={prod.name}
-                        className={`w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 ${
-                          isSoldOut ? 'opacity-70 grayscale' : ''
-                        }`}
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />
                       {isSoldOut && (

@@ -175,9 +175,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
                 <img
                   src={currentItem.url}
                   alt={currentItem.label || baseProduct.name}
-                  className={`w-full h-full object-contain transition-transform duration-300 ${
-                    !baseProduct.inStock ? 'opacity-70 grayscale' : ''
-                  }`}
+                  className="w-full h-full object-contain transition-transform duration-300"
                 />
               ) : (
                 <div className="p-8 text-center text-ink-40 font-heading font-semibold">

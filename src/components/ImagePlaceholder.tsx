@@ -7,7 +7,6 @@ interface ImagePlaceholderProps {
   className?: string;
   aspectRatio?: string; // e.g. 'aspect-square', 'aspect-[4/3]', 'aspect-[9/16]'
   iconType?: 'box' | 'pad' | 'stall' | 'produce' | 'video' | 'media';
-  isGreyscale?: boolean;
 }
 
 export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
@@ -16,7 +15,6 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
   className = '',
   aspectRatio = 'aspect-[4/3]',
   iconType = 'box',
-  isGreyscale = false,
 }) => {
   const getIcon = () => {
     switch (iconType) {
@@ -39,9 +37,7 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
     <div
       role="img"
       aria-label={label}
-      className={`relative rounded-[22px] bg-sand border border-ink/5 overflow-hidden flex flex-col items-center justify-center p-6 text-center transition-all select-none ${aspectRatio} ${
-        isGreyscale ? 'opacity-65 grayscale' : ''
-      } ${className}`}
+      className={`relative rounded-[22px] bg-sand border border-ink/5 overflow-hidden flex flex-col items-center justify-center p-6 text-center transition-all select-none ${aspectRatio} ${className}`}
     >
       {/* Soft crate texture / subtle visual structure */}
       <div className="absolute inset-4 rounded-[16px] border border-dashed border-ink/10 pointer-events-none flex items-center justify-center" />
