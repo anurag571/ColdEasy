@@ -7,221 +7,39 @@ export const SciencePage: React.FC = () => {
   const [isColdEasyView, setIsColdEasyView] = useState(false);
   const [selectedLabCrop, setSelectedLabCrop] = useState<'Banana' | 'Tomato' | 'Mango'>('Tomato');
 
-  // Animation canvas for tomato fresh -> rotten (plays once on load, holds last frame)
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationFrameRef = useRef<number | null>(null);
-  const [animProgress, setAnimProgress] = useState(1);
+  // Tomato decay time-lapse (plays once on load, holds the last frame)
+  const tomatoVideoRef = useRef<HTMLVideoElement>(null);
+  const [decayDay, setDecayDay] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  const updateDecayDay = () => {
+    const video = tomatoVideoRef.current;
+    if (!video || !video.duration) return;
+    const progress = Math.min(1, video.currentTime / video.duration);
+    setDecayDay(Math.min(8, Math.floor(1 + progress * 7)));
+  };
+
   const startTomatoAnimation = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
-
-    setIsAnimating(true);
-    let startTime: number | null = null;
-    const duration = 3600; // 3.6 seconds smooth decay
-
-    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
-    const logicalWidth = 340;
-    const logicalHeight = 280;
-    canvas.width = logicalWidth * dpr;
-    canvas.height = logicalHeight * dpr;
-
-    const renderFrame = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const progress = Math.min(1, elapsed / duration);
-      setAnimProgress(progress);
-
-      ctx.save();
-      ctx.scale(dpr, dpr);
-      ctx.clearRect(0, 0, logicalWidth, logicalHeight);
-
-      const cx = logicalWidth / 2;
-      const cy = logicalHeight / 2 - 6;
-
-      // Color interpolation:
-      // Fresh: Vibrant Ruby Red #E23126 -> Deep Crimson Shadow
-      // Rotten: Softened Brownish-Maroon with dark decay #4A1A14
-      const r = Math.round(226 - progress * (226 - 74));
-      const g = Math.round(49 - progress * (49 - 26));
-      const b = Math.round(38 - progress * (38 - 20));
-
-      // Shrinking scale: 1.0 -> 0.88 due to moisture & cellular turgor loss
-      const scale = 1.0 - progress * 0.12;
-      const radius = 86 * scale;
-
-      // 1. Soft Contact Shadow
-      ctx.save();
-      ctx.beginPath();
-      ctx.ellipse(cx, cy + radius * 0.95 + 4, radius * 1.08, radius * 0.22, 0, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 0, 0, ${0.4 + progress * 0.1})`;
-      ctx.filter = 'blur(6px)';
-      ctx.fill();
-      ctx.restore();
-
-      // 2. Tomato Body with Dimensional Gradient
-      ctx.save();
-      const bodyGrad = ctx.createRadialGradient(
-        cx - radius * 0.25,
-        cy - radius * 0.3,
-        radius * 0.15,
-        cx,
-        cy,
-        radius * 1.15,
-      );
-      if (progress < 0.5) {
-        bodyGrad.addColorStop(
-          0,
-          `rgb(${Math.min(255, r + 40)}, ${Math.min(255, g + 35)}, ${Math.min(255, b + 25)})`,
-        );
-        bodyGrad.addColorStop(0.55, `rgb(${r}, ${g}, ${b})`);
-        bodyGrad.addColorStop(
-          1,
-          `rgb(${Math.max(0, r - 70)}, ${Math.max(0, g - 25)}, ${Math.max(0, b - 20)})`,
-        );
-      } else {
-        bodyGrad.addColorStop(0, `rgb(${r + 20}, ${g + 15}, ${b + 10})`);
-        bodyGrad.addColorStop(0.65, `rgb(${r}, ${g}, ${b})`);
-        bodyGrad.addColorStop(1, '#230B07');
-      }
-
-      ctx.beginPath();
-      // Natural organic lobe shape (slightly wider than tall, subtle dimple at top)
-      ctx.ellipse(cx, cy, radius * 1.04, radius * 0.96, 0, 0, Math.PI * 2);
-      ctx.fillStyle = bodyGrad;
-      ctx.fill();
-
-      // 3. Specular Highlight (Fades away as surface dries and loses wax shine)
-      const highlightOpacity = Math.max(0, 0.7 - progress * 0.7);
-      if (highlightOpacity > 0.02) {
-        ctx.beginPath();
-        ctx.ellipse(
-          cx - radius * 0.35,
-          cy - radius * 0.35,
-          radius * 0.24,
-          radius * 0.12,
-          -Math.PI / 4,
-          0,
-          Math.PI * 2,
-        );
-        ctx.fillStyle = `rgba(255, 255, 255, ${highlightOpacity})`;
-        ctx.fill();
-      }
-
-      // 4. Wrinkles and Softening Contours (Appear progressively as moisture leaves)
-      if (progress > 0.25) {
-        const wrinkleAlpha = (progress - 0.25) / 0.75;
-        ctx.strokeStyle = `rgba(26, 9, 7, ${wrinkleAlpha * 0.65})`;
-        ctx.lineWidth = 1.8;
-        ctx.lineCap = 'round';
-
-        // Wrinkle Arc 1
-        ctx.beginPath();
-        ctx.arc(cx - radius * 0.2, cy + radius * 0.15, radius * 0.45, 0.4, 2.1);
-        ctx.stroke();
-
-        // Wrinkle Arc 2
-        ctx.beginPath();
-        ctx.arc(cx + radius * 0.28, cy - radius * 0.05, radius * 0.4, 1.9, 3.4);
-        ctx.stroke();
-
-        // Wrinkle Arc 3 (lateral dehydration fold)
-        ctx.beginPath();
-        ctx.arc(cx - radius * 0.05, cy + radius * 0.35, radius * 0.32, 0.2, 2.4);
-        ctx.stroke();
-
-        // 5. Sunken Necrotic Decay Spots (Brown/black fungal lesions)
-        ctx.fillStyle = `rgba(20, 7, 5, ${wrinkleAlpha * 0.85})`;
-
-        ctx.beginPath();
-        ctx.arc(cx + radius * 0.32, cy + radius * 0.2, 10 * progress, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(cx - radius * 0.35, cy + radius * 0.18, 7 * progress, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(cx + radius * 0.08, cy + radius * 0.45, 12 * progress, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(cx - radius * 0.12, cy - radius * 0.15, 6 * progress, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // 6. Calyx / Stem (Green at harvest -> dry wilted olive-brown)
-      const stemR = Math.round(62 + progress * (108 - 62));
-      const stemG = Math.round(152 - progress * (152 - 82));
-      const stemB = Math.round(58 - progress * (58 - 42));
-
-      ctx.fillStyle = `rgb(${stemR}, ${stemG}, ${stemB})`;
-      ctx.beginPath();
-      ctx.arc(cx, cy - radius * 0.94, 7, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Calyx Leaves (5 pointed sepals)
-      for (let i = 0; i < 5; i++) {
-        const angle = (i * (Math.PI * 2)) / 5 - Math.PI / 2;
-        // As it decays, sepals curl inwards and downward
-        const droopFactor = progress * 6;
-        const lx = cx + Math.cos(angle) * (26 * scale);
-        const ly = cy - radius * 0.94 + Math.sin(angle) * (18 * scale) + droopFactor;
-
-        ctx.beginPath();
-        ctx.moveTo(cx, cy - radius * 0.94);
-        ctx.quadraticCurveTo(
-          cx + Math.cos(angle) * 12,
-          cy - radius * 0.94 + Math.sin(angle) * 8 + droopFactor,
-          lx,
-          ly,
-        );
-        ctx.lineWidth = 3.2;
-        ctx.strokeStyle = `rgb(${stemR}, ${stemG}, ${stemB})`;
-        ctx.stroke();
-      }
-      ctx.restore();
-
-      // 7. Day Status Readout inside canvas
-      ctx.font = 'bold 12px Montserrat, sans-serif';
-      ctx.fillStyle = progress > 0.7 ? '#F87171' : '#EDE8DE';
-      ctx.textAlign = 'center';
-      const dayNum = Math.min(8, Math.floor(1 + progress * 7));
-      const label =
-        progress >= 0.98
-          ? 'Ambient Day 8: Decayed & Softened'
-          : `Ambient Day ${dayNum}: Progressing Respiration`;
-      ctx.fillText(label, logicalWidth / 2, logicalHeight - 14);
-
-      ctx.restore();
-
-      // Loop until progress reaches 1, then stop and HOLD last frame
-      if (progress < 1) {
-        animationFrameRef.current = requestAnimationFrame(renderFrame);
-      } else {
-        setIsAnimating(false);
-      }
-    };
-
-    animationFrameRef.current = requestAnimationFrame(renderFrame);
+    const video = tomatoVideoRef.current;
+    if (!video) return;
+    video.currentTime = 0;
+    video.muted = true;
+    video
+      .play()
+      .then(() => setIsAnimating(true))
+      .catch(() => setIsAnimating(false));
   };
 
   useEffect(() => {
-    // Plays ONCE on initial load and holds the last frame
-    startTomatoAnimation();
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+    const video = tomatoVideoRef.current;
+    if (!video) return;
+    video.muted = true;
+    const playOnce = () => {
+      video.play().then(() => setIsAnimating(true)).catch(() => {});
     };
+    if (video.readyState >= 2) playOnce();
+    else video.addEventListener('loadeddata', playOnce, { once: true });
+    return () => video.removeEventListener('loadeddata', playOnce);
   }, []);
 
   const scrollToIntro = () => {
@@ -238,7 +56,7 @@ export const SciencePage: React.FC = () => {
           Headline: "The Science of Freshness" with "Science" in sky accent
           Subline: "How science keeps your produce fresher for longer."
           Buttons: GET STARTED (ColdEasy Box) & LEARN MORE (smooth scroll)
-          Tomato Fresh -> Rotten animation (plays once on load, holds last frame)
+          Tomato decay time-lapse (plays once on load, holds last frame)
           ========================================================================= */}
       <section className="relative w-full bg-[#14100B] text-[#EDE8DE] py-16 sm:py-24 md:py-28 overflow-hidden border-b border-white/10">
         {/* Ambient atmospheric glow */}
@@ -288,7 +106,7 @@ export const SciencePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: Tomato Fresh -> Rotten Canvas Animation */}
+            {/* Right Column: Tomato decay time-lapse */}
             <div className="lg:col-span-5 flex flex-col items-center justify-center">
               <div className="w-full max-w-[380px] p-4 rounded-[28px] bg-white/5 border border-white/10 shadow-2xl backdrop-blur-xs flex flex-col items-center">
                 <div className="w-full flex items-center justify-between text-[11px] font-heading font-bold uppercase tracking-wider text-[#EDE8DE]/60 px-2 pb-2 border-b border-white/10">
@@ -297,10 +115,19 @@ export const SciencePage: React.FC = () => {
                 </div>
 
                 <div className="py-2 flex items-center justify-center relative w-full">
-                  <canvas
-                    ref={canvasRef}
-                    style={{ width: '340px', height: '280px' }}
-                    className="w-full h-auto block"
+                  <video
+                    ref={tomatoVideoRef}
+                    src="/video/tomato-decaying-timelapse-1080.mp4"
+                    className="w-full h-auto block rounded-2xl bg-black/20"
+                    muted
+                    playsInline
+                    preload="auto"
+                    onTimeUpdate={updateDecayDay}
+                    onPlay={() => setIsAnimating(true)}
+                    onEnded={() => {
+                      setIsAnimating(false);
+                      setDecayDay(8);
+                    }}
                   />
                 </div>
 
@@ -310,7 +137,7 @@ export const SciencePage: React.FC = () => {
                     <span>Fresh Harvest</span>
                   </div>
                   <span className="text-center font-mono text-[11px] text-[#EDE8DE]/90">
-                    Day {Math.min(8, Math.floor(1 + animProgress * 7))} of 8
+                    Day {decayDay} of 8
                   </span>
                   <div className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-chilli" />
