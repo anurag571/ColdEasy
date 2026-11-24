@@ -922,16 +922,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
 ];
 
-export const PARTNERS_CATEGORIES = ['Deployment', 'Finance', 'Research', 'CSR', 'Ecosystem'];
-
-export const PARTNERS_LOGOS = [
-  'Deployment Partners',
-  'Finance Partners',
-  'Research Institutions',
-  'CSR Collaborators',
-  'Ecosystem Enablers',
-];
-
 // Lead form benefit points
 export const FORM_BENEFITS = {
   distributor: [

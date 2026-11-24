@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import { LanguageProvider } from './context/LanguageContext';
@@ -32,12 +32,19 @@ import { CheckCircle2 } from 'lucide-react';
 
 function AppContent() {
   const [currentRoute, setCurrentRoute] = useState(window.location.hash || '#/');
+  const routeRef = useRef(currentRoute);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    const isAboutFamily = (hash: string) =>
+      hash.startsWith('#/about') || hash === '#about' || hash.startsWith('#partners-');
+
     const handleHashChange = () => {
       const hash = window.location.hash || '#/';
+      const previous = routeRef.current;
+      routeRef.current = hash;
       setCurrentRoute(hash);
+      if (isAboutFamily(previous) && isAboutFamily(hash)) return;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -125,8 +132,13 @@ function AppContent() {
       return <ImpactPage />;
     }
 
-    // 11. About Page
-    if (path === '#/about' || path === '#about') {
+    // 11. About Page, including a shared partner category such as #/about/partners-csr
+    if (
+      path === '#/about' ||
+      path === '#about' ||
+      path.startsWith('#/about/partners-') ||
+      path.startsWith('#partners-')
+    ) {
       return <AboutPage />;
     }
 

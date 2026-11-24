@@ -1,6 +1,7 @@
 import React from 'react';
 import { SectionHeading } from '../components/SectionHeading';
-import { TEAM_MEMBERS, PARTNERS_CATEGORIES } from '../data/mock';
+import { TEAM_MEMBERS } from '../data/mock';
+import { PartnerEcosystem } from '../components/PartnerEcosystem';
 import milestonesData from '../content/milestones.json';
 import { MessageCircle, ShoppingBag, Linkedin, Compass, Target } from 'lucide-react';
 
@@ -220,29 +221,7 @@ export const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. PARTNERS CATEGORIES */}
-      <section className="w-full bg-sand py-16 border-b border-ink/5">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <SectionHeading
-            title="PARTNER ECOSYSTEM"
-            subtitle="Working alongside organizations to scale clean cold storage."
-            isCentered
-          />
-
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-8">
-            {PARTNERS_CATEGORIES.map((category) => (
-              <div
-                key={category}
-                className="group h-24 rounded-[20px] bg-white border border-ink/5 flex items-center justify-center p-4 transition-all duration-300 hover:shadow-md cursor-pointer text-center"
-              >
-                <span className="font-heading font-bold text-xs uppercase tracking-wider text-ink-60 group-hover:text-leaf transition-colors">
-                  {category}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PartnerEcosystem />
 
       {/* 6. CTA BAND */}
       <section className="w-full bg-cream py-14">

@@ -321,6 +321,31 @@ html.dark .shadow-2xl {
   animation-play-state: paused;
 }
 
+@keyframes marquee-ltr {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.partner-marquee-track {
+  animation: marquee-ltr 36s linear infinite;
+}
+
+.partner-marquee:hover .partner-marquee-track,
+.partner-marquee:focus-within .partner-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partner-marquee-track {
+    animation: none;
+    transform: none;
+  }
+}
+
 /* Airflow wave animation for How ColdEasy Works step 4 */
 @keyframes airflow {
   0% {

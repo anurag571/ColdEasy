@@ -67,3 +67,19 @@ Each milestone is one object:
 - `order`: a whole number. The page lists milestones by date. When a date is `[TBC]`, or two dates are the same, the lower `order` comes first.
 
 Keep 5 to 8 milestones. Do not add an award, a funder, or a partner name until ColdEasy has confirmed it. The dev server picks up a saved file. A published site needs `npm run build` again.
+
+## How ColdEasy updates partners
+
+The About page partner strip reads `src/content/partners.json`. The list starts empty. Add a partner only after ColdEasy has written permission to show that name and logo.
+
+Each partner is one object inside `partners`:
+
+- `name`: the organisation name.
+- `category`: one or more of `deployment`, `finance`, `research`, `csr`, `ecosystem`.
+- `logo`: the file path after the logo is saved in `public/partners/`. Example: `/partners/logo.svg`.
+- `url`: optional website.
+- `mayLink`: set to `false` when the logo must not open the website.
+- `permission`: a short reference to the written approval kept on file. The site hides the partner while this is missing or `[TBC]`.
+- `published`: set to `false` to keep a confirmed partner off the page.
+
+The five category buttons filter this list. `All` shows every partner. A shareable link looks like `#/about/partners-csr`. `#partners-csr` opens the same page.
