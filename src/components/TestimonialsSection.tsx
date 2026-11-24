@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Play, ExternalLink, Quote, Sparkles } from 'lucide-react';
 import { TESTIMONIAL_STORIES, TestimonialStory } from '../data/mock';
+import { useLanguage } from '../context/LanguageContext';
 
 // Video tiles for the marquee loop (linked to Instagram / TODO)
 interface VideoTile {
@@ -57,6 +58,7 @@ const VIDEO_TILES: VideoTile[] = [
 ];
 
 export const TestimonialsSection: React.FC = () => {
+  const { t } = useLanguage();
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -84,11 +86,11 @@ export const TestimonialsSection: React.FC = () => {
               <span className="w-full h-1/4 bg-leaf" />
             </div>
             <h2 className="font-heading font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider text-ink">
-              CUSTOMER TESTIMONIALS
+              {t('testimonials.title')}
             </h2>
           </div>
           <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-leaf">
-            Real stories. Real experiences. Real impact.
+            {t('testimonials.subtitle')}
           </p>
         </div>
 
@@ -116,7 +118,7 @@ export const TestimonialsSection: React.FC = () => {
                   </div>
                 )}
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-full text-[10px] font-heading font-bold uppercase text-leaf tracking-wider shadow-2xs">
-                  {activeStory.fpoRole || 'Customer Story'}
+                  {t(`story.${activeStory.id}.role`)}
                 </div>
               </div>
 
@@ -124,14 +126,14 @@ export const TestimonialsSection: React.FC = () => {
               <div className="relative">
                 <Quote className="w-6 h-6 text-marigold mb-3 fill-current opacity-80" />
                 <blockquote className="font-body italic text-ink text-sm sm:text-base leading-relaxed mb-4">
-                  {activeStory.quote}
+                  {t(`story.${activeStory.id}.quote`)}
                 </blockquote>
 
                 <div>
                   <h4 className="font-heading font-extrabold text-base text-ink">
                     {activeStory.customerName}
                   </h4>
-                  <p className="text-xs font-semibold text-leaf mt-0.5">{activeStory.crop}</p>
+                  <p className="text-xs font-semibold text-leaf mt-0.5">{t(`story.${activeStory.id}.crop`)}</p>
                   <p className="text-xs text-ink-60 mt-0.5">{activeStory.location}</p>
                 </div>
               </div>
@@ -143,7 +145,7 @@ export const TestimonialsSection: React.FC = () => {
                 href={`#/story/${activeStory.id}`}
                 className="inline-flex items-center gap-1.5 text-xs font-heading font-bold uppercase tracking-wider text-leaf hover:underline"
               >
-                <span>Know More</span>
+                <span>{t('testimonials.know_more')}</span>
                 <span>→</span>
               </a>
 
@@ -152,7 +154,7 @@ export const TestimonialsSection: React.FC = () => {
                   type="button"
                   onClick={handlePrevStory}
                   className="w-8 h-8 rounded-full bg-sand hover:bg-leaf-light text-ink hover:text-leaf flex items-center justify-center transition-colors cursor-pointer"
-                  aria-label="Previous customer story"
+                  aria-label={t('testimonials.prev')}
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -163,7 +165,7 @@ export const TestimonialsSection: React.FC = () => {
                   type="button"
                   onClick={handleNextStory}
                   className="w-8 h-8 rounded-full bg-sand hover:bg-leaf-light text-ink hover:text-leaf flex items-center justify-center transition-colors cursor-pointer"
-                  aria-label="Next customer story"
+                  aria-label={t('testimonials.next')}
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -182,7 +184,7 @@ export const TestimonialsSection: React.FC = () => {
             <div className="flex items-center justify-between mb-4 px-2">
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink-60 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-leaf" />
-                Instagram Field Reels
+                {t('testimonials.reels')}
               </span>
               <a
                 href="https://www.instagram.com/coldeasyglobal"
@@ -230,7 +232,7 @@ export const TestimonialsSection: React.FC = () => {
                             TODO
                           </span>
                           <span className="text-[11px] font-medium leading-tight block">
-                            Reel from Instagram
+                            {t('testimonials.reel_todo')}
                           </span>
                         </div>
                       ) : (
@@ -240,7 +242,7 @@ export const TestimonialsSection: React.FC = () => {
                       )}
 
                       <div className="absolute bottom-2 left-2 right-2 px-2 py-1 rounded-lg bg-ink/80 backdrop-blur-xs text-white text-[10px] text-center truncate">
-                        Watch on Instagram
+                        {t('testimonials.watch')}
                       </div>
                     </div>
 

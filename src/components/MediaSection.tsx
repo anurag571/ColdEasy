@@ -42,7 +42,7 @@ export const MediaSection: React.FC = () => {
                   {/* MEDIA LOGO chip over it */}
                   <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-full border border-ink/10 shadow-2xs">
                     <span className="text-[10px] font-heading font-bold uppercase tracking-wider text-ink">
-                      MEDIA LOGO
+                      {t('media.logo')}
                     </span>
                   </div>
                 </div>
@@ -51,10 +51,10 @@ export const MediaSection: React.FC = () => {
                   {media.outlet}
                 </h3>
 
-                <p className="mt-1 text-xs font-semibold text-ink-60">{media.headline}</p>
+                <p className="mt-1 text-xs font-semibold text-ink-60">{t(`media.${media.id}.headline`)}</p>
 
                 <p className="mt-2 text-xs text-ink-40 leading-relaxed font-body">
-                  {media.caption}
+                  {t(`media.${media.id}.caption`)}
                 </p>
               </div>
 

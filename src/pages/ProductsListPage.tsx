@@ -3,12 +3,14 @@ import { PRODUCTS, Product } from '../data/mock';
 import { SectionHeading } from '../components/SectionHeading';
 import { ProductCard } from '../components/ProductCard';
 import { NotifyModal } from '../components/NotifyModal';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProductsListPageProps {
   onShowToast: (message: string) => void;
 }
 
 export const ProductsListPage: React.FC<ProductsListPageProps> = ({ onShowToast }) => {
+  const { t } = useLanguage();
   const [selectedNotifyProduct, setSelectedNotifyProduct] = useState<Product | null>(null);
 
   const mainProducts = PRODUCTS.filter((p) => p.group === 'main');
@@ -24,8 +26,8 @@ export const ProductsListPage: React.FC<ProductsListPageProps> = ({ onShowToast 
         {/* Compact Header */}
         <div className="mb-8 text-center sm:text-left">
           <SectionHeading
-            title="BEST SELLERS"
-            subtitle="Effortless cooling everyday."
+            title={t('products.title')}
+            subtitle={t('products.subtitle')}
             className="mb-2 md:mb-4"
           />
         </div>
@@ -34,9 +36,9 @@ export const ProductsListPage: React.FC<ProductsListPageProps> = ({ onShowToast 
         <div className="mb-16">
           <div className="mb-6 flex items-center justify-between border-b border-ink/10 pb-3">
             <h3 className="font-heading font-extrabold text-sm sm:text-base uppercase tracking-wider text-ink">
-              MAIN PRODUCTS
+              {t('products.main')}
             </h3>
-            <span className="text-xs text-ink-60 font-body">Flagship passive crates</span>
+            <span className="text-xs text-ink-60 font-body">{t('products.main_note')}</span>
           </div>
 
           <div className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -57,9 +59,9 @@ export const ProductsListPage: React.FC<ProductsListPageProps> = ({ onShowToast 
         <div>
           <div className="mb-6 flex items-center justify-between border-b border-ink/10 pb-3">
             <h3 className="font-heading font-extrabold text-sm sm:text-base uppercase tracking-wider text-ink">
-              OTHER COLDEASY PRODUCTS
+              {t('products.other')}
             </h3>
-            <span className="text-xs text-ink-60 font-body">Specialised crop solutions</span>
+            <span className="text-xs text-ink-60 font-body">{t('products.other_note')}</span>
           </div>
 
           <div className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-3 gap-5">

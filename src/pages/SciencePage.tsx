@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Thermometer, Droplets, ShoppingBag, Info, RotateCcw, Activity } from 'lucide-react';
 import { SeecAnimationPlayer } from '../components/SeecAnimationPlayer';
+import { useLanguage } from '../context/LanguageContext';
+
+const CROP_KEYS = {
+  Banana: 'science.crop.banana',
+  Tomato: 'science.crop.tomato',
+  Mango: 'science.crop.mango',
+} as const;
 
 export const SciencePage: React.FC = () => {
+  const { t } = useLanguage();
   const [selectedCrop, setSelectedCrop] = useState<'Banana' | 'Tomato' | 'Mango'>('Tomato');
   const [isColdEasyView, setIsColdEasyView] = useState(false);
   const [selectedLabCrop, setSelectedLabCrop] = useState<'Banana' | 'Tomato' | 'Mango'>('Tomato');
@@ -70,21 +78,21 @@ export const SciencePage: React.FC = () => {
             {/* Left Column: Headlines & Action Buttons */}
             <div className="lg:col-span-7 flex flex-col items-start text-left">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sky text-xs font-heading font-extrabold uppercase tracking-wider mb-4 border border-white/10">
-                Thermodynamic Crop Preservation
+                {t('science.badge')}
               </span>
 
               <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-[58px] text-[#EDE8DE] leading-[1.1] tracking-tight">
-                The <span className="text-sky">Science</span> of Freshness
+                {t('science.title_before')}
+                <span className="text-sky">{t('science.title_accent')}</span>
+                {t('science.title_after')}
               </h1>
 
               <p className="mt-4 text-base sm:text-xl text-[#EDE8DE]/90 font-heading font-bold">
-                How science keeps your produce fresher for longer.
+                {t('science.sub')}
               </p>
 
               <p className="mt-3 text-xs sm:text-sm text-[#EDE8DE]/70 font-body max-w-xl leading-relaxed">
-                Fresh fruits and vegetables are living organisms that respire, losing moisture and
-                marketability rapidly after harvest. Without electricity or chemical refrigerants,
-                ColdEasy arrests decay through natural thermodynamic airflow.
+                {t('science.body')}
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -93,7 +101,7 @@ export const SciencePage: React.FC = () => {
                   className="py-3.5 px-8 rounded-full bg-leaf text-white font-heading font-extrabold text-xs uppercase tracking-wider hover:bg-leaf/90 transition-all shadow-md flex items-center gap-2 active:scale-95 cursor-pointer"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  GET STARTED
+                  {t('science.cta')}
                 </a>
 
                 <button
@@ -101,7 +109,7 @@ export const SciencePage: React.FC = () => {
                   onClick={scrollToIntro}
                   className="py-3.5 px-7 rounded-full border-2 border-[#EDE8DE]/30 text-[#EDE8DE] font-heading font-bold text-xs uppercase tracking-wider hover:bg-white/10 transition-all cursor-pointer active:scale-95"
                 >
-                  LEARN MORE ↓
+                  {t('science.more')}
                 </button>
               </div>
             </div>
@@ -110,8 +118,8 @@ export const SciencePage: React.FC = () => {
             <div className="lg:col-span-5 flex flex-col items-center justify-center">
               <div className="w-full max-w-[380px] p-4 rounded-[28px] bg-white/5 border border-white/10 shadow-2xl backdrop-blur-xs flex flex-col items-center">
                 <div className="w-full flex items-center justify-between text-[11px] font-heading font-bold uppercase tracking-wider text-[#EDE8DE]/60 px-2 pb-2 border-b border-white/10">
-                  <span>8-Day Post-Harvest Decay</span>
-                  <span className="text-chilli font-extrabold">Ambient Air</span>
+                  <span>{t('science.decay')}</span>
+                  <span className="text-chilli font-extrabold">{t('science.ambient')}</span>
                 </div>
 
                 <div className="py-2 flex items-center justify-center relative w-full">
@@ -182,22 +190,17 @@ export const SciencePage: React.FC = () => {
           <div className="flex items-center justify-center gap-3 mb-6">
             <span className="h-px bg-ink/15 flex-1 max-w-[80px]" />
             <h2 className="font-heading font-black text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider text-ink">
-              SCIENCE OF FRESHNESS
+              {t('science.intro_title')}
             </h2>
             <span className="h-px bg-ink/15 flex-1 max-w-[80px]" />
           </div>
 
           <div className="space-y-6 text-sm sm:text-base text-ink-80 font-body leading-relaxed max-w-3xl mx-auto text-left sm:text-center">
             <p>
-              Global food loss and waste: [TBC]. The food was grown and harvested, but without cold
-              storage and proper conditions to keep it fresh, it simply spoils.
+              {t('science.intro_1')}
             </p>
             <p>
-              We believe this post-harvest loss is one of the most solvable crises because it is
-              caused by the absence of infrastructure. Solving it must be a priority, as it sits
-              directly at the intersection of livelihoods, nutrition security, and environmental
-              sustainability. It is entirely solvable with the infrastructure designed specifically
-              for the needs of farmers, vendors, and retailers.
+              {t('science.intro_2')}
             </p>
             {/* TODO(client): add a source for the 1.3 billion figure. */}
           </div>
@@ -218,13 +221,13 @@ export const SciencePage: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <span className="text-xs font-heading font-bold uppercase tracking-wider text-leaf">
-              Post-Harvest Laboratory Assay
+              {t('science.dashboard_kicker')}
             </span>
             <h2 className="font-heading font-black text-2xl sm:text-4xl uppercase tracking-wider text-ink mt-1">
-              Crop Freshness Dashboard
+              {t('science.dashboard_title')}
             </h2>
             <p className="text-xs sm:text-sm text-ink-60 font-body mt-1">
-              Inspect produce shelf conditions across ambient exposure vs ColdEasy storage.
+              {t('science.dashboard_sub')}
             </p>
 
             {/* Crop Selector: Banana | Tomato | Mango */}
@@ -240,7 +243,7 @@ export const SciencePage: React.FC = () => {
                       : 'text-ink-60 hover:text-ink'
                   }`}
                 >
-                  {crop}
+                  {t(CROP_KEYS[crop])}
                 </button>
               ))}
             </div>
@@ -901,7 +904,7 @@ export const SciencePage: React.FC = () => {
                     : 'text-ink-60 hover:text-ink'
                 }`}
               >
-                {crop}
+                {t(CROP_KEYS[crop])}
               </button>
             ))}
           </div>

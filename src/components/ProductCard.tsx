@@ -51,7 +51,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       try {
         await navigator.share({
           title: product.name,
-          text: product.shortDescription,
+          text: t(`product.desc.${product.id}`),
           url,
         });
       } catch {
@@ -131,7 +131,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Short Description */}
         <p className="mt-1 text-xs text-ink-60 line-clamp-2 font-body">
-          {product.shortDescription}
+          {t(`product.desc.${product.id}`)}
         </p>
 
         {/* Price & MRP Row */}

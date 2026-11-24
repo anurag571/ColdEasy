@@ -2,8 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { SectionHeading } from '../components/SectionHeading';
 import { IMPACT_METRICS, TESTIMONIAL_STORIES } from '../data/mock';
 import { Leaf, TrendingUp, Users, ShieldCheck, BookOpen, ArrowRight, X } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+
+const METRIC_KEYS: Record<string, string> = {
+  'Units deployed': 'impact.units',
+  'Households impacted': 'impact.households',
+  'Tonnes food waste avoided': 'impact.tonnes',
+  'Income protected / generated': 'impact.income',
+};
 
 export const ImpactPage: React.FC = () => {
+  const { t } = useLanguage();
   const [isMethodologyOpen, setIsMethodologyOpen] = useState(false);
 
   useEffect(() => {
@@ -23,21 +32,19 @@ export const ImpactPage: React.FC = () => {
           <div className="max-w-3xl mx-auto text-center">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-leaf-light text-leaf text-xs font-heading font-extrabold uppercase tracking-wider mb-4 border border-leaf/20">
               <span className="w-2 h-2 rounded-full bg-leaf animate-pulse" />
-              Impact & Ecological Resilience
+              {t('impact.badge')}
             </span>
 
             <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-ink uppercase tracking-tight leading-[1.1]">
-              Cooling for a Resilient Future
+              {t('impact.headline')}
             </h1>
 
             <p className="mt-4 text-base sm:text-xl text-leaf font-heading font-bold">
-              Affordable cooling that helps people protect produce, strengthen incomes and build
-              resilience.
+              {t('impact.sub')}
             </p>
 
             <p className="mt-3 text-xs sm:text-sm text-ink-60 font-body max-w-2xl mx-auto leading-relaxed">
-              Decentralized evaporative cooling placed at farm gates, aggregation sheds, and
-              roadside stalls eliminates post-harvest deterioration where infrastructure is weakest.
+              {t('impact.desc')}
             </p>
           </div>
         </div>
@@ -48,7 +55,7 @@ export const ImpactPage: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
             <h2 className="font-heading font-extrabold text-xs uppercase tracking-widest text-ink-60">
-              Impact At A Glance
+              {t('impact.glance')}
             </h2>
           </div>
 
@@ -62,7 +69,7 @@ export const ImpactPage: React.FC = () => {
                   {metric.value}
                 </div>
                 <span className="font-heading font-bold text-xs uppercase tracking-wider text-ink-60 mt-1.5">
-                  {metric.label}
+                  {METRIC_KEYS[metric.label] ? t(METRIC_KEYS[metric.label]) : metric.label}
                 </span>
               </div>
             ))}
@@ -76,21 +83,16 @@ export const ImpactPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-4">
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-leaf block">
-                The Economic Reality
+                {t('impact.reality')}
               </span>
               <h2 className="font-heading font-black text-2xl sm:text-4xl uppercase tracking-wider text-ink leading-tight">
-                Food loss is income loss.
+                {t('impact.loss_title')}
               </h2>
               <p className="text-sm sm:text-base text-ink-70 font-body leading-relaxed">
-                When ambient heat wilts and softens harvested vegetables within hours, smallholder
-                growers and micro-vendors face an immediate penalty: forced price markdowns or total
-                discard.
+                {t('impact.loss_1')}
               </p>
               <p className="text-sm sm:text-base text-ink-70 font-body leading-relaxed">
-                Without electricity-free cooling options at harvest points, farmers cannot wait for
-                fair pricing, and street vendors absorb losses daily from shrinkage. Decentralizing
-                cooling directly at the point of sale converts potential waste into reliable,
-                protected household earnings.
+                {t('impact.loss_2')}
               </p>
             </div>
 
@@ -102,17 +104,17 @@ export const ImpactPage: React.FC = () => {
                     CE
                   </div>
                   <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink">
-                    Field Deployment Photography
+                    {t('impact.photo_title')}
                   </span>
                   <span className="text-[11px] text-ink-40 mt-1 font-body">
-                    Vegetable retailer market stall with ColdEasy Box crate
+                    {t('impact.photo_sub')}
                   </span>
                   <span className="text-[10px] text-ink-40 mt-2 font-mono">
                     // TODO(client): Verified field deployment photo
                   </span>
                 </div>
                 <p className="mt-3 text-center text-xs text-ink-60 font-body">
-                  Empowering smallholder retailers to retain harvest freshness throughout the day.
+                  {t('impact.photo_caption')}
                 </p>
               </div>
             </div>

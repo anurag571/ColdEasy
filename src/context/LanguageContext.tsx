@@ -124,7 +124,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const t = (key: string, vars?: Record<string, string | number>): string => {
     const local = CATALOGUES[language]?.[key];
     const english = CATALOGUES.en[key];
-    const raw = local && local !== PENDING ? local : english || key;
+    const raw = typeof local === 'string' && local !== PENDING ? local : english || key;
     if (!vars) return raw;
     return Object.entries(vars).reduce(
       (text, [name, value]) => text.replaceAll(`{${name}}`, String(value)),

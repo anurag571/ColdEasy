@@ -3,6 +3,7 @@ import { PRODUCTS, Product } from '../data/mock';
 import { useCart } from '../context/CartContext';
 import { ChevronRight, Share2, ChevronDown, Sun, Zap, Sparkles } from 'lucide-react';
 import { track } from '../lib/track';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProductPageProps {
   slug?: string;
@@ -10,6 +11,7 @@ interface ProductPageProps {
 }
 
 export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box', onShowToast }) => {
+  const { t } = useLanguage();
   const baseProduct: Product =
     PRODUCTS.find((p) => p.slug === slug || p.id === slug) || PRODUCTS[0];
 
@@ -263,7 +265,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
 
               {/* Short Description */}
               <p className="mt-5 text-xs sm:text-sm text-ink-60 font-body leading-relaxed">
-                {baseProduct.shortDescription}
+                {t(`product.desc.${baseProduct.id}`)}
               </p>
             </div>
 
@@ -342,7 +344,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
           </div>
 
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-ink-80 font-body leading-relaxed">
-            {baseProduct.shortDescription}
+            {t(`product.desc.${baseProduct.id}`)}
           </p>
         </section>
 

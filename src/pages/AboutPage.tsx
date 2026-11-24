@@ -4,6 +4,16 @@ import { TEAM_MEMBERS } from '../data/mock';
 import { PartnerEcosystem } from '../components/PartnerEcosystem';
 import milestonesData from '../content/milestones.json';
 import { MessageCircle, ShoppingBag, Linkedin, Compass, Target } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+
+const ROLE_KEYS: Record<string, string> = {
+  'PM – New Product Development': 'team.role.npd',
+  'PM – R&D': 'team.role.rnd',
+  Engineer: 'team.role.engineer',
+  'Impact and Partnerships Manager': 'team.role.impact',
+  "Marketing & Founder's Office": 'team.role.marketing',
+  Technician: 'team.role.technician',
+};
 
 interface Milestone {
   id: string;
@@ -26,24 +36,22 @@ const journeyMilestones = [...(milestonesData as Milestone[])].sort((a, b) => {
 });
 
 export const AboutPage: React.FC = () => {
+  const { t } = useLanguage();
   return (
     <div className="w-full bg-cream">
       {/* 1. HERO */}
       <section className="w-full bg-cream py-14 sm:py-20 border-b border-ink/5">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center max-w-3xl">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-marigold-light text-ink text-xs font-heading font-bold uppercase tracking-wider mb-4">
-            Product of Temperate
+            {t('about.badge')}
           </span>
 
           <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-ink uppercase tracking-tight leading-tight">
-            Built for the people who grow India&apos;s food.
+            {t('about.headline')}
           </h1>
 
           <p className="mt-4 text-sm sm:text-base text-ink-60 font-body leading-relaxed max-w-2xl mx-auto">
-            Fresh produce begins losing vitality the instant it is harvested from the soil. In our
-            hot climate, lack of accessible cooling at farm collection centres and roadside markets
-            forces farmers into quick distress selling. ColdEasy was founded to deliver natural,
-            electricity-free cooling hardware directly into grower and vendor hands.
+            {t('about.intro')}
           </p>
         </div>
       </section>
@@ -59,11 +67,10 @@ export const AboutPage: React.FC = () => {
                   <Compass className="w-6 h-6" />
                 </div>
                 <h3 className="font-heading font-extrabold text-xl uppercase tracking-wider text-ink mb-3">
-                  Our Vision
+                  {t('about.vision_title')}
                 </h3>
                 <p className="text-sm sm:text-base text-ink-80 leading-relaxed font-body">
-                  A future where people in low-resource environments can achieve higher incomes and
-                  better quality of life through affordable and sustainable cooling solutions.
+                  {t('about.vision')}
                 </p>
               </div>
             </div>
@@ -75,12 +82,10 @@ export const AboutPage: React.FC = () => {
                   <Target className="w-6 h-6" />
                 </div>
                 <h3 className="font-heading font-extrabold text-xl uppercase tracking-wider text-ink mb-3">
-                  Our Mission
+                  {t('about.mission_title')}
                 </h3>
                 <p className="text-sm sm:text-base text-ink-80 leading-relaxed font-body">
-                  To build innovative, energy-efficient cooling and cold storage solutions that
-                  enable farmers, street vendors, and communities to reduce post-harvest losses,
-                  increase productivity, and exercise greater agency.
+                  {t('about.mission')}
                 </p>
               </div>
             </div>
@@ -92,8 +97,8 @@ export const AboutPage: React.FC = () => {
       <section className="w-full bg-cream py-16 md:py-24 border-b border-ink/5">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <SectionHeading
-            title="THE TEAM BEHIND COLDEASY"
-            subtitle="Engineers, product designers, and technicians united by clean cold tech."
+            title={t('about.team_title')}
+            subtitle={t('about.team_sub')}
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
@@ -129,7 +134,7 @@ export const AboutPage: React.FC = () => {
                       {member.name}
                     </h4>
                     <p className="text-xs text-ink-60 mt-0.5 font-body font-medium leading-snug">
-                      {member.role}
+                      {ROLE_KEYS[member.role] ? t(ROLE_KEYS[member.role]) : member.role}
                     </p>
                   </div>
                 </div>

@@ -5,8 +5,10 @@ import { Trash2, Plus, Minus, ArrowRight, ShieldCheck, MapPin, ShoppingBag } fro
 import { BrandPattern } from '../components/BrandPattern';
 import { track } from '../lib/track';
 import { lookupPincode } from '../data/mock';
+import { useLanguage } from '../context/LanguageContext';
 
 export const CartPage: React.FC = () => {
+  const { t } = useLanguage();
   const { items, updateQuantity, removeFromCart, subtotal, totalItems } = useCart();
 
   const [pincode, setPincode] = useState('');
@@ -118,7 +120,7 @@ export const CartPage: React.FC = () => {
                       {item.product.name}
                     </h3>
                     <p className="text-xs text-ink-60 font-body line-clamp-1">
-                      {item.product.shortDescription}
+                      {t(`product.desc.${item.product.id}`)}
                     </p>
                     <div className="mt-1 font-heading font-bold text-sm text-leaf">
                       {item.product.price !== null

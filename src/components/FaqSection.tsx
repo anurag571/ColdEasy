@@ -46,7 +46,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ title, subtitle, classNa
                   aria-expanded={isOpen}
                 >
                   <span className="font-heading font-bold text-sm sm:text-base text-ink pr-2">
-                    {faq.question}
+                    {t(`faq.${index + 1}.q`)}
                   </span>
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
@@ -59,7 +59,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ title, subtitle, classNa
 
                 {isOpen && (
                   <div className="px-5 pb-6 sm:px-6 text-xs sm:text-sm text-ink-60 leading-relaxed font-body border-t border-ink/5 pt-3">
-                    {faq.answer}
+                    {t(`faq.${index + 1}.a`)}
                   </div>
                 )}
               </div>
