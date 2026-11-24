@@ -1,113 +1,42 @@
-# ColdEasy
+# ColdEasy website
 
-Marketing site for ColdEasy post-harvest evaporative cooling. Vite, React, and TypeScript. Routes use the URL hash (`#/products`, `#/science`), so a static host does not need rewrite rules.
+Website, shop and admin for ColdEasy post-harvest cooling. Next.js 16 + Supabase + Razorpay on
+Vercel. Specs live in [`docs/`](docs/00-index.md); rules for contributors and AI agents in
+[`CLAUDE.md`](CLAUDE.md). The old Google AI Studio prototype is in `legacy-ai-studio/` for
+visual reference only.
 
-## Setup
-
-1. Install Node.js 20 or newer.
-2. Install dependencies:
+## Run it
 
 ```bash
+nvm use 22            # Node 22+
 npm install
-```
-
-3. Copy the env template:
-
-```bash
 cp .env.example .env.local
+npm run dev           # http://localhost:3000
 ```
 
-4. Start the dev server:
+Useful pages on local and staging: `/design-system` (tokens and components, staging only),
+`/science` (tomato time-lapse). Set `NEXT_PUBLIC_FEATURE_FLAGS=-dark_home` to see the light home.
 
-```bash
-npm run dev
-```
+## Checks
 
-Open http://localhost:3000/
+| Command                                           | What                                                                                 |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `npm run lint` / `npm run typecheck` / `npm test` | ESLint, TypeScript, unit tests                                                       |
+| `npm run gates`                                   | Placeholder, claims and secrets gates (strict when `NEXT_PUBLIC_APP_ENV=production`) |
+| `npm run db:local:test`                           | Migrations + seed + 26 RLS policy tests on a throwaway Postgres                      |
+| `npx next build && npm run e2e`                   | Playwright end-to-end and axe accessibility                                          |
+| `npm run gate:links`                              | Broken-link crawl of a running site (`BASE_URL`)                                     |
+| `npm run gate:lighthouse`                         | Lighthouse budgets on mobile Slow 4G                                                 |
 
-## Environment variables
+CI runs all of them on every pull request (`.github/workflows/ci.yml`).
 
-| Name             | Client bundle | Purpose                                                                                                     |
-| ---------------- | ------------- | ----------------------------------------------------------------------------------------------------------- |
-| `GEMINI_API_KEY` | No            | Reserved for a future server. The site does not call Gemini. Leave it empty. Do not prefix it with `VITE_`. |
-| `APP_URL`        | No            | Public site origin, unused by the app today.                                                                |
+## Database
 
-Only names that start with `VITE_` are embedded in the browser bundle. Do not put secrets in a `VITE_` variable.
+`npx supabase start` runs the full local stack in Docker using `supabase/config.toml`,
+`supabase/migrations` and `supabase/seed.sql`. Without Docker, `npm run db:local:test` uses
+plain Postgres with a small shim (`supabase/tests/supabase-shim.sql`).
 
-## Scripts
+## Environments
 
-| Script                 | What it does                                             |
-| ---------------------- | -------------------------------------------------------- |
-| `npm run dev`          | Vite dev server on port 3000                             |
-| `npm run build`        | Type-checks via the production bundle and writes `dist/` |
-| `npm run preview`      | Serves the production build                              |
-| `npm run lint`         | ESLint, then `tsc --noEmit`                              |
-| `npm run format`       | Prettier write                                           |
-| `npm run format:check` | Prettier check                                           |
-
-## Deploy
-
-`npm run build` emits a static site in `dist/`. Upload that folder to any static host (Netlify, Cloudflare Pages, S3, nginx).
-
-Hash routes work without a server fallback. Point the host at `dist/index.html` for `/`.
-
-Do not commit `.env.local`.
-
-## How ColdEasy updates milestones
-
-The About page timeline reads `src/content/milestones.json`. Edit that file and save. No other code change is needed.
-
-Each milestone is one object:
-
-- `id`: a short unique name, such as `milestone-1`. Do not repeat an id.
-- `date`: the year, or the month and year, written as text. Example: `2024` or `March 2024`. Write `[TBC]` until ColdEasy confirms the date.
-- `title`: up to 6 words.
-- `description`: up to 25 words.
-- `image`: optional. After the photo is in `public/milestones/`, set this to its path, such as `/milestones/photo.jpg`. Leave the field out until a photo is supplied.
-- `order`: a whole number. The page lists milestones by date. When a date is `[TBC]`, or two dates are the same, the lower `order` comes first.
-
-Keep 5 to 8 milestones. Do not add an award, a funder, or a partner name until ColdEasy has confirmed it. The dev server picks up a saved file. A published site needs `npm run build` again.
-
-## How ColdEasy updates partners
-
-The About page partner strip reads `src/content/partners.json`. The list starts empty. Add a partner only after ColdEasy has written permission to show that name and logo.
-
-Each partner is one object inside `partners`:
-
-- `name`: the organisation name.
-- `category`: one or more of `deployment`, `finance`, `research`, `csr`, `ecosystem`.
-- `logo`: the file path after the logo is saved in `public/partners/`. Example: `/partners/logo.svg`.
-- `url`: optional website.
-- `mayLink`: set to `false` when the logo must not open the website.
-- `permission`: a short reference to the written approval kept on file. The site hides the partner while this is missing or `[TBC]`.
-- `published`: set to `false` to keep a confirmed partner off the page.
-
-The five category buttons filter this list. `All` shows every partner. A shareable link looks like `#/about/partners-csr`. `#partners-csr` opens the same page.
-
-## How ColdEasy updates media coverage
-
-The home page “As featured in” row reads `src/content/media.json`. Edit that file and save. No other code change is needed.
-
-Each mention is one object:
-
-- `id`: a short unique name. Do not repeat an id.
-- `outlet`: the publication name shown when a logo file is missing.
-- `url`: the article or post address.
-- `headline`: the page title, copied word for word. Write `[CONFIRM]` until it has been checked. Do not paraphrase it.
-- `published_date`: `YYYY-MM-DD`, or `null` when the date is not confirmed.
-- `type`: `article` or `social`. A social card says “View on Instagram” and does not load an embed.
-- `logo`: optional path after a white or single-colour SVG is saved in `public/media/`. Example: `/media/times-of-india.svg`. Leave it empty until that file exists. Do not paste a logo address from the outlet’s website.
-- `image`: the file path after the photo is saved in `public/media/`. Example: `/media/times-of-india.jpg`. Leave it empty until ColdEasy supplies the file. Do not paste an image address from the outlet’s website.
-- `excerpt`: leave empty unless ColdEasy has marked a quote as approved.
-- `order`: a whole number. Lower numbers come first.
-- `is_published`: set to `false` to hide a mention.
-
-Do not add a quote from an article unless `excerpt` is an approved quote.
-
-## How ColdEasy updates languages
-
-English copy for the header, footer, home, product cards, and contact page is in `src/locales/en.json`. Hindi, Telugu, Kannada, Tamil, Marathi, and Bangla use the same keys in `hi.json`, `te.json`, `kn.json`, `ta.json`, `mr.json`, and `bn.json`.
-
-Those files now hold a first draft of the header, home, stories, questions, press lines, product descriptions, About, Impact, and the Science introduction. ColdEasy, SEEC, and AutoBox stay in English. A named reviewer should still correct each file before the wording is treated as final. Replace any line in the matching file and save.
-
-The header menu shows each language in its own script. The choice is saved in the browser. Home, How it Works, Science, Impact, checkout, the savings calculator, and the legal pages use the selected language. These translations are drafts until ColdEasy approves the final wording.
+Local, preview (per PR), staging (`main`, password-protected) and production. Set-up steps
+and who owns which account: [`docs/setup/accounts-and-environments.md`](docs/setup/accounts-and-environments.md).

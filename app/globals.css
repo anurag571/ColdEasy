@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+
+/*
+ * ColdEasy design tokens (docs/04 §4). Brand colours are fixed; semantic tokens
+ * (surface, fg, line) change with the theme. Components use semantic tokens so the same
+ * component works on the light site and on the dark home page (docs/11 A5).
+ * Brand book values win over the prototype: sky is #6FCCDD, not #4FB8CC.
+ */
+@theme {
+  --color-ink: #251a10;
+  --color-sky: #6fccdd;
+  --color-leaf: #487537;
+  --color-leaf-dark: #3f6730;
+  --color-olive: #9fa738;
+  --color-marigold: #f0a023;
+  --color-chilli: #ec2727;
+  --color-cream: #fcfbf1;
+  --color-sand: #f5f3ec;
+  --color-white: #ffffff;
+  --color-sky-light: #e2f5f8;
+  --color-leaf-light: #e4ede0;
+  --color-marigold-light: #ffebb6;
+  --color-ink-60: #5e554e;
+  --color-ink-40: #a39e98;
+
+  --font-heading: var(--font-montserrat), 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-poppins), 'Poppins', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.5rem;
+  --radius-field: 0.75rem;
+  --shadow-soft: 0 8px 24px rgba(37, 26, 16, 0.08);
+
+  --breakpoint-xs: 22.5rem;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-raised: var(--surface-raised);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-focus: var(--focus);
+}
+
+:root,
+[data-theme='light'] {
+  --surface: #fcfbf1; /* cream */
+  --surface-alt: #f5f3ec; /* sand */
+  --surface-raised: #ffffff;
+  --fg: #251a10; /* ink, 16.4:1 on cream */
+  --fg-muted: #5e554e; /* ink-60, 7.0:1 on cream */
+  --line: rgba(37, 26, 16, 0.12);
+  --line-strong: #a39e98; /* ink-40, borders only */
+  --focus: #6fccdd;
+  color-scheme: light;
+}
+
+/* Dark home page (docs/11 A5). Background is ink unless 11:K4-04 names another colour. */
+[data-theme='dark'] {
+  --surface: #251a10; /* ink */
+  --surface-alt: #2e2217;
+  --surface-raised: #36291d;
+  --fg: #fcfbf1; /* cream, 16.4:1 on ink */
+  --fg-muted: #d6cfc4; /* 10.9:1 on ink */
+  --line: rgba(252, 251, 241, 0.16);
+  --line-strong: #8a8178;
+  --focus: #6fccdd;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 64rem) {
+    body {
+      font-size: 1.0625rem;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  /* Every animation respects reduced motion (docs/04 §7 rule 7). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* The brand's signature thin multi-colour bar beside section headings (docs/04 §5). */
+  .accent-bar {
+    width: 4px;
+    border-radius: 9999px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-sky) 0 25%,
+      var(--color-marigold) 25% 50%,
+      var(--color-chilli) 50% 75%,
+      var(--color-leaf) 75% 100%
+    );
+  }
+
+  .container-site {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 75rem;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 64rem) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+
+  .section-y {
+    padding-block: 4rem;
+  }
+
+  @media (min-width: 64rem) {
+    .section-y {
+      padding-block: 7.5rem;
+    }
+  }
+}

@@ -1,6 +1,7 @@
-dist
-node_modules
-.aistudio
-coverage
+legacy-ai-studio/
+docs/
+.next/
+node_modules/
+public/
+supabase/migrations/
 package-lock.json
-bun.lock
