@@ -73,9 +73,9 @@ export const PRODUCTS: Product[] = [
       'ColdEasy Box keeps fruits and vegetables fresh for longer without using electricity. It uses water-based cooling to lower temperature and maintain high humidity, which reduces spoilage and weight loss. The compact design suits retailers, vendors, and homes, and also works well during transport.',
     images: {
       main: {
-        url: '/products/coldeasy-box/front.png',
-        label: 'ColdEasy Box – Front View',
-        sublabel: 'Passive water-based cooling crate',
+        url: '/products/coldeasy-box/studio-front.jpg',
+        label: 'ColdEasy Box – Studio',
+        sublabel: 'Single crate studio view',
       },
       hover: {
         url: '/products/coldeasy-box/studio-angle.jpg',
