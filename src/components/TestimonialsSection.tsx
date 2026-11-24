@@ -11,6 +11,7 @@ interface VideoTile {
   caption: string;
   videoUrl: string;
   posterUrl?: string;
+  posterPosition?: string;
   isTodoPlaceholder?: boolean;
 }
 
@@ -21,7 +22,8 @@ const VIDEO_TILES: VideoTile[] = [
     location: 'Patna, Bihar',
     caption: 'Selling leafy greens fresh till late evening',
     videoUrl: 'https://www.instagram.com/coldeasyglobal',
-    posterUrl: '/assets/aistudio/test_composite.jpg',
+    posterUrl: '/stories/gunja-devi.jpg',
+    posterPosition: 'center 18%',
   },
   {
     id: 'vid-2',
@@ -105,7 +107,7 @@ export const TestimonialsSection: React.FC = () => {
                   <img
                     src={activeStory.image}
                     alt={activeStory.customerName}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-[center_22%]"
                   />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center bg-sand/60">
@@ -223,6 +225,7 @@ export const TestimonialsSection: React.FC = () => {
                           src={tile.posterUrl}
                           alt={tile.customerName}
                           className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-300"
+                          style={{ objectPosition: tile.posterPosition || 'center' }}
                         />
                       ) : null}
 

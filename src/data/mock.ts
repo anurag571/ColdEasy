@@ -749,7 +749,7 @@ export const TESTIMONIAL_STORIES: TestimonialStory[] = [
       '"ColdEasy helped preserve produce quality and maintain market earnings without reliance on electricity."',
     description: 'Improving livelihood resilience for smallholder vegetable retailers.',
     storyUrl: 'https://www.coldeasy.in/deployment-story/improving-livelihood-resilience',
-    photoPlaceholder: true, // TODO(client): Provide actual photo of Gunja Devi
+    image: '/stories/gunja-devi.jpg',
   },
   {
     id: 'sobha-devi',

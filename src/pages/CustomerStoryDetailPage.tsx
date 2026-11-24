@@ -53,6 +53,13 @@ export const CustomerStoryDetailPage: React.FC<CustomerStoryDetailPageProps> = (
 
         {/* Hero Card */}
         <div className="max-w-3xl space-y-6">
+          {story.image && (
+            <img
+              src={story.image}
+              alt={story.customerName}
+              className="w-full aspect-[4/3] rounded-[24px] object-cover object-[center_22%] border border-ink/10"
+            />
+          )}
           <div className="p-6 sm:p-8 rounded-[24px] bg-sand border-l-4 border-leaf">
             <blockquote className="font-body italic text-base sm:text-xl text-ink leading-relaxed">
               {story.quote}

@@ -207,15 +207,23 @@ export const ImpactPage: React.FC = () => {
                 className="bg-white rounded-[26px] p-6 border border-ink/10 shadow-xs flex flex-col justify-between hover:shadow-md transition-all"
               >
                 <div>
-                  <div className="w-full aspect-[4/3] rounded-2xl bg-sand/60 border border-ink/10 flex flex-col items-center justify-center p-4 text-center mb-4">
-                    <span className="text-xs font-heading font-extrabold uppercase text-ink">
-                      {story.customerName}
-                    </span>
-                    <span className="text-[11px] text-ink-40 mt-1 font-body">{story.location}</span>
-                    <span className="text-[9px] text-ink-40 mt-2 font-mono">
-                      // TODO(client): photo
-                    </span>
-                  </div>
+                  {story.image ? (
+                    <img
+                      src={story.image}
+                      alt={story.customerName}
+                      className="w-full aspect-[4/3] rounded-2xl object-cover object-[center_22%] border border-ink/10 mb-4"
+                    />
+                  ) : (
+                    <div className="w-full aspect-[4/3] rounded-2xl bg-sand/60 border border-ink/10 flex flex-col items-center justify-center p-4 text-center mb-4">
+                      <span className="text-xs font-heading font-extrabold uppercase text-ink">
+                        {story.customerName}
+                      </span>
+                      <span className="text-[11px] text-ink-40 mt-1 font-body">{story.location}</span>
+                      <span className="text-[9px] text-ink-40 mt-2 font-mono">
+                        // TODO(client): photo
+                      </span>
+                    </div>
+                  )}
 
                   <span className="text-xs font-bold text-leaf uppercase tracking-wider block">
                     {t(`story.${story.id}.role`)}
