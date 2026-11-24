@@ -1430,8 +1430,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                 <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-leaf-light/40 border border-leaf/25 text-xs text-ink">
                   <Sparkles className="w-4 h-4 text-leaf shrink-0" />
                   <span className="font-heading font-medium text-[11px] text-ink-80">
-                    Calculated from field trials demonstrating 65%–80% shelf-life extension and
-                    moisture retention.
+                    Shelf-life extension used in this estimate: [TBC].
                   </span>
                 </div>
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Product, SHOW_RATINGS } from '../data/mock';
-import { PlaceholderPill } from './PlaceholderPill';
+import { Product } from '../data/mock';
 import { ImagePlaceholder } from './ImagePlaceholder';
 import { useCart } from '../context/CartContext';
 import { Share2, ArrowRight } from 'lucide-react';
@@ -93,8 +92,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               </div>
             ) : (
               <ImagePlaceholder
-                label={currentImageData.label}
-                sublabel={currentImageData.sublabel}
+                label="Images coming soon"
+                sublabel={product.name}
                 aspectRatio="aspect-[4/3]"
               />
             )}
@@ -172,16 +171,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
 
-        {/* Rating pill directly under the price */}
-        {SHOW_RATINGS && product.rating && (
-          <div className="mt-2">
-            <PlaceholderPill
-              type="rating"
-              rating={product.rating}
-              reviewCount={product.reviewCount}
-            />
-          </div>
-        )}
       </div>
 
       {/* Card Actions */}

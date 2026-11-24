@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { PRODUCTS, Product, SHOW_RATINGS } from '../data/mock';
+import { PRODUCTS, Product } from '../data/mock';
 import { useCart } from '../context/CartContext';
-import { PlaceholderPill } from '../components/PlaceholderPill';
 import { ChevronRight, Share2, ChevronDown, Sun, Zap, Sparkles } from 'lucide-react';
 import { track } from '../lib/track';
 
@@ -178,8 +177,11 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
                   className="w-full h-full object-contain transition-transform duration-300"
                 />
               ) : (
-                <div className="p-8 text-center text-ink-40 font-heading font-semibold">
-                  {currentItem?.label || baseProduct.name}
+                <div className="p-8 text-center">
+                  <p className="font-heading font-bold text-sm uppercase tracking-wider text-ink">
+                    Images coming soon
+                  </p>
+                  <p className="mt-2 text-xs text-ink-60">{baseProduct.name}</p>
                 </div>
               )}
 
@@ -217,18 +219,6 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
                   <Share2 className="w-5 h-5" />
                 </button>
               </div>
-
-              {/* Rating 4.95 (66)-style */}
-              {SHOW_RATINGS && baseProduct.rating && (
-                <div className="mt-3 flex items-center gap-2">
-                  <PlaceholderPill
-                    type="rating"
-                    rating={baseProduct.rating}
-                    reviewCount={baseProduct.reviewCount || '(XX)'}
-                  />
-                  <span className="text-xs text-ink-40 font-body">Verified field rating</span>
-                </div>
-              )}
 
               {/* AutoBox Variant Switch: Solar vs AC Grid Toggle */}
               {isAutoBox && (

@@ -164,8 +164,7 @@ export const SciencePage: React.FC = () => {
               </div>
 
               <p className="text-[11px] text-[#EDE8DE]/50 mt-3 italic text-center max-w-xs">
-                Produce loses up to 15% water weight and structural cellular firmness within 8 days
-                under ambient heat.
+                Ambient water-weight loss: [TBC].
               </p>
             </div>
           </div>
@@ -190,10 +189,8 @@ export const SciencePage: React.FC = () => {
 
           <div className="space-y-6 text-sm sm:text-base text-ink-80 font-body leading-relaxed max-w-3xl mx-auto text-left sm:text-center">
             <p>
-              Globally, 1.3 billion tonnes of food is lost or wasted each year, with the majority of
-              loss occurring in the first 24 to 48 hours after harvest, at the farm, in transit, and
-              at the market. The food was grown and harvested, but without cold storage and proper
-              conditions to keep it fresh, it simply spoils.
+              Global food loss and waste: [TBC]. The food was grown and harvested, but without cold
+              storage and proper conditions to keep it fresh, it simply spoils.
             </p>
             <p>
               We believe this post-harvest loss is one of the most solvable crises because it is
@@ -390,7 +387,7 @@ export const SciencePage: React.FC = () => {
                     className="mt-1 font-heading font-extrabold text-2xl text-ink tabular-nums animate-metric-breath"
                     style={{ animationDelay: '0ms' }}
                   >
-                    {isColdEasyView ? '—' : '8 Days'}
+                    {isColdEasyView ? '—' : '[TBC]'}
                   </div>
                   <span className="text-[10px] text-ink-40 font-body">
                     {isColdEasyView ? 'Data to be added' : 'Days under observation'}
@@ -429,20 +426,6 @@ export const SciencePage: React.FC = () => {
                           strokeWidth="2.5"
                           className="text-ink/10"
                         />
-                        {!isColdEasyView && (
-                          <circle
-                            cx="14"
-                            cy="14"
-                            r="11"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeDasharray="69.1"
-                            strokeDashoffset="60.1"
-                            strokeLinecap="round"
-                            className="text-chilli"
-                          />
-                        )}
                       </svg>
                     </div>
                   </div>
@@ -452,7 +435,7 @@ export const SciencePage: React.FC = () => {
                     }`}
                     style={{ animationDelay: '450ms' }}
                   >
-                    {isColdEasyView ? '—' : '~13%'}
+                    {isColdEasyView ? '—' : '[TBC]'}
                   </div>
                   <span className="text-[10px] text-ink-40 font-body">
                     {isColdEasyView ? 'Data to be added' : 'Remaining saleable grade'}
@@ -839,7 +822,7 @@ export const SciencePage: React.FC = () => {
                     className="not-italic font-heading font-bold text-leaf animate-metric-breath inline-block"
                     style={{ animationDelay: '700ms' }}
                   >
-                    up to 2x
+                    [TBC]
                   </strong>
                   ), and relative humidity (
                   <strong

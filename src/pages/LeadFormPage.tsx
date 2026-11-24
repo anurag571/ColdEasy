@@ -88,7 +88,7 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
     affiliate: {
       title: 'BECOME AN AFFILIATE PARTNER',
       subtitle:
-        'Recommend sustainable cooling to your grower network and earn transparent commissions.',
+        'Recommend ColdEasy to your grower network. Commission terms [TBC].',
     },
     bulk: {
       title: 'BULK & FPO ENQUIRY',

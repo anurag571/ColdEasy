@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { PRODUCTS, Product, SHOW_RATINGS } from '../data/mock';
+import { PRODUCTS, Product } from '../data/mock';
 import { HowItWorksSection } from '../components/HowItWorksSection';
 import { ComparisonSection } from '../components/ComparisonSection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { MediaSection } from '../components/MediaSection';
 import { FaqSection } from '../components/FaqSection';
-import { PlaceholderPill } from '../components/PlaceholderPill';
+import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { NotifyModal } from '../components/NotifyModal';
 import { ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -85,7 +85,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
             <div className="lg:col-span-5 flex justify-center items-center relative mt-4 lg:mt-0">
               <div className="relative w-full max-w-[460px] p-6 sm:p-8 rounded-[32px] bg-[#EFE9DD] border border-ink/10 shadow-xl flex items-center justify-center">
                 <img
-                  src="/assets/aistudio/Coldeasy_hero_BoX_6af27d73.png"
+                  src="/products/coldeasy-box/front.png"
                   alt="ColdEasy Box on soft background"
                   className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500 drop-shadow-md"
                   loading="eager"
@@ -137,16 +137,21 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                   <div>
                     {/* Image */}
                     <div className="relative aspect-[4/3] rounded-[18px] bg-white overflow-hidden mb-4 p-3 flex items-center justify-center border border-ink/5 product-image-stage">
-                      <img
-                        src={
-                          prod.id === 'coldeasy-box'
-                            ? '/assets/aistudio/Cooling_box_product_studio_photo_2K_5e4907c4.jpg'
-                            : prod.images.main.url
-                        }
-                        alt={prod.name}
-                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
+                      {prod.images.main.url ? (
+                        <img
+                          src={prod.images.main.url}
+                          alt={prod.name}
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <ImagePlaceholder
+                          label="Images coming soon"
+                          sublabel={prod.name}
+                          aspectRatio="aspect-[4/3]"
+                          className="w-full"
+                        />
+                      )}
                       {isSoldOut && (
                         <div className="absolute top-3 right-3 bg-chilli text-white text-[10px] font-heading font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
                           SOLD OUT
@@ -160,16 +165,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                     </h3>
 
                     {/* Rating */}
-                    {SHOW_RATINGS && prod.rating && (
-                      <div className="mt-1.5">
-                        <PlaceholderPill
-                          type="rating"
-                          rating={prod.rating}
-                          reviewCount={prod.reviewCount}
-                        />
-                      </div>
-                    )}
-
                     {/* Price & Struck-through Price */}
                     <div className="mt-3 flex items-baseline gap-2 flex-wrap">
                       {prod.price !== null ? (

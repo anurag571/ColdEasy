@@ -55,8 +55,8 @@ export interface Product {
   faqs: FaqItem[];
 }
 
-export const SHOW_RATINGS = true;
-export const DEFAULT_REVIEW_COUNT = '(XX)'; // TODO(client): Provide actual review count when available
+export const SHOW_RATINGS = false;
+export const DEFAULT_REVIEW_COUNT = '[TBC]';
 
 export const PRODUCTS: Product[] = [
   {
@@ -68,59 +68,57 @@ export const PRODUCTS: Product[] = [
     price: 3990,
     saveAmount: 1009,
     inStock: true,
-    rating: 4.9,
-    reviewCount: '(XX)', // TODO(client): verified review count
     emiEligible: false,
     shortDescription:
       'ColdEasy Box keeps fruits and vegetables fresh for longer without using electricity. It uses water-based cooling to lower temperature and maintain high humidity, which reduces spoilage and weight loss. The compact design suits retailers, vendors, and homes, and also works well during transport.',
     images: {
       main: {
-        url: '/assets/aistudio/Coldeasy_hero_BoX_6af27d73.png',
+        url: '/products/coldeasy-box/front.png',
         label: 'ColdEasy Box – Front View',
-        sublabel: 'Passive water-based cooling crate with produce',
+        sublabel: 'Passive water-based cooling crate',
       },
       hover: {
-        url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
-        label: 'ColdEasy Box – Loaded with Fresh Produce',
-        sublabel: 'Cutaway view showing multi-tier produce trays and bottom water reservoir',
+        url: '/products/coldeasy-box/studio-angle.jpg',
+        label: 'ColdEasy Box – Studio Perspective',
+        sublabel: 'Single crate studio view',
       },
       gallery: [
         {
           id: 'box-hero',
-          url: '/assets/aistudio/Coldeasy_hero_BoX_6af27d73.png',
-          label: 'ColdEasy Box – Front Studio View',
-          sublabel: 'Clean front exterior with passive intake louvers and produce crate',
-        },
-        {
-          id: 'box-produce-cutaway',
-          url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
-          label: 'ColdEasy Box – Internal Produce Trays',
-          sublabel: 'Cutaway view showing multi-tier produce trays and bottom water reservoir',
+          url: '/products/coldeasy-box/front.png',
+          label: 'ColdEasy Box – Front View',
+          sublabel: 'Single crate studio view',
         },
         {
           id: 'studio-shot',
-          url: '/assets/aistudio/Cooling_box_product_studio_photo_a19febe7_2K_5e4907c4.jpg',
+          url: '/products/coldeasy-box/studio.jpg',
+          label: 'ColdEasy Box – Studio',
+          sublabel: 'Single crate studio view',
+        },
+        {
+          id: 'studio-angle',
+          url: '/products/coldeasy-box/studio-angle.jpg',
           label: 'ColdEasy Box – Studio Perspective',
-          sublabel: 'Reinforced crate structure with evaporative cooling louvers and water feeder',
+          sublabel: 'Single crate studio view',
         },
         {
           id: 'assembled-box',
-          url: '/video/coldeasy-box-exploded-poster.jpg',
+          url: '/products/coldeasy-box/exploded-poster.jpg',
           label: 'ColdEasy Box – Component View',
-          sublabel: 'Lightweight crate ready at farm field or retail vendor stall',
+          sublabel: 'Exploded view of the ColdEasy Box',
         },
         {
           id: 'ready-unit',
-          url: '/video/coldeasy-box-exploded-end-frame.jpg',
-          label: 'ColdEasy Box – Ready to Use',
-          sublabel: 'Pure thermodynamic airflow: zero electricity, compressor, or refrigerant',
+          url: '/products/coldeasy-box/exploded-end.jpg',
+          label: 'ColdEasy Box – Assembled',
+          sublabel: 'Assembled ColdEasy Box',
         },
       ],
     },
     highlights: [
-      'Tomatoes fresh for 8-10 days',
-      'Spinach fresh for 2-3 days',
-      'Shelf Life 2x',
+      'Tomato shelf life [TBC]',
+      'Spinach shelf life [TBC]',
+      'Shelf life [TBC]',
       'Capacity 25 kg',
       'Faster Cooling 3.5x',
       'Cooling Delta 12C',
@@ -191,74 +189,72 @@ export const PRODUCTS: Product[] = [
     price: 15490,
     saveAmount: 4509,
     inStock: true,
-    rating: 4.87,
-    reviewCount: '(XX)', // TODO(client): verified review count
     emiEligible: true,
     emiFromPerMonth: '₹1,420',
     shortDescription:
       'Automated water distribution across three stacked crates. High-capacity cooling for retailers, mandi vendors and aggregation points.',
     images: {
       main: {
-        url: '/assets/aistudio/Autobot_solar_3crates_e50821ce.jpeg',
+        url: '/products/coldeasy-autobox-3/solar.jpeg',
         label: 'ColdEasy AutoBox – 3 Box, Solar Powered Setup',
         sublabel: 'Triple-tier crate stack with automated water pipe, solar panel, and controller',
       },
       hover: {
-        url: '/assets/aistudio/Coldeasy_Autobot_grid_5ca48633.jpeg',
+        url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
         label: 'ColdEasy AutoBox – 3 Box, AC Grid Setup',
         sublabel: 'Triple-tier crate stack with automated wall-plug AC controller',
       },
       gallery: [
         {
           id: 'autobox-3-solar',
-          url: '/assets/aistudio/Autobot_solar_3crates_e50821ce.jpeg',
+          url: '/products/coldeasy-autobox-3/solar.jpeg',
           label: 'ColdEasy AutoBox 3 – Solar Powered Setup',
           sublabel:
             'Triple-tier evaporative cooling stack with solar panel and automated pump controller',
         },
         {
           id: 'autobox-3-grid-front',
-          url: '/assets/aistudio/Coldeasy_Autobot_grid2_aa33b435.jpeg',
+          url: '/products/coldeasy-autobox-3/grid-front.jpeg',
           label: 'ColdEasy AutoBox 3 – AC Grid Front View',
           sublabel: 'Triple-tier stack configured for standard wall AC power',
         },
         {
           id: 'autobox-3-grid-angle',
-          url: '/assets/aistudio/Coldeasy_Autobot_grid_5ca48633.jpeg',
+          url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
           label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
           sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
         },
         {
-          id: 'autobox-produce',
-          url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
-          label: 'ColdEasy AutoBox – Internal Produce Trays',
-          sublabel: 'Reinforced crate structure holding leafy greens and vegetables',
+          id: 'autobox-3-studio',
+          url: '/products/coldeasy-autobox-3/studio.jpg',
+          label: 'ColdEasy AutoBox 3 – Studio',
+          sublabel: 'Three-crate stack studio view',
         },
       ],
       variantGalleries: {
         solar: [
           {
             id: 'autobox-3-solar',
-            url: '/assets/aistudio/Autobot_solar_3crates_e50821ce.jpeg',
+            url: '/products/coldeasy-autobox-3/solar.jpeg',
             label: 'ColdEasy AutoBox 3 – Solar Powered Setup',
             sublabel:
               'Triple-tier evaporative cooling stack with solar panel and automated pump controller',
           },
           {
             id: 'autobox-produce',
-            url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
+            url: '/products/coldeasy-autobox-3/studio.jpg',
             label: 'ColdEasy AutoBox – Internal Produce Trays',
             sublabel: 'Reinforced crate structure holding leafy greens and vegetables',
           },
           {
             id: 'autobox-3-grid-angle',
-            url: '/assets/aistudio/Coldeasy_Autobot_grid_5ca48633.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
             label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
             sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
           },
           {
             id: 'autobox-3-grid-front',
-            url: '/assets/aistudio/Coldeasy_Autobot_grid2_aa33b435.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-front.jpeg',
             label: 'ColdEasy AutoBox 3 – AC Grid Front View',
             sublabel: 'Triple-tier stack configured for standard wall AC power',
           },
@@ -266,25 +262,25 @@ export const PRODUCTS: Product[] = [
         grid: [
           {
             id: 'autobox-3-grid-front',
-            url: '/assets/aistudio/Coldeasy_Autobot_grid2_aa33b435.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-front.jpeg',
             label: 'ColdEasy AutoBox 3 – AC Grid Front View',
             sublabel: 'Triple-tier stack configured for standard wall AC power',
           },
           {
             id: 'autobox-3-grid-angle',
-            url: '/assets/aistudio/Coldeasy_Autobot_grid_5ca48633.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
             label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
             sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
           },
           {
             id: 'autobox-produce',
-            url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
+            url: '/products/coldeasy-autobox-3/studio.jpg',
             label: 'ColdEasy AutoBox – Internal Produce Trays',
             sublabel: 'Reinforced crate structure holding leafy greens and vegetables',
           },
           {
             id: 'autobox-3-solar',
-            url: '/assets/aistudio/Autobot_solar_3crates_e50821ce.jpeg',
+            url: '/products/coldeasy-autobox-3/solar.jpeg',
             label: 'ColdEasy AutoBox 3 – Solar Powered Setup',
             sublabel: 'Also available with off-grid solar panel and controller kit',
           },
@@ -292,15 +288,15 @@ export const PRODUCTS: Product[] = [
       },
     },
     highlights: [
-      'Tomatoes fresh for 8-10 days',
-      'Spinach fresh for 2-3 days',
-      'Shelf Life 2x',
+      'Tomato shelf life [TBC]',
+      'Spinach shelf life [TBC]',
+      'Shelf life [TBC]',
       'Capacity 25 kg per crate',
       'Faster Cooling 3.5x',
       'Cooling Delta 12C',
       'Water-Based Cooling H2O',
       'Relative Humidity 90%',
-      '2X SHELF LIFE (up to 2X longer)',
+      'Shelf life [TBC]',
       'SOLAR POWERED (Runs on clean, renewable solar energy)',
       'AUTO WATERING (Waters the crates automatically as per schedule)',
       '3 CRATES CAPACITY (3 stacked crates for maximum storage)',
@@ -351,113 +347,29 @@ export const PRODUCTS: Product[] = [
     price: 12990,
     saveAmount: 2009,
     inStock: false, // ALWAYS sold out per client brief
-    rating: 4.85,
-    reviewCount: '(XX)', // TODO(client): verified review count
     emiEligible: false,
     shortDescription:
       'Automated water feed for two stacked crates. Compact footprint for roadside stalls and retail store display.',
     images: {
       main: {
-        url: '/assets/aistudio/Autobot_solar_2crates_4ad3b83a.jpeg',
-        label: 'ColdEasy AutoBox – 2 Box, Solar Powered Setup',
-        sublabel:
-          'Two-tier crate stack with Loom Solar panel, cables, and automated water controller',
+        label: 'Images coming soon',
+        sublabel: 'ColdEasy has not supplied AutoBox 2 photos',
       },
       hover: {
-        url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
-        label: 'ColdEasy AutoBox – Loaded with Fresh Produce',
-        sublabel: 'Two-tier stack with fresh produce inside',
+        label: 'Images coming soon',
+        sublabel: 'ColdEasy has not supplied AutoBox 2 photos',
       },
-      gallery: [
-        {
-          id: 'autobox-2-solar',
-          url: '/assets/aistudio/Autobot_solar_2crates_4ad3b83a.jpeg',
-          label: 'ColdEasy AutoBox 2 – Solar Powered Setup',
-          sublabel: '2-crate cooling stack with solar panel and automated pump controller',
-        },
-        {
-          id: 'autobox-2-produce',
-          url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
-          label: 'ColdEasy AutoBox 2 – Produce Trays',
-          sublabel: 'Internal crate trays holding produce',
-        },
-        {
-          id: 'autobox-2-grid-front',
-          url: '/assets/aistudio/Coldeasy_Autobot_grid2_aa33b435.jpeg',
-          label: 'ColdEasy AutoBox – AC Grid Power Option',
-          sublabel: 'Automated wall-plug AC controller option shown on AutoBox system',
-        },
-        {
-          id: 'autobox-2-grid-angle',
-          url: '/assets/aistudio/Coldeasy_Autobot_grid_5ca48633.jpeg',
-          label: 'ColdEasy AutoBox – AC Grid Water Distribution',
-          sublabel: 'External water circulation pipe and AC controller detail',
-        },
-      ],
-      variantGalleries: {
-        solar: [
-          {
-            id: 'autobox-2-solar',
-            url: '/assets/aistudio/Autobot_solar_2crates_4ad3b83a.jpeg',
-            label: 'ColdEasy AutoBox 2 – Solar Powered Setup',
-            sublabel: '2-crate cooling stack with solar panel and automated pump controller',
-          },
-          {
-            id: 'autobox-2-produce',
-            url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
-            label: 'ColdEasy AutoBox 2 – Produce Trays',
-            sublabel: 'Internal crate trays holding produce',
-          },
-          {
-            id: 'autobox-2-grid-front',
-            url: '/assets/aistudio/Coldeasy_Autobot_grid2_aa33b435.jpeg',
-            label: 'ColdEasy AutoBox – AC Grid Power Option',
-            sublabel: 'Automated wall-plug AC controller option shown on AutoBox system',
-          },
-          {
-            id: 'autobox-2-grid-angle',
-            url: '/assets/aistudio/Coldeasy_Autobot_grid_5ca48633.jpeg',
-            label: 'ColdEasy AutoBox – AC Grid Water Distribution',
-            sublabel: 'External water circulation pipe and AC controller detail',
-          },
-        ],
-        grid: [
-          {
-            id: 'autobox-2-grid-front',
-            url: '/assets/aistudio/Coldeasy_Autobot_grid2_aa33b435.jpeg',
-            label: 'ColdEasy AutoBox – AC Grid Power Option',
-            sublabel: 'Automated wall-plug AC controller option shown on AutoBox system',
-          },
-          {
-            id: 'autobox-2-grid-angle',
-            url: '/assets/aistudio/Coldeasy_Autobot_grid_5ca48633.jpeg',
-            label: 'ColdEasy AutoBox – AC Grid Water Distribution',
-            sublabel: 'External water circulation pipe and AC controller detail',
-          },
-          {
-            id: 'autobox-2-solar',
-            url: '/assets/aistudio/Autobot_solar_2crates_4ad3b83a.jpeg',
-            label: 'ColdEasy AutoBox 2 – 2-Crate Configuration',
-            sublabel: 'Two-tier crate footprint with bottom water reservoir',
-          },
-          {
-            id: 'autobox-2-produce',
-            url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45__1__6a87a1f2.jpeg',
-            label: 'ColdEasy AutoBox 2 – Produce Trays',
-            sublabel: 'Internal crate trays holding produce',
-          },
-        ],
-      },
+      gallery: [],
     },
     highlights: [
-      'Tomatoes fresh for 8-10 days',
-      'Spinach fresh for 2-3 days',
-      'Shelf Life 2x',
+      'Tomato shelf life [TBC]',
+      'Spinach shelf life [TBC]',
+      'Shelf life [TBC]',
       'Faster Cooling 3.5x',
       'Cooling Delta 12C',
       'Water-Based Cooling H2O',
       'Relative Humidity 90%',
-      '2X SHELF LIFE (up to 2X longer)',
+      'Shelf life [TBC]',
       'SOLAR POWERED (Runs on clean, renewable solar energy)',
       'AUTO WATERING (Waters the crates automatically as per schedule)',
       '2 CRATES CAPACITY',
@@ -502,31 +414,31 @@ export const PRODUCTS: Product[] = [
       'Complete space cooling and continuous fresh air ventilation with outdoor evaporative unit, insulated air channel, and 360° ceiling diffuser.',
     images: {
       main: {
-        url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45_0dd2593b.jpeg',
+        url: '/products/coldeasy-breezy/poster.jpeg',
         label: 'ColdEasy Breezy – Hardware Kit',
         sublabel: 'Outdoor evaporative unit, insulated air channel, and 360° ceiling diffuser',
       },
       hover: {
-        url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45_0dd2593b.jpeg',
+        url: '/products/coldeasy-breezy/poster.jpeg',
         label: 'ColdEasy Breezy – Clean Hardware System',
         sublabel: 'Outdoor evaporative unit, insulated air channel, and 360° ceiling diffuser',
       },
       gallery: [
         {
           id: 'breezy-hardware-kit',
-          url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_14.18.45_0dd2593b.jpeg',
+          url: '/products/coldeasy-breezy/hardware-kit.jpeg',
           label: 'ColdEasy Breezy – Complete Hardware System',
           sublabel: 'Outdoor evaporative unit, flexible insulated duct, and 360° diffuser',
         },
         {
           id: 'breezy-overview-poster',
-          url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_08.14.15_9ef62593.jpeg',
+          url: '/products/coldeasy-breezy/installation-poster.jpeg',
           label: 'ColdEasy Breezy – Architectural Installation',
           sublabel: 'Outdoor Unit (01), Insulated Air Channel (02), and 360° Ceiling Diffuser (03)',
         },
         {
           id: 'breezy-installation-clean',
-          url: '/assets/aistudio/coldeasy_breezy_installation_clean.jpg',
+          url: '/products/coldeasy-breezy/installation.jpg',
           label: 'ColdEasy Breezy – Space Cooling Layout',
           sublabel: 'Continuous ventilation for produce packing sheds and work areas',
         },
@@ -566,19 +478,19 @@ export const PRODUCTS: Product[] = [
       'Controlled micro-climate evaporative chamber maintaining high relative humidity for mushroom cultivation.',
     images: {
       main: {
-        url: '/assets/aistudio/coldeasy_mushroom_maker_studio_4x3.jpg',
+        url: '/products/coldeasy-mushroom-maker/studio.jpg',
         label: 'ColdEasy Mushroom Maker – Chamber View',
         sublabel: 'Precision temperature and humidity-controlled chamber',
       },
       hover: {
-        url: '/assets/aistudio/WhatsApp_Image_2026-11-05_at_08.55.35_6e0bfd3a.jpeg',
+        url: '/products/coldeasy-mushroom-maker/facility.jpeg',
         label: 'ColdEasy Mushroom Maker – Commercial Facility',
         sublabel: 'Cultivation environment maintaining high relative humidity',
       },
       gallery: [
         {
           id: 'chamber-cross-section',
-          url: '/assets/aistudio/coldeasy_mushroom_maker_studio_4x3.jpg',
+          url: '/products/coldeasy-mushroom-maker/chamber.jpg',
           label: 'ColdEasy Mushroom Maker – Cross-Section',
           sublabel: 'Controlled microclimate chamber',
         },
@@ -614,13 +526,14 @@ export const PRODUCTS: Product[] = [
       'Specialised dry-airflow evaporative storage avoiding rotting and premature sprouting in bulk onions and garlic.',
     images: {
       main: {
-        label: 'ColdEasy Onion Keeper',
-        sublabel: 'Anti-sprouting natural airflow design',
+        label: 'Images coming soon',
+        sublabel: 'ColdEasy has not supplied Onion Keeper photos',
       },
       hover: {
-        label: 'ColdEasy Onion Keeper – Aeration Detail',
-        sublabel: 'Ventilated base preventing moisture accumulation',
+        label: 'Images coming soon',
+        sublabel: 'ColdEasy has not supplied Onion Keeper photos',
       },
+      gallery: [],
     },
     bestFor: ['Red & White Onions', 'Garlic Bulbs', 'Shallots & Root Vegetables'],
     notFor: ['High-moisture leafy greens', 'Cut Flowers'],
@@ -929,12 +842,12 @@ export const FAQS: FaqItem[] = [
 export const FREE_SHIPPING_THRESHOLD = 5000;
 export const EMI_THRESHOLD = 15000;
 
-// Verified Impact Metrics from the client brief
+// Impact figures have no source yet (11:I-01).
 export const IMPACT_METRICS = [
-  { label: 'Units deployed', value: '900+' },
-  { label: 'Households impacted', value: '400+' },
-  { label: 'Tonnes food waste avoided', value: '900+' },
-  { label: 'Income protected / generated', value: '₹480 Lakh' },
+  { label: 'Units deployed', value: '[TBC]' },
+  { label: 'Households impacted', value: '[TBC]' },
+  { label: 'Tonnes food waste avoided', value: '[TBC]' },
+  { label: 'Income protected / generated', value: '[TBC]' },
 ];
 
 export interface TeamMember {
@@ -1052,7 +965,7 @@ export const PARTNERS_LOGOS = [
 // Lead form benefit points
 export const FORM_BENEFITS = {
   distributor: [
-    'Direct regional distributor margins on every unit sold',
+    'Distributor terms [TBC]',
     'Dedicated technical, marketing, and display demonstration kits',
     'Priority batch allocation and local logistics routing support',
   ],
@@ -1062,9 +975,9 @@ export const FORM_BENEFITS = {
     'Direct technical training for rural extension officers and FPO staff',
   ],
   affiliate: [
-    'Transparent affiliate commission per confirmed crate order',
+    'Commission [TBC]',
     'Custom tracked links and WhatsApp promotional creatives',
-    'Instant payout cycle and dedicated creator support',
+    'Payout [TBC]',
   ],
   bulk: [
     'Volume-based tier discounts for FPOs, mandis, and retail chains',
