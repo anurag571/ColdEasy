@@ -83,16 +83,22 @@ jobs:
         run: npm run e2e
       - name: Link check
         run: |
-          npx next start -p 3000 &
+          ./node_modules/.bin/next start -p 3000 &
+          SERVER=$!
           npx --yes wait-on@8.0.5 http://localhost:3000 --timeout 60000
           npm run gate:links
-          kill %1
+          kill "$SERVER"
+          wait "$SERVER" || true
       - name: Lighthouse budgets (mobile, Slow 4G)
         run: npm run gate:lighthouse
+      - name: Lighthouse summary (what drove LCP)
+        if: always()
+        run: npx tsx scripts/gates/lighthouse-summary.ts || true
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: reports
+          include-hidden-files: true
           path: |
             playwright-report
             test-results
