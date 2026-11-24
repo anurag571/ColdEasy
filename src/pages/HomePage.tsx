@@ -73,7 +73,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                 </a>
 
                 <a
-                  href="#how-it-works"
+                  href="#/science?section=science-how"
                   className="py-4 px-6 rounded-full border border-ink/20 text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-all text-center"
                 >
                   {t('hero.cta_works')}

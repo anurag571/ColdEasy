@@ -57,6 +57,16 @@ export const SciencePage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const section = new URLSearchParams(window.location.hash.split('?')[1] || '').get('section');
+    if (section !== 'science-how') return;
+    const el = document.getElementById('science-how');
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, []);
+
   return (
     <div className="w-full bg-cream text-ink">
       {/* =========================================================================
@@ -720,7 +730,7 @@ export const SciencePage: React.FC = () => {
               WATER + AIR + ENGINEERING → PASSIVE COOLING
               The physics is simple. The engineering makes it practical.
           ========================================================================= */}
-      <section className="w-full bg-white py-16 sm:py-24 border-b border-ink/10">
+      <section id="science-how" className="w-full bg-white py-16 sm:py-24 border-b border-ink/10 scroll-mt-28">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-heading font-bold uppercase tracking-wider text-sky">

@@ -45,6 +45,7 @@ function AppContent() {
       routeRef.current = hash;
       setCurrentRoute(hash);
       if (isAboutFamily(previous) && isAboutFamily(hash)) return;
+      if (new URLSearchParams(hash.split('?')[1] || '').get('section')) return;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
