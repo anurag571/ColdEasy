@@ -564,14 +564,29 @@ export const PRODUCTS: Product[] = [
       'Specialised dry-airflow evaporative storage avoiding rotting and premature sprouting in bulk onions and garlic.',
     images: {
       main: {
-        label: 'Images coming soon',
-        sublabel: 'ColdEasy has not supplied Onion Keeper photos',
+        url: '/products/coldeasy-onion-keeper/exterior.jpg',
+        label: 'ColdEasy Onion Keeper – Exterior',
+        sublabel: 'Storage building with side cooling units and an open onion bay',
       },
       hover: {
-        label: 'Images coming soon',
-        sublabel: 'ColdEasy has not supplied Onion Keeper photos',
+        url: '/products/coldeasy-onion-keeper/store.jpg',
+        label: 'ColdEasy Onion Keeper – Onion store',
+        sublabel: 'Open store filled with onions and a row of cooling units',
       },
-      gallery: [],
+      gallery: [
+        {
+          id: 'onion-exterior',
+          url: '/products/coldeasy-onion-keeper/exterior.jpg',
+          label: 'ColdEasy Onion Keeper – Exterior',
+          sublabel: 'Storage building with side cooling units and an open onion bay',
+        },
+        {
+          id: 'onion-store',
+          url: '/products/coldeasy-onion-keeper/store.jpg',
+          label: 'ColdEasy Onion Keeper – Onion store',
+          sublabel: 'Open store filled with onions and a row of cooling units',
+        },
+      ],
     },
     bestFor: ['Red & White Onions', 'Garlic Bulbs', 'Shallots & Root Vegetables'],
     notFor: ['High-moisture leafy greens', 'Cut Flowers'],
