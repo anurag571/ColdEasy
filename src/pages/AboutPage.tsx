@@ -1,0 +1,241 @@
+import React from 'react';
+import { SectionHeading } from '../components/SectionHeading';
+import { TEAM_MEMBERS, JOURNEY_MILESTONES, PARTNERS_CATEGORIES } from '../data/mock';
+import { MessageCircle, ShoppingBag, Linkedin, Compass, Target } from 'lucide-react';
+
+export const AboutPage: React.FC = () => {
+  return (
+    <div className="w-full bg-cream">
+      {/* 1. HERO */}
+      <section className="w-full bg-cream py-14 sm:py-20 border-b border-ink/5">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center max-w-3xl">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-marigold-light text-ink text-xs font-heading font-bold uppercase tracking-wider mb-4">
+            Product of Temperate
+          </span>
+
+          <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-ink uppercase tracking-tight leading-tight">
+            Built for the people who grow India&apos;s food.
+          </h1>
+
+          <p className="mt-4 text-sm sm:text-base text-ink-60 font-body leading-relaxed max-w-2xl mx-auto">
+            Fresh produce begins losing vitality the instant it is harvested from the soil. In our
+            hot climate, lack of accessible cooling at farm collection centres and roadside markets
+            forces farmers into quick distress selling. ColdEasy was founded to deliver natural,
+            electricity-free cooling hardware directly into grower and vendor hands.
+          </p>
+        </div>
+      </section>
+
+      {/* 2. VISION AND MISSION (Exact copy from client brief) */}
+      <section className="w-full bg-white py-16 border-b border-ink/5">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Vision */}
+            <div className="p-8 rounded-[24px] bg-sand/60 border border-ink/10 flex flex-col justify-between hover:border-leaf/30 transition-all shadow-2xs">
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center mb-5 text-leaf shadow-2xs border border-ink/5">
+                  <Compass className="w-6 h-6" />
+                </div>
+                <h3 className="font-heading font-extrabold text-xl uppercase tracking-wider text-ink mb-3">
+                  Our Vision
+                </h3>
+                <p className="text-sm sm:text-base text-ink-80 leading-relaxed font-body">
+                  A future where people in low-resource environments can achieve higher incomes and
+                  better quality of life through affordable and sustainable cooling solutions.
+                </p>
+              </div>
+            </div>
+
+            {/* Mission */}
+            <div className="p-8 rounded-[24px] bg-sand/60 border border-ink/10 flex flex-col justify-between hover:border-leaf/30 transition-all shadow-2xs">
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center mb-5 text-leaf shadow-2xs border border-ink/5">
+                  <Target className="w-6 h-6" />
+                </div>
+                <h3 className="font-heading font-extrabold text-xl uppercase tracking-wider text-ink mb-3">
+                  Our Mission
+                </h3>
+                <p className="text-sm sm:text-base text-ink-80 leading-relaxed font-body">
+                  To build innovative, energy-efficient cooling and cold storage solutions that
+                  enable farmers, street vendors, and communities to reduce post-harvest losses,
+                  increase productivity, and exercise greater agency.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. TEAM: 11 Members */}
+      <section className="w-full bg-cream py-16 md:py-24 border-b border-ink/5">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <SectionHeading
+            title="THE TEAM BEHIND COLDEASY"
+            subtitle="Engineers, product designers, and technicians united by clean cold tech."
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+            {TEAM_MEMBERS.map((member) => (
+              <div
+                key={member.name}
+                className="bg-white rounded-[24px] p-2.5 sm:p-3 border border-ink/10 shadow-xs flex flex-col justify-between hover:shadow-md hover:border-leaf/30 transition-all group"
+              >
+                <div>
+                  <div className="w-full aspect-[588/640] rounded-[18px] sm:rounded-[20px] overflow-hidden bg-[#E9A93A] mb-3.5 relative shadow-inner">
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      className="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    {member.linkedin && (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="absolute bottom-2.5 right-2.5 w-7 h-7 rounded-md bg-[#0A66C2] text-white flex items-center justify-center shadow-md hover:bg-[#004182] transition-transform hover:scale-110 z-10"
+                        title={`${member.name} on LinkedIn`}
+                        aria-label={`${member.name} LinkedIn Profile`}
+                      >
+                        <Linkedin className="w-4 h-4 fill-current" />
+                      </a>
+                    )}
+                  </div>
+
+                  <div className="px-1.5 pb-2">
+                    <h4 className="font-heading font-extrabold text-sm sm:text-base text-ink tracking-tight">
+                      {member.name}
+                    </h4>
+                    <p className="text-xs text-ink-60 mt-0.5 font-body font-medium leading-snug">
+                      {member.role}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. JOURNEY TIMELINE (Exact 5 milestones from client brief) */}
+      <section className="w-full bg-white py-16 md:py-24 border-b border-ink/5">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <SectionHeading
+            title="OUR JOURNEY"
+            subtitle="From post-harvest research to field cooling solutions across India."
+          />
+
+          {/* Desktop Horizontal Timeline */}
+          <div className="hidden lg:block relative mt-12 mb-8">
+            <div
+              className="absolute top-7 left-8 right-8 h-1.5 rounded-full overflow-hidden flex -z-0"
+              aria-hidden="true"
+            >
+              <span className="w-1/4 h-full bg-sky" />
+              <span className="w-1/4 h-full bg-marigold" />
+              <span className="w-1/4 h-full bg-chilli" />
+              <span className="w-1/4 h-full bg-leaf" />
+            </div>
+
+            <div className="grid grid-cols-5 gap-6 relative z-10">
+              {JOURNEY_MILESTONES.map((item, idx) => (
+                <div key={idx} className="flex flex-col items-center text-center">
+                  <div className="w-14 h-14 rounded-full bg-white border-2 border-ink flex items-center justify-center font-heading font-extrabold text-xs text-ink shadow-sm mb-4">
+                    0{idx + 1}
+                  </div>
+                  <span className="font-heading font-bold text-sm text-leaf">{item.year}</span>
+                  <span className="font-heading font-semibold text-xs text-ink mt-1">
+                    {item.title}
+                  </span>
+                  <p className="text-xs text-ink-60 mt-2 font-body leading-relaxed">{item.event}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Vertical Timeline */}
+          <div className="lg:hidden relative pl-6 space-y-8 mt-6">
+            <div
+              className="absolute top-0 bottom-0 left-2 w-1.5 rounded-full overflow-hidden flex flex-col -z-0"
+              aria-hidden="true"
+            >
+              <span className="w-full h-1/4 bg-sky" />
+              <span className="w-full h-1/4 bg-marigold" />
+              <span className="w-full h-1/4 bg-chilli" />
+              <span className="w-full h-1/4 bg-leaf" />
+            </div>
+
+            {JOURNEY_MILESTONES.map((item, idx) => (
+              <div key={idx} className="relative pl-6">
+                <div className="absolute -left-[23px] top-0 w-6 h-6 rounded-full bg-white border-2 border-ink flex items-center justify-center font-heading font-bold text-[10px] text-ink">
+                  {idx + 1}
+                </div>
+                <span className="font-heading font-bold text-xs text-leaf">{item.year}</span>
+                <span className="font-heading font-semibold text-xs text-ink ml-2">
+                  {item.title}
+                </span>
+                <p className="text-xs text-ink-60 mt-1 font-body">{item.event}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. PARTNERS CATEGORIES */}
+      <section className="w-full bg-sand py-16 border-b border-ink/5">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <SectionHeading
+            title="PARTNER ECOSYSTEM"
+            subtitle="Working alongside organizations to scale clean cold storage."
+            isCentered
+          />
+
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-8">
+            {PARTNERS_CATEGORIES.map((category) => (
+              <div
+                key={category}
+                className="group h-24 rounded-[20px] bg-white border border-ink/5 flex items-center justify-center p-4 transition-all duration-300 hover:shadow-md cursor-pointer text-center"
+              >
+                <span className="font-heading font-bold text-xs uppercase tracking-wider text-ink-60 group-hover:text-leaf transition-colors">
+                  {category}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. CTA BAND */}
+      <section className="w-full bg-cream py-14">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
+          <h2 className="font-heading font-extrabold text-2xl sm:text-3xl uppercase tracking-wider text-ink mb-4">
+            Ready to bring ColdEasy to your region?
+          </h2>
+          <p className="text-xs sm:text-sm text-ink-60 max-w-md mx-auto mb-8 font-body">
+            Get in touch directly or view our product catalog.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a
+              href="#/products"
+              className="w-full sm:w-auto py-3.5 px-8 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-leaf/90 transition-all shadow-sm flex items-center justify-center gap-2"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              View Products
+            </a>
+
+            <a
+              href="https://api.whatsapp.com/send/?phone=919182968542&text&type=phone_number&app_absent=0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto py-3.5 px-8 rounded-full border-2 border-ink text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-all flex items-center justify-center gap-2"
+            >
+              <MessageCircle className="w-4 h-4 text-leaf" />
+              WhatsApp Us
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

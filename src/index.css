@@ -1,0 +1,433 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-ink: #251a10;
+  --color-sky: #4fb8cc;
+  --color-leaf: #487537;
+  --color-olive: #9fa738;
+  --color-marigold: #f0a023;
+  --color-chilli: #ec2727;
+  --color-cream: #fcfbf1;
+  --color-sand: #f5f3ec;
+  --color-studio: #eee8db;
+  --color-studio-deep: #e4dccb;
+  --color-sky-light: #e2f5f8;
+  --color-leaf-light: #e4ede0;
+  --color-marigold-light: #ffebb6;
+  --color-chilli-light: #feeceb;
+  --color-ink-60: #5e554e;
+  --color-ink-40: #a39e98;
+
+  --font-heading: 'Montserrat', 'Noto Sans Devanagari', sans-serif;
+  --font-body: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+}
+
+/* ==========================================================================
+   GLOBAL DARK MODE THEME PALETTE
+   Accessible WCAG AA/AAA compliant mappings preserving organic ColdEasy brand
+   ========================================================================== */
+html.dark {
+  color-scheme: dark;
+
+  /* Dark mode brand tokens */
+  --color-ink: #f7f5ee;
+  --color-cream: #14120e;
+  --color-sand: #1d1a14;
+  --color-studio: #242018;
+  --color-studio-deep: #2c261f;
+  --color-sky-light: #12282e;
+  --color-leaf-light: #172b15;
+  --color-marigold-light: #33230b;
+  --color-chilli-light: #381515;
+  --color-ink-60: #aca498;
+  --color-ink-40: #787065;
+
+  /* Luminous accessible accents */
+  --color-leaf: #5ea348;
+  --color-sky: #62cbe0;
+  --color-marigold: #f5ad38;
+  --color-olive: #b4bd40;
+  --color-chilli: #f24646;
+
+  background-color: #14120e;
+  color: #f7f5ee;
+}
+
+html.dark body {
+  background-color: #14120e;
+  color: #f7f5ee;
+}
+
+/* Surface mapping: Elevated white cards convert to deep warm charcoal panels */
+html.dark .bg-white {
+  background-color: #1e1a14 !important;
+}
+
+/* Product image stages in dark mode retain crisp white backdrops so product renders blend seamlessly */
+html.dark .product-image-stage,
+html.dark .bg-white.product-image-stage {
+  background-color: #ffffff !important;
+}
+
+html.dark .bg-white\/95,
+html.dark .bg-white\/90 {
+  background-color: rgba(30, 26, 20, 0.95) !important;
+}
+
+html.dark .bg-white\/80 {
+  background-color: rgba(30, 26, 20, 0.8) !important;
+}
+
+html.dark .bg-white\/70 {
+  background-color: rgba(30, 26, 20, 0.7) !important;
+}
+
+html.dark .bg-white\/60,
+html.dark .bg-white\/50 {
+  background-color: rgba(30, 26, 20, 0.5) !important;
+}
+
+html.dark .bg-cream\/95 {
+  background-color: rgba(20, 18, 14, 0.95) !important;
+}
+
+/* Warm organic section backgrounds mapped to deep obsidian charcoal in dark mode */
+html.dark .bg-\[\#FAF7F0\],
+html.dark .bg-\[\#FAF8F5\],
+html.dark .bg-\[\#F4EFE6\] {
+  background-color: #191611 !important;
+}
+
+html.dark .bg-\[\#EFE9DD\],
+html.dark .bg-\[\#EEE8DB\] {
+  background-color: #221e17 !important;
+}
+
+/* Subtle border tone adjustments */
+html.dark .border-ink\/10 {
+  border-color: rgba(247, 245, 238, 0.12) !important;
+}
+
+html.dark .border-ink\/5 {
+  border-color: rgba(247, 245, 238, 0.08) !important;
+}
+
+html.dark .border-ink\/15 {
+  border-color: rgba(247, 245, 238, 0.16) !important;
+}
+
+html.dark .border-ink\/20 {
+  border-color: rgba(247, 245, 238, 0.22) !important;
+}
+
+html.dark .border-ink\/30 {
+  border-color: rgba(247, 245, 238, 0.32) !important;
+}
+
+/* Hover surfaces in dark mode */
+html.dark .hover\:bg-sand:hover {
+  background-color: #27231b !important;
+}
+
+html.dark .hover\:bg-white:hover {
+  background-color: #262119 !important;
+}
+
+html.dark .hover\:bg-black\/5:hover {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* Modal and Drawer backdrop overlays */
+html.dark .bg-ink\/60,
+html.dark .bg-ink\/65,
+html.dark .bg-ink\/75,
+html.dark .bg-ink\/80 {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Form inputs & interactive controls */
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background-color: #191611 !important;
+  color: #f7f5ee !important;
+  border-color: rgba(247, 245, 238, 0.18) !important;
+}
+
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus {
+  border-color: #5ea348 !important;
+  outline: none;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #787065 !important;
+}
+
+/* Top announcement bar retains full marigold high-contrast readability */
+html.dark header[aria-label='Top Announcement and Quick Links'] {
+  background-color: #f5ad38 !important;
+  color: #181208 !important;
+}
+
+html.dark header[aria-label='Top Announcement and Quick Links'] span,
+html.dark header[aria-label='Top Announcement and Quick Links'] div,
+html.dark header[aria-label='Top Announcement and Quick Links'] button,
+html.dark header[aria-label='Top Announcement and Quick Links'] a {
+  color: #181208 !important;
+}
+
+html.dark header[aria-label='Top Announcement and Quick Links'] button.bg-ink {
+  background-color: #181208 !important;
+  color: #ffffff !important;
+}
+
+html.dark header[aria-label='Top Announcement and Quick Links'] button.bg-ink * {
+  color: #ffffff !important;
+}
+
+html.dark header[aria-label='Top Announcement and Quick Links'] span.bg-leaf {
+  background-color: #487537 !important;
+  color: #ffffff !important;
+}
+
+/* Footer: deep midnight charcoal base with crisp luminous typography */
+html.dark footer {
+  background-color: #0e0c09 !important;
+  color: #ede8de !important;
+  border-top-color: rgba(94, 163, 72, 0.5) !important;
+}
+
+html.dark footer p,
+html.dark footer span,
+html.dark footer a,
+html.dark footer li {
+  color: inherit;
+}
+
+html.dark footer a:hover {
+  color: #ffffff !important;
+}
+
+html.dark footer .text-cream,
+html.dark footer [class*='text-cream'] {
+  color: #ede8de !important;
+}
+
+html.dark footer .text-ink-40,
+html.dark footer .text-ink-60 {
+  color: rgba(237, 232, 222, 0.65) !important;
+}
+
+html.dark footer .border-ink-60\/40,
+html.dark footer .border-ink\/10 {
+  border-color: rgba(237, 232, 222, 0.15) !important;
+}
+
+html.dark footer .bg-white {
+  background-color: #ffffff !important; /* Preserves crisp circular backgrounds for social icons */
+}
+
+/* Bottom disclaimer banner */
+html.dark div.fixed.bottom-0.bg-ink,
+html.dark aside[aria-label='Prototype Notice'] {
+  background-color: #0e0c09 !important;
+  color: #ede8de !important;
+  border-top-color: rgba(247, 245, 238, 0.15) !important;
+}
+
+html.dark aside[aria-label='Prototype Notice'] * {
+  color: inherit;
+}
+
+html.dark aside[aria-label='Prototype Notice'] strong {
+  color: #ffffff !important;
+}
+
+/* Fallback safety: ensure solid bg-ink with text-white receives dark text when ink token inverts to off-white */
+html.dark button.bg-ink.text-white,
+html.dark div.bg-ink.text-white {
+  color: #14120e !important;
+}
+
+/* How It Works section background in dark mode */
+html.dark #how-it-works {
+  background: linear-gradient(to bottom, #221e17 0%, #181510 100%) !important;
+}
+
+/* Subtle elevation box shadows in dark mode */
+html.dark .shadow-xs,
+html.dark .shadow-2xs {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+html.dark .shadow-sm {
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .shadow-md,
+html.dark .shadow-lg,
+html.dark .shadow-xl,
+html.dark .shadow-2xl {
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.07) !important;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-cream);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* Seamless infinite horizontal marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-marquee:focus-within {
+  animation-play-state: paused;
+}
+
+/* Airflow wave animation for How ColdEasy Works step 4 */
+@keyframes airflow {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-airflow {
+  stroke-dasharray: 6 4;
+  animation: airflow 1.4s linear infinite;
+}
+
+/* Gentle zoom animation for hero product */
+@keyframes gentleZoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-gentle-zoom {
+  animation: gentleZoom 1.8s ease-in-out 1;
+}
+
+/* Subtle breathing pulse for Science of Freshness data point cards & metrics */
+@keyframes scienceDataPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.012);
+  }
+}
+
+.animate-science-pulse {
+  animation: scienceDataPulse 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Soft radiating beacon ring for humidity & thermal efficiency focal icons */
+@keyframes indicatorBeacon {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.38);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.38);
+    opacity: 0;
+  }
+}
+
+.animate-indicator-beacon {
+  animation: indicatorBeacon 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Gentle emphasis breath for numeric / status data values */
+@keyframes metricBreath {
+  0%,
+  100% {
+    opacity: 0.86;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.025);
+  }
+}
+
+.animate-metric-breath {
+  animation: metricBreath 3.4s ease-in-out infinite;
+  transform-origin: left center;
+}
+
+/* Calm SVG thermal & humidity node pulse */
+@keyframes svgNodePulse {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+.animate-svg-pulse {
+  animation: svgNodePulse 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

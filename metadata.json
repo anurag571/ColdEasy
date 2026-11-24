@@ -1,0 +1,6 @@
+{
+  "name": "ColdEasy - Post-Harvest Cooling Prototype",
+  "description": "Clickable, front-end prototype for ColdEasy post-harvest evaporative cooling products.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

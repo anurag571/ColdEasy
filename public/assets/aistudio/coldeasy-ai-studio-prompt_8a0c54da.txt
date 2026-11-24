@@ -1,0 +1,113 @@
+Build a clickable, front-end-only prototype of the ColdEasy website. Its only job is to show the look and feel of the brand and the main page layouts. It is a visual mock, not a working store.
+
+ABOUT COLDEASY
+ColdEasy (tagline under the logo: "Product of Temperate") makes affordable post-harvest cooling products for India. The hero product, the ColdEasy Box, is a crate that keeps fruit, vegetables and flowers fresh using passive evaporative cooling (SEEC: Structurally Enhanced Evaporative Cooling). Water wets a pad, air passes through it, evaporation cools the air, and cooler air flows over the produce. It uses no electricity, compressor or refrigerant. The buyers are smallholder farmers, street vendors, retailers and FPOs (farmer producer organisations). Many of them browse on low-cost Android phones over patchy mobile data.
+
+TECH AND SCOPE
+- React + TypeScript + Tailwind CSS. Hash-based routing so every page can be linked to.
+- No backend, no Gemini API calls, no real payments, no real auth. All data comes from one local mock file (src/data/mock.ts) so it is easy to replace later.
+- Mobile-first. Design at 360px wide first, then scale up to tablet and desktop (max content width 1200px). No horizontal scroll at any width.
+- Keep it light: system-friendly images, no video files, no heavy animation libraries. Use CSS transitions and small SVGs. Respect prefers-reduced-motion.
+- Pages: Home (full), Product page for the ColdEasy Box (full), Cart page plus a slide-in cart drawer (full). The nav links Products, Science, Impact, About Us and Contact go to a simple branded "Coming soon" page that has a back-to-home link.
+- Cart state lives in React context so adding to cart updates the header badge on every page.
+
+BRAND SYSTEM (follow exactly)
+Colours. Define these as Tailwind theme tokens and use only these:
+- ink #251A10 (deep brown-black): body text, headings, dark footer background
+- sky #6FCCDD (cool blue, the snowflake in the logo): cooling and technology accents
+- leaf #487537 (deep green): primary buttons, success states, check marks
+- olive #9FA738 (olive green): secondary accents, tags, highlights
+- marigold #F0A023 (warm orange): the sticky signup bar, sale prices, energy
+- chilli #EC2727 (red): crosses in the comparison, SOLD OUT, errors. Use it sparingly.
+- cream #FCFBF1: the main page background
+- sand #F5F3EC: alternate section background, to separate sections
+- white #FFFFFF: cards and the product page panels
+Tints for subtle backgrounds and borders: sky-light #E2F5F8, leaf-light #E4EDE0, marigold-light #FFEBB6, ink-60 #5E554E (secondary text), ink-40 #A39E98 (muted text and borders).
+Contrast rules: white text only on ink, leaf or chilli (and on chilli only when bold and 18px or larger). Text on sky, olive and marigold is always ink. Never set body text in sky, olive or marigold.
+
+Typography (Google Fonts):
+- Montserrat for headings, nav, prices and buttons. Weights 500, 600, 700, 800. Section headings are uppercase, weight 700, with slight tracking.
+- Poppins for body copy, captions, form fields and labels. Weights 400, 500, 600.
+- Scale on mobile: H1 32px, H2 24px, body 16px, captions 13px. On desktop: H1 56px, H2 36px. Line height 1.5 for body.
+
+Logo:
+- I have uploaded three PNG files: coldeasy-logo-horizontal-color.png (for light backgrounds), coldeasy-logo-horizontal-reversed-for-dark-bg.png (white wordmark, for the dark footer) and coldeasy-symbol-color.png (symbol only, for favicon and very small spaces). Use these files as they are.
+- If an uploaded file cannot be loaded, show a placeholder box labelled "LOGO" at the same size. Do not redraw the logo or recreate the wordmark in a font.
+- Rules from the brand book: never stretch, rotate, recolour, add shadows or outlines to, or lower the opacity of the logo. Keep clear space around it of at least the height of the letter "C" in the wordmark. Minimum height is 36px for the horizontal logo and 45px for the symbol on its own (the header can shrink to 32px when scrolled, no smaller).
+
+Signature brand details:
+- Section headings have a thin vertical accent bar on their left: a 4px wide, rounded strip split into stacked segments of sky, marigold, chilli and leaf. This comes straight from the brand book and should appear on every section heading.
+- Shapes are soft. Cards and images use large rounded corners (20 to 24px), buttons are fully rounded pills, and there are no sharp boxes.
+- Brand pattern: a grid of soft, rounded leaf or seed shapes (a half-rounded square, like a petal). Build it as an SVG background. Use it only at low contrast (cream on sand, or olive at about 8% opacity), and only in the hero corner, the signup modal and the "Coming soon" page. A bolder version, made of quarter circles and leaf shapes in sky, marigold, chilli, olive, leaf and pale yellow, can appear as a small decorative tile (about 120px) on the testimonials card corner. Never place patterns behind a product image.
+- Imagery: warm, natural daylight photography of Indian farmers and vendors with fresh produce, and clean product shots on soft, plain backgrounds. For this prototype, use labelled placeholder blocks (rounded, sand-coloured, with a small icon and text such as "PRODUCT IMAGE: ColdEasy Box, front view") rather than stock photos.
+- Tone of voice: warm, simple, confident and honest. Use short sentences that a farmer reading in their second language can follow. Do not use hype words like "revolutionary" or "world's best".
+
+DATA RULE (very important)
+Every star rating, review count, temperature drop, shelf-life figure, test result, deployment number, testimonial quote and customer name is a placeholder until the client supplies verified data. Show these as obvious placeholders:
+- Ratings: grey outline stars with the text "Rating: placeholder" in a small dashed-outline pill.
+- Performance numbers: write them as "[X–Y]°C" or "[N] days" in a dashed-outline pill.
+- Testimonials: use "Customer name (placeholder)", "Village, State (placeholder)" and a lorem-style quote in italics.
+- Add a thin, dismissible banner fixed at the bottom of every page: "Design prototype. All ratings, reviews and performance figures are placeholders."
+Prices are supplied by the client and can be shown normally.
+
+PRODUCTS (mock data)
+1. ColdEasy Box: was ₹4,999, now ₹3,990. In stock. Button: BUY NOW.
+2. ColdEasy AutoBox – 3 Box: was ₹19,999, now ₹15,490. In stock. Button: BUY NOW.
+3. ColdEasy AutoBox – 2 Box: was ₹14,999, now ₹12,990. Always SOLD OUT: grey out the image slightly, show a chilli "SOLD OUT" pill and a disabled button. Add a "Notify me" text link that opens the mobile-number modal.
+
+GLOBAL HEADER (every page)
+1. A sticky top bar in marigold with ink text. On the left: "Sign up to LEARN MORE" plus a small pill button "Sign up". On the right, attached to the same bar: "Connect on WhatsApp" (WhatsApp icon) and "Cart" (cart icon with a count badge).
+   - "Sign up" opens a small modal that asks for a mobile number only: a +91 prefix and a 10-digit field, validated to an Indian mobile number starting with 6 to 9, plus a leaf "Sign up" button. Signing up is optional. Nothing on the site is ever blocked behind it.
+   - After a successful signup, show a toast saying "You're in. We'll message you on WhatsApp." Then the signup message disappears from the bar, leaving only the WhatsApp and Cart buttons, right-aligned in a slimmer bar. Remember this choice in localStorage.
+2. Below the top bar, a sticky main header on cream: the logo on the left, and the nav links Home, Products, Science, Impact and About Us with generous spacing.
+   - At the top of the page the header is full size (logo about 44px tall, header about 80px high).
+   - Once the user scrolls more than 40px, it shrinks smoothly over 250ms to about 56px high, with the logo at 32px, tighter nav spacing and a subtle bottom border.
+   - On mobile, the nav collapses into a hamburger that opens a full-height drawer. WhatsApp, Cart and Menu stay reachable at all times. The two sticky bars together must never cover more than 15% of the screen height on a phone.
+   - WhatsApp links go to https://wa.me/919182968542.
+
+HOME PAGE (in this order)
+1. Hero (cream background with a faint pattern in one corner). Headline: "Effortless cooling at your doorstep". Subhead: "Freshness reimagined, made for everyday." Short line: "Keeps fruit and vegetables fresh without electricity." Buttons: leaf pill "BUY NOW" (goes to the product page) and an outline pill "Connect on WhatsApp". On the right on desktop (below the text on mobile), a large product image placeholder of the ColdEasy Box on a soft sky-light circle. When the section scrolls into view, the product zooms in to 1.04 and back once, gently.
+2. Best Sellers (white background, clearly separated from the hero). On the left, a large, bold "BEST SELLERS" heading. On the right of the same line, a text button "VIEW PRODUCTS →". Below it, the three products as equal cards in one row on desktop, and a horizontal swipe row on mobile. Each card has: an image placeholder, the product name, placeholder stars, the original price struck through in ink-40, the current price in large Montserrat bold, and a CTA. Keep it clean, with minimal borders and shadows.
+3. Fridge vs ColdEasy Box (sand background). Heading: "FRIDGE VS COLDEASY BOX". In the centre: a fridge image placeholder on the left, a bold circular "VS" divider, and a ColdEasy Box placeholder on the right. Points sit on the outer sides, and each point lines up horizontally with its pair:
+   - Fridge: ✕ Needs electricity | ✓ Can store meat, fish and dairy | ✕ Ethylene builds up and speeds ripening | ✕ Stationary | Compressor-based cooling (no icon)
+   - ColdEasy Box: ✓ Works without electricity | ✕ Not designed for meat and fish | ✓ Constant airflow lets ethylene escape and keeps produce fresh | ✓ Portable and easy to deploy | Evaporation-based cooling (no icon)
+   Use large icons: ✓ in a leaf circle and ✕ in a chilli circle, with short bold statements. It must read in three seconds. On mobile, stack it as the two images side by side with VS between them, then paired rows of points in two columns.
+4. How ColdEasy Works (cream background). A five-step horizontal stepper on desktop, vertical on mobile. Each step has a simple flat SVG illustration in brand colours plus one line of text: (1) The ColdEasy Box, (2) Add tap water to the tank, (3) Water soaks the SEEC cooling pad, (4) Warm outside air passes through the wet pad and evaporation cools it, using animated sky-blue airflow lines, (5) Cooler, humid air keeps produce fresh, with a temperature drop of "[X–Y]°C" shown as a placeholder pill. End the section with a large centred statement: "Cooling without electricity." Add a small note: "Full 3D animation coming in a later phase."
+5. Customer Testimonials (white background). A centred heading "CUSTOMER TESTIMONIALS" with the subhead "Real stories. Real experiences. Real impact." Below it, on desktop:
+   - On the left (about one third of the width): one tall portrait card with a still photo placeholder, a large quote, the name, the location, the FPO or occupation, a two-line description and a subtle "Know more →" text link. There are three stories in the mock data. Swipe on touch, or use small prev/next arrows, with a gentle fade or slide between them.
+   - On the right (about two thirds): a row of portrait 9:16 video placeholder tiles with a play icon, each with the customer name and location underneath. The row scrolls continuously and slowly from right to left in a seamless loop, and pauses on hover or touch.
+   On mobile, stack the card first, then the video row.
+6. ColdEasy's Media Presence (sand background). In the heading, "ColdEasy's" is set in leaf. Show four cards in a row (a swipe carousel on mobile), labelled The Better India, The Times of India, Network18 and The Plate India. Each card has a thumbnail placeholder with a "MEDIA LOGO" placeholder chip over it, the media name in bold and a one-line caption. The whole card is the link. On hover, the image zooms slightly and the card lifts.
+7. FAQs (cream background). Eight questions in a two-column accordion (one column on mobile), with only one open at a time:
+   - What is SEEC? It stands for Structurally Enhanced Evaporative Cooling, the same physics that cools your skin when sweat evaporates, built into a deployable system for farm and vendor use.
+   - How does the ColdEasy Box work without electricity? The wet SEEC pad draws in warm, dry air. Water evaporates and absorbs heat, dropping the temperature inside by "[X–Y]°C" (placeholder), with no compressor, refrigerant or electricity.
+   - Can I store meat, fish or dairy? No. It works best for fruits, vegetables and flowers.
+   - What water do I need? Room-temperature tap water.
+   - Can it be used during transport? Yes, it is lightweight and portable.
+   - Does the moisture cause pests or fungus? Continuous airflow helps prevent this.
+   - How do I become a distributor? Call +91 91829 68542 or email info@coldeasy.in.
+   - Do you offer EMI? EMI options are shown at checkout, subject to eligibility.
+8. Footer (ink background, cream text, generous top padding, and a soft transition from the section above). Desktop has three columns:
+   - Left: the reversed logo, the tagline "Effortless Cooling, Everyday.", large social icons for LinkedIn, Instagram, Facebook, YouTube and WhatsApp (in their original brand colours, on small white circles), and "© 2026 ColdEasy. All Rights Reserved."
+   - Middle: Navigation (Home, Products, Science, Impact, Resources, About Us, Contact Us). Hovering on Contact Us gently reveals the phone number, email and address beneath it. Next to Navigation, a Partner With Us column (Become a Distributor, Become a Partner, Become an Affiliate Partner), all plain text links.
+   - Right: a "Secure payments by Razorpay" badge row (show Razorpay only; this is a placeholder for the real badge), a strong leaf pill "Connect on WhatsApp", and Legal links (Terms & Conditions, Privacy Policy) in small muted text.
+   On mobile, the columns stack in this order: brand, then the WhatsApp CTA, then the link groups as collapsible sections, then legal.
+
+PRODUCT PAGE (ColdEasy Box)
+- Breadcrumb: Home / Products / ColdEasy Box.
+- On mobile, the image gallery sits on top: a main image placeholder plus four thumbnails (front, open lid, cooling pad, in use at a vendor stall), swipeable. On desktop, the gallery is on the left and the buy panel on the right, and the buy panel stays sticky.
+- Buy panel: the name, a placeholder rating pill, ₹4,999 struck through, ₹3,990 large, a marigold "Save ₹1,009" tag, and the line "EMI available at checkout (subject to eligibility)". A quantity stepper (1 to 10), a leaf "ADD TO CART" button (adds the item and opens the cart drawer), an outline "BUY NOW" button (adds the item and goes to the cart page) and a WhatsApp text link "Questions? Chat with us".
+- Below the panel: three icon chips (No electricity, Portable, Tap water only). Then "Best for" (fruits, vegetables, flowers) and "Not for" (meat, fish, dairy) shown as two simple lists with ✓ and ✕. Then a specs table where every value is a placeholder (Capacity [N] kg, Weight [N] kg, Water tank [N] L, Temperature drop [X–Y]°C, Dimensions [L×W×H] cm). Then a mini "How it works" strip that reuses the four step icons, the FAQ accordion, and an "You may also like" row with the other two products.
+- A sticky bottom bar on mobile showing the price and an ADD TO CART button. It appears once the main button scrolls out of view.
+
+CART
+- Slide-in drawer from the right (full width on mobile). It shows the line items with an image thumbnail, name, unit price, a quantity stepper and remove, plus the subtotal, the note "Shipping and taxes calculated at checkout", a leaf "Proceed to checkout" button, and "View cart" and "Continue shopping" links.
+- The cart page has the same content in a two-column layout on desktop (items on the left, an order summary card on the right showing subtotal, shipping as "Calculated at checkout" and total), plus a pincode input that checks delivery availability. For any 6-digit pincode it shows the placeholder result "Delivery availability: placeholder".
+- "Proceed to checkout" opens a modal: "Checkout and Razorpay payments are not connected in this prototype." There is no payment form, so no card or UPI fields at all.
+- Empty state: a soft pattern illustration, "Your cart is empty" and a "Shop ColdEasy" button.
+
+QUALITY BAR
+- Clean, modern, premium and minimal, with lots of whitespace. It should feel like a calm, product-led direct-to-consumer brand site, but with warmth from the produce colours.
+- Visible focus states, semantic HTML, alt text on every image placeholder, and tap targets of at least 44px.
+- No lorem ipsum in headings, buttons or navigation. Only placeholder quotes may use filler text.
+- Keep components small and reusable: Header, TopBar, SectionHeading (with the accent bar), ProductCard, PriceBlock, PlaceholderPill, ImagePlaceholder, ComparisonRow, Stepper, TestimonialCard, VideoMarquee, MediaCard, FaqAccordion, Footer, CartDrawer.

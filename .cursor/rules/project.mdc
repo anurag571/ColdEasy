@@ -1,0 +1,37 @@
+---
+description: ColdEasy stack, folders, secrets, and brand
+alwaysApply: true
+---
+
+# ColdEasy
+
+Read `/docs` before building features. The specs are `00-index.md`, `01-prd.md`, `02-technical-requirements.md`, and `04-ui-ux-design-brief.md`.
+
+## Stack
+
+Vite, React, and TypeScript. npm. Tailwind CSS v4 through `@tailwindcss/vite`. Hash routing lives in `src/App.tsx`.
+
+## Folders
+
+- `src/pages` — one screen per route
+- `src/components` — shared UI
+- `src/context` — cart, language, theme
+- `src/data` — product and copy data
+- `src/lib` — tracking and WhatsApp helpers
+- `public` — images and video
+
+## Secrets
+
+Never hardcode secrets. Keep keys in `.env.local`. Do not give a secret a `VITE_` name. A `VITE_` name is copied into the client bundle.
+
+## Claims
+
+No invented stats or claims. Ratings, review counts, impact figures, commissions, prices, and lab results must come from the client spec. Leave a TODO when a number is missing.
+
+## Brand
+
+Colours and fonts below are the tokens in `src/index.css`. The design brief in `/docs` wins if it disagrees.
+
+- Ink `#251A10`, cream `#FCFBF1`, sand `#F5F3EC`
+- Sky `#4FB8CC`, leaf `#487537`, olive `#9FA738`, marigold `#F0A023`, chilli `#EC2727`
+- Headings: Montserrat. Body: Poppins. Hindi: Noto Sans Devanagari.

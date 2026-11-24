@@ -1,0 +1,53 @@
+Keep everything that already exists. Use the same brand tokens (ink #251A10, sky #6FCCDD, leaf #487537, olive #9FA738, marigold #F0A023, chilli #EC2727, cream #FCFBF1, sand #F5F3EC), Montserrat for headings, Poppins for body, the SectionHeading accent bar, PlaceholderPill, waLink() and track(). Do not restyle the header, footer or other pages.
+
+Add a "How much could you save?" savings calculator as one reusable component, SavingsCalculator, with a full mode and a compact mode.
+
+WHERE IT GOES
+- Home page: full mode, as its own section on sand, placed directly after "Fridge vs ColdEasy Box" and before "How ColdEasy Works".
+- Product pages: compact mode, below the buy panel, with the product preselected.
+- Its own route, #/calculator, in full mode. Link to it from the Science page closing CTA and from the mobile menu.
+
+INPUTS (mobile-first, one column on phones, large controls, no free-text typing where a chip or stepper works)
+1. "I am a": chips for Farmer, Vendor or retailer, FPO, Other. This only changes the wording of the result.
+2. "What do you store?": chips for Tomato, Banana, Mango, Leafy greens, Onion, Flowers, Other.
+3. "How much do you handle per day?": a stepper plus slider, 5 to 500 kg, default 40 kg.
+4. "Average selling price": ₹ per kg, a stepper, default set per crop from mock.ts.
+5. "How much do you lose to spoilage today?": a slider from 0 to 50%, default 20%, with the helper text "Your best guess is fine".
+6. "Days you sell per month": a stepper, 1 to 31, default 26.
+7. Product: ColdEasy Box or AutoBox – 3 Box. It is preselected on product pages and defaults to ColdEasy Box elsewhere.
+Every input updates the result live. There is no "Calculate" button.
+
+ASSUMPTIONS (in src/data/mock.ts, never hard-coded in the component)
+- spoilageReduction per crop as a range { low, high }. Use placeholder values (for example low 0.3, high 0.5) and mark them PLACEHOLDER in a code comment.
+- capacityKg per product (placeholder values) and the product price from the existing product data.
+- runningCostPerMonth per product (water, pad care), as a placeholder value.
+
+MATHS (show this logic exactly; keep it simple and conservative)
+- kgCovered = the smaller of kg per day and (capacityKg × units). Units defaults to 1.
+- lossToday per month = kg per day × spoilage % × price × days.
+- savedLow and savedHigh per month = kgCovered × spoilage % × spoilageReduction.low/high × price × days, minus runningCostPerMonth. Never show a value below 0.
+- paybackDays = product price ÷ (saved per month ÷ days). Show it as a range (from savedHigh to savedLow). If the payback is over 365 days, say "More than a year at this volume" rather than a number.
+- If kg per day is more than one unit can hold, show a note: "One [product] holds about [capacityKg] kg. You may need [N] units." Add a stepper to change the number of units, which updates kgCovered and the price.
+
+OUTPUT CARD (white, rounded 24px, sticky beside the inputs on desktop, below them on mobile)
+- Top line, small: "Today you may be losing about ₹[lossToday] a month to spoilage."
+- Hero number, large Montserrat in leaf: "You could save ₹[savedLow] – ₹[savedHigh] a month". Always show a range, never a single figure.
+- Two stat tiles: "Produce saved: [kg] kg/month" and "Pays for itself in about [N]–[N] days".
+- A small horizontal bar comparing "Lost today" (chilli tint) with "Lost with ColdEasy" (leaf tint). This is a simple CSS bar, not a chart library.
+- Right under the hero number, a dashed PlaceholderPill: "Estimate uses placeholder reduction rates. Verified test data coming soon."
+- Below it, a disclaimer in small ink-60 text: "This is an estimate, not a guarantee. Results depend on crop, weather, handling and how full the box is." Keep it visible, not hidden in a tooltip.
+- A collapsible "How we calculate this" panel showing the formula in plain words and the assumption values in use.
+- CTAs: a leaf pill "Buy [product]" (adds to cart with the chosen units), an outline pill "Send me this estimate on WhatsApp" (waLink with the context "Hi ColdEasy, my estimate: [crop], [kg] kg/day, saving ₹[low]–₹[high]/month. Can you help?"), and for FPO, or anyone above 150 kg/day, a text link "Get a bulk quote" that goes to #/enquiry/bulk with the crop, quantity and product prefilled.
+- Share: copy a link with the inputs encoded in the URL query, so the same result opens for whoever receives it.
+
+COMPACT MODE (product pages)
+Show only crop, kg per day, price and spoilage %, plus the hero range and the payback tiles. Add a "See full breakdown →" link to #/calculator that carries the current inputs.
+
+TRACKING
+Fire track("calculator_used") once per session, on the first input change, with the crop, kg, product and the savedLow and savedHigh values. Also fire track("calculator_cta") with the type (buy, whatsapp, bulk or share) when a CTA is clicked.
+
+COPY AND TONE
+Use plain words for a second-language reader: "spoil", "save", "pays for itself". Format numbers in Indian style (₹1,25,000), round money to the nearest ₹10 and kg to whole numbers. There must be no words like "guaranteed", "assured" or "100%".
+
+CHECK WHEN DONE
+At 360px, all inputs are reachable without horizontal scroll, the result updates instantly, the output card is visible after the last input without a long scroll, and the placeholder pill and disclaimer are always visible next to the savings number.
