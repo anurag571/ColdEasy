@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import {
   Play,
   Pause,
@@ -71,6 +72,7 @@ const STAGES: StageCallout[] = [
 ];
 
 export const SeecAnimationPlayer: React.FC = () => {
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -224,12 +226,12 @@ export const SeecAnimationPlayer: React.FC = () => {
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-leaf animate-pulse" />
           <span className="text-[11px] sm:text-xs font-heading font-bold uppercase tracking-wider text-ink">
-            Live Thermodynamic Flow
+            {t('seec.live')}
           </span>
         </div>
         <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sand text-[10px] sm:text-[11px] font-heading font-semibold uppercase tracking-wider text-ink-60">
           <Sparkles className="w-3 h-3 text-sky" />
-          <span>Continuous Passive Cycle</span>
+          <span>{t('seec.cycle')}</span>
         </div>
       </div>
 
@@ -256,7 +258,7 @@ export const SeecAnimationPlayer: React.FC = () => {
           type="button"
           onClick={() => setIsLightboxOpen(true)}
           className="absolute top-3 right-3 w-9 h-9 min-w-[36px] min-h-[36px] rounded-full bg-ink/70 hover:bg-ink text-white flex items-center justify-center shadow-md transition-all cursor-pointer z-20 group/btn"
-          aria-label="Expand animation to full screen"
+          aria-label={t('seec.expand')}
           title="Inspect high-definition schematic"
         >
           <Maximize2 className="w-4 h-4 text-white group-hover/btn:scale-110 transition-transform" />
@@ -287,7 +289,7 @@ export const SeecAnimationPlayer: React.FC = () => {
               type="button"
               onClick={togglePlay}
               className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all cursor-pointer"
-              aria-label={isPlaying ? 'Pause simulation' : 'Play simulation'}
+              aria-label={isPlaying ? t('seec.pause') : t('seec.play')}
             >
               {isPlaying ? (
                 <Pause className="w-4 h-4 fill-white" />
@@ -301,14 +303,14 @@ export const SeecAnimationPlayer: React.FC = () => {
               type="button"
               onClick={handleReplay}
               className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all cursor-pointer"
-              aria-label="Restart cycle"
+              aria-label={t('seec.restart')}
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
 
             {/* Active Stage Indicator */}
             <span className="text-[11px] sm:text-xs font-heading font-semibold tracking-wide ml-1 truncate max-w-[150px] sm:max-w-none">
-              {activeStage.label}
+              {t(`seec.${activeStage.id}.label`)}
             </span>
           </div>
 
@@ -349,7 +351,7 @@ export const SeecAnimationPlayer: React.FC = () => {
                     isActive ? 'bg-leaf text-white' : 'bg-ink/15 text-ink'
                   }`}
                 >
-                  {stage.badge}
+                  {t(`seec.${stage.id}.badge`)}
                 </span>
                 <span className="text-[10px] font-mono text-ink-40">{stage.time}s</span>
               </div>
@@ -358,7 +360,7 @@ export const SeecAnimationPlayer: React.FC = () => {
                   isActive ? 'text-leaf' : 'text-ink'
                 }`}
               >
-                {stage.label.replace(/^\d+\.\s*/, '')}
+                {t(`seec.${stage.id}.label`).replace(/^\d+\.\s*/, '')}
               </span>
             </button>
           );
@@ -375,10 +377,10 @@ export const SeecAnimationPlayer: React.FC = () => {
         </div>
         <div>
           <h5 className="font-heading font-bold text-xs uppercase tracking-wide text-ink">
-            {activeStage.title}
+            {t(`seec.${activeStage.id}.title`)}
           </h5>
           <p className="text-xs text-ink-60 leading-relaxed mt-0.5 font-body">
-            {activeStage.description}
+            {t(`seec.${activeStage.id}.desc`)}
           </p>
         </div>
       </div>
@@ -407,7 +409,7 @@ export const SeecAnimationPlayer: React.FC = () => {
                 type="button"
                 onClick={() => setIsLightboxOpen(false)}
                 className="w-10 h-10 rounded-full bg-sand hover:bg-leaf hover:text-white text-ink flex items-center justify-center transition-colors cursor-pointer"
-                aria-label="Close high-definition view"
+                aria-label={t('seec.close')}
               >
                 <X className="w-5 h-5" />
               </button>

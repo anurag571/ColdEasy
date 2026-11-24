@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SectionHeading } from '../components/SectionHeading';
+import { useLanguage } from '../context/LanguageContext';
 import { AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 
 export type PolicyType = 'terms' | 'privacy' | 'refund' | 'shipping';
@@ -9,6 +10,7 @@ interface PolicyPageProps {
 }
 
 export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
+  const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState<string>('intro');
   const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>('intro');
 
@@ -21,223 +23,189 @@ export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
     }
   > = {
     terms: {
-      title: 'TERMS & CONDITIONS',
+      title: t('policy.terms.title'),
       subtitle:
-        'Standard commercial and operational terms governing equipment sales and user interactions.',
+        t('policy.terms.sub'),
       sections: [
         {
           id: 'intro',
-          title: '1. Eligibility & Platform Use',
+          title: t('policy.terms.1.t'),
           content: (
             <p>
-              By accessing the ColdEasy web platform or placing an order for evaporative cooling
-              crates, you confirm that you are at least 18 years of age and competent to enter into
-              binding legal agreements under the Indian Contract Act, 1872. These services are
-              intended for agricultural producers, street vendors, retailers, and FPO cooperatives
-              operating in India.
+              {t('policy.terms.1.p')}
             </p>
           ),
         },
         {
           id: 'orders',
-          title: '2. Orders & Commercial Pricing',
+          title: t('policy.terms.2.t'),
           content: (
             <div className="space-y-2">
               <p>
-                All prices listed on the platform are in Indian Rupees (INR) and are inclusive of
-                applicable Goods and Services Tax (GST) unless explicitly itemized otherwise.
-                ColdEasy reserves the right to revise catalog pricing, batch availability, or
-                regional dispatch schedules.
+                {t('policy.terms.2.p1')}
               </p>
               <p>
-                Order confirmation occurs upon digital payment receipt or confirmed offline FPO
-                booking agreement.
+                {t('policy.terms.2.p2')}
               </p>
             </div>
           ),
         },
         {
           id: 'payments',
-          title: '3. Payments & Gateway Settlement',
+          title: t('policy.terms.3.t'),
           content: (
             <p>
-              Payments processed online are routed through RBI-authorized payment aggregators (e.g.,
-              Razorpay). ColdEasy does not store your debit card, credit card, or netbanking PIN
-              credentials on internal servers. For large institutional consignments, RTGS/NEFT
-              invoicing is facilitated directly by Temperate Technologies Pvt. Ltd.
+              {t('policy.terms.3.p')}
             </p>
           ),
         },
         {
           id: 'governing-law',
-          title: '4. Governing Law & Jurisdiction',
+          title: t('policy.terms.4.t'),
           content: (
             <p>
-              These terms are governed by and construed in accordance with the laws of India. Any
-              disputes arising in connection with equipment purchase shall be subject to the
-              exclusive jurisdiction of the competent courts in Bengaluru, Karnataka.
+              {t('policy.terms.4.p')}
             </p>
           ),
         },
         {
           id: 'grievance',
-          title: '5. Grievance Officer',
+          title: t('policy.terms.5.t'),
           content: (
             <div className="p-4 rounded-2xl bg-sand/60 border border-ink/5 space-y-1">
-              <p className="font-semibold text-ink">Grievance Redressal Officer:</p>
-              <p className="text-ink-60">Name: Rajesh Sharma (Director of Customer Trust)</p>
-              <p className="text-ink-60">Email: grievance@coldeasy.in</p>
-              <p className="text-ink-60">Response Time: Within 48 business hours</p>
+              <p className="font-semibold text-ink">{t('policy.terms.5.role')}</p>
+              <p className="text-ink-60">{t('policy.terms.5.name')}</p>
+              <p className="text-ink-60">{t('policy.terms.5.email')}</p>
+              <p className="text-ink-60">{t('policy.terms.5.time')}</p>
             </div>
           ),
         },
       ],
     },
     privacy: {
-      title: 'PRIVACY POLICY',
+      title: t('policy.privacy.title'),
       subtitle:
-        'How ColdEasy handles customer contact numbers, delivery addresses, and WhatsApp permissions.',
+        t('policy.privacy.sub'),
       sections: [
         {
           id: 'intro',
-          title: '1. Information We Collect',
+          title: t('policy.privacy.1.t'),
           content: (
             <p>
-              We collect essential personal data needed to fulfill equipment delivery and coordinate
-              rural logistics: full name, Indian mobile number (+91), shipping address, pin code,
-              and optional GSTIN for business tax invoices.
+              {t('policy.privacy.1.p')}
             </p>
           ),
         },
         {
           id: 'whatsapp',
-          title: '2. WhatsApp Communication & Consent',
+          title: t('policy.privacy.2.t'),
           content: (
             <p>
-              When you opt-in, we use WhatsApp to transmit dispatch updates, freight tracking
-              details, and seasonal harvest maintenance guides. You may opt out of promotional
-              broadcasts at any time by replying &quot;STOP&quot; on WhatsApp.
+              {t('policy.privacy.2.p')}
             </p>
           ),
         },
         {
           id: 'retention',
-          title: '3. Data Security & Retention',
+          title: t('policy.privacy.3.t'),
           content: (
             <p>
-              We apply industry-standard encryption protocols. Data is retained for a period of 24
-              months to comply with statutory accounting and tax regulations in India. We do not
-              sell or lease customer contact lists to third-party telemarketers.
+              {t('policy.privacy.3.p')}
             </p>
           ),
         },
         {
           id: 'grievance',
-          title: '4. Privacy Redressal',
+          title: t('policy.privacy.4.t'),
           content: (
             <p>
-              For queries or data deletion requests, email our data safety desk at
-              privacy@coldeasy.in.
+              {t('policy.privacy.4.p')}
             </p>
           ),
         },
       ],
     },
     refund: {
-      title: 'REFUND & CANCELLATION POLICY',
+      title: t('policy.refund.title'),
       subtitle:
-        'Inspection, return conditions, and replacement protocols for agricultural cooling hardware.',
+        t('policy.refund.sub'),
       sections: [
         {
           id: 'intro',
-          title: '1. Order Cancellation Window',
+          title: t('policy.refund.1.t'),
           content: (
             <p>
-              Orders may be cancelled free of charge prior to warehouse freight dispatch, typically
-              within 24 hours of order confirmation. Once crates have been loaded onto interstate
-              logistics carriers, standard return policies apply.
+              {t('policy.refund.1.p')}
             </p>
           ),
         },
         {
           id: 'damaged',
-          title: '2. Damaged or Defective Items',
+          title: t('policy.refund.2.t'),
           content: (
             <p>
-              In the rare event of transit damage or manufacturing defects in the SEEC pad or crate
-              housing, notify ColdEasy on WhatsApp within 48 hours of delivery with clear unboxing
-              photographs. We will arrange a free reverse pickup and dispatch a replacement unit
-              promptly.
+              {t('policy.refund.2.p')}
             </p>
           ),
         },
         {
           id: 'returns',
-          title: '3. Returns Window',
+          title: t('policy.refund.3.t'),
           content: (
             <p>
-              Unused hardware in original packaging may be returned within a return window of 7
-              business days from delivery date, subject to verification by our technical inspection
-              team.
+              {t('policy.refund.3.p')}
             </p>
           ),
         },
         {
           id: 'refunds',
-          title: '4. Refund Processing Timelines',
+          title: t('policy.refund.4.t'),
           content: (
             <p>
-              Approved refunds will be processed to the original payment method (or bank account via
-              UPI/NEFT for offline purchases) within 5–7 working days.
+              {t('policy.refund.4.p')}
             </p>
           ),
         },
       ],
     },
     shipping: {
-      title: 'SHIPPING & DELIVERY POLICY',
+      title: t('policy.ship.title'),
       subtitle:
-        'Logistics routes, freight handling, and expected arrival schedules across Indian agricultural regions.',
+        t('policy.ship.sub'),
       sections: [
         {
           id: 'intro',
-          title: '1. Dispatch & Delivery Timelines',
+          title: t('policy.ship.1.t'),
           content: (
             <p>
-              Orders are typically packaged and dispatched within 1–2 business days. Delivery across
-              tier-1 and tier-2 rural aggregation hubs generally arrives within 3–5 business days
-              depending on weather and road transit access.
+              {t('policy.ship.1.p')}
             </p>
           ),
         },
         {
           id: 'charges',
-          title: '2. Shipping Charges & Free Delivery',
+          title: t('policy.ship.2.t'),
           content: (
             <p>
-              Standard orders above ₹5,000 qualify for complimentary door or mandi hub delivery.
-              Orders below this threshold incur a nominal flat logistics charge of ₹250.
+              {t('policy.ship.2.p')}
             </p>
           ),
         },
         {
           id: 'unserviceable',
-          title: '3. Remote & Mountainous Coverage',
+          title: t('policy.ship.3.t'),
           content: (
             <p>
-              Certain remote pin codes (including selected mountain belts and island territories)
-              may require special transport coordination. Our team works directly with regional
-              transport unions to establish collection point delivery.
+              {t('policy.ship.3.p')}
             </p>
           ),
         },
         {
           id: 'tracking',
-          title: '4. Live Freight Tracking',
+          title: t('policy.ship.4.t'),
           content: (
             <p>
-              Customers receive instant WhatsApp notifications with consignee numbers upon dispatch,
-              and can monitor freight progression live at{' '}
+              {t('policy.ship.4.p')}{' '}
               <a href="#/track" className="text-leaf font-bold underline">
                 #/track
               </a>
@@ -258,19 +226,18 @@ export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
         <div className="mb-8 p-3.5 rounded-2xl bg-sand border border-ink/10 flex items-center justify-center gap-2.5 text-center text-xs text-ink font-body">
           <AlertCircle className="w-4 h-4 text-marigold shrink-0" />
           <span>
-            <strong>Draft structure.</strong> Final text to be supplied by ColdEasy&apos;s legal
-            advisor.
+            {t('policy.draft')}
           </span>
         </div>
 
         <SectionHeading title={currentPolicy.title} subtitle={currentPolicy.subtitle} />
 
-        {/* Desktop Layout: Table of Contents on Left, Content on Right */}
+        {/* Desktop Layout: {t('policy.toc')} on Left, Content on Right */}
         <div className="hidden lg:grid grid-cols-12 gap-8 items-start mt-8">
-          {/* Table of Contents (4 cols) */}
+          {/* {t('policy.toc')} (4 cols) */}
           <div className="col-span-4 sticky top-28 bg-white rounded-[24px] p-6 border border-ink/10 shadow-xs">
             <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-ink pb-3 border-b border-ink/10 mb-3">
-              Table of Contents
+              {t('policy.toc')}
             </h4>
             <nav className="space-y-1">
               {currentPolicy.sections.map((sec) => (

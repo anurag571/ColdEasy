@@ -127,10 +127,10 @@ export const ImpactPage: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-wider text-ink">
-              Our Three Pillars of Impact
+              {t('impact.pillars')}
             </h2>
             <p className="text-xs sm:text-sm text-ink-60 font-body mt-1">
-              Engineered to drive ecological, financial, and community agency simultaneously.
+              {t('impact.pillars_sub')}
             </p>
           </div>
 
@@ -142,17 +142,14 @@ export const ImpactPage: React.FC = () => {
                   <Leaf className="w-6 h-6" />
                 </div>
                 <h3 className="font-heading font-black text-lg uppercase tracking-wider text-ink mb-2">
-                  1. Sustainability
+                  {t('impact.p1')}
                 </h3>
                 <p className="text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  Operates with zero chemical refrigerants, zero ozone-depleting gasses, and zero
-                  reliance on fossil fuel generators. Evaporative cooling uses natural
-                  thermodynamics to drastically reduce the carbon footprint of post-harvest
-                  logistics.
+                  {t('impact.p1_body')}
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-ink/10 text-xs font-bold text-leaf font-heading uppercase">
-                Clean Thermal Physics
+                {t('impact.p1_foot')}
               </div>
             </div>
 
@@ -163,16 +160,14 @@ export const ImpactPage: React.FC = () => {
                   <TrendingUp className="w-6 h-6 text-leaf" />
                 </div>
                 <h3 className="font-heading font-black text-lg uppercase tracking-wider text-ink mb-2">
-                  2. Economic Resilience & Livelihoods
+                  {t('impact.p2')}
                 </h3>
                 <p className="text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  Protecting crop quality extends selling windows from hours into days. Farmers
-                  avoid mid-day panic selling, and micro-vendors avoid steep afternoon price
-                  discounts, protecting take-home margins and household security.
+                  {t('impact.p2_body')}
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-ink/10 text-xs font-bold text-leaf font-heading uppercase">
-                Income Protection
+                {t('impact.p2_foot')}
               </div>
             </div>
 
@@ -183,16 +178,14 @@ export const ImpactPage: React.FC = () => {
                   <Users className="w-6 h-6 text-sky" />
                 </div>
                 <h3 className="font-heading font-black text-lg uppercase tracking-wider text-ink mb-2">
-                  3. Agency & Equity
+                  {t('impact.p3')}
                 </h3>
                 <p className="text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  Decentralized, low-cost hardware places cooling capacity directly into the hands
-                  of women vendors, smallholders, and rural collectives who are excluded from
-                  capital-intensive industrial cold rooms.
+                  {t('impact.p3_body')}
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-ink/10 text-xs font-bold text-leaf font-heading uppercase">
-                Decentralized Access
+                {t('impact.p3_foot')}
               </div>
             </div>
           </div>
@@ -203,8 +196,8 @@ export const ImpactPage: React.FC = () => {
       <section className="w-full bg-[#FAF7F0] py-16 sm:py-24 border-b border-ink/10">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <SectionHeading
-            title="THE PEOPLE BEHIND THE NUMBERS"
-            subtitle="Verified deployment accounts from local retailers, growers, and collectives."
+            title={t('impact.people')}
+            subtitle={t('impact.people_sub')}
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -225,12 +218,12 @@ export const ImpactPage: React.FC = () => {
                   </div>
 
                   <span className="text-xs font-bold text-leaf uppercase tracking-wider block">
-                    {story.fpoRole}
+                    {t(`story.${story.id}.role`)}
                   </span>
-                  <span className="text-xs text-ink-60 block mt-0.5 font-medium">{story.crop}</span>
+                  <span className="text-xs text-ink-60 block mt-0.5 font-medium">{t(`story.${story.id}.crop`)}</span>
 
                   <blockquote className="mt-3 text-xs text-ink-70 italic font-body leading-relaxed">
-                    {story.quote}
+                    {t(`story.${story.id}.quote`)}
                   </blockquote>
                 </div>
 
@@ -239,7 +232,7 @@ export const ImpactPage: React.FC = () => {
                     href={`#/story/${story.id}`}
                     className="text-xs font-heading font-bold uppercase tracking-wider text-leaf hover:underline inline-flex items-center gap-1"
                   >
-                    <span>Read full story</span>
+                    <span>{t('impact.read')}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>
@@ -253,11 +246,10 @@ export const ImpactPage: React.FC = () => {
       <section className="w-full bg-white py-16 border-b border-ink/10">
         <div className="max-w-[900px] mx-auto px-4 sm:px-6 text-center">
           <h2 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-wider text-ink mb-3">
-            How We Measure
+            {t('impact.measure')}
           </h2>
           <p className="text-xs sm:text-sm text-ink-60 font-body max-w-xl mx-auto mb-8 leading-relaxed">
-            Every metric reported by ColdEasy is gathered through direct baseline and endline
-            surveys conducted with participating vendors, mandis, and farmer producer collectives.
+            {t('impact.measure_body')}
           </p>
 
           <button
@@ -265,7 +257,7 @@ export const ImpactPage: React.FC = () => {
             onClick={() => setIsMethodologyOpen(true)}
             className="py-3.5 px-8 rounded-full bg-ink text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-ink/85 transition-all shadow-md cursor-pointer"
           >
-            Explore our methodology & Impact Thesis →
+            {t('impact.method_btn')}
           </button>
         </div>
       </section>
@@ -277,8 +269,8 @@ export const ImpactPage: React.FC = () => {
       >
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <SectionHeading
-            title="RESOURCES & DEPLOYMENT ARCHIVES"
-            subtitle="Field documentation, technical research whitepapers, and deployment briefs."
+            title={t('impact.resources')}
+            subtitle={t('impact.resources_sub')}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -288,11 +280,10 @@ export const ImpactPage: React.FC = () => {
                   <BookOpen className="w-5 h-5" />
                 </div>
                 <h3 className="font-heading font-bold text-sm uppercase text-ink">
-                  SEEC Thermodynamic Overview
+                  {t('impact.r1')}
                 </h3>
                 <p className="mt-2 text-xs text-ink-60 font-body leading-relaxed">
-                  Technical whitepaper outlining the principles of passive evaporation and relative
-                  humidity retention in produce crates.
+                  {t('impact.r1_body')}
                 </p>
               </div>
               <div className="mt-6 pt-3 border-t border-ink/10 text-xs text-ink-40 font-heading font-semibold">
@@ -306,11 +297,10 @@ export const ImpactPage: React.FC = () => {
                   <ShieldCheck className="w-5 h-5 text-leaf" />
                 </div>
                 <h3 className="font-heading font-bold text-sm uppercase text-ink">
-                  Mandi Vendor Freshness Baseline
+                  {t('impact.r2')}
                 </h3>
                 <p className="mt-2 text-xs text-ink-60 font-body leading-relaxed">
-                  Field observations on daily vegetable weight loss, afternoon distress discounting,
-                  and retailer earnings stabilization.
+                  {t('impact.r2_body')}
                 </p>
               </div>
               <div className="mt-6 pt-3 border-t border-ink/10 text-xs text-ink-40 font-heading font-semibold">
@@ -324,11 +314,10 @@ export const ImpactPage: React.FC = () => {
                   <Users className="w-5 h-5 text-leaf" />
                 </div>
                 <h3 className="font-heading font-bold text-sm uppercase text-ink">
-                  FPO Decentralized Cold Chain Guide
+                  {t('impact.r3')}
                 </h3>
                 <p className="mt-2 text-xs text-ink-60 font-body leading-relaxed">
-                  Deployment handbook for farmer producer organizations seeking low-cost, off-grid
-                  harvest collection points.
+                  {t('impact.r3_body')}
                 </p>
               </div>
               <div className="mt-6 pt-3 border-t border-ink/10 text-xs text-ink-40 font-heading font-semibold">
@@ -344,31 +333,31 @@ export const ImpactPage: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="font-heading font-black text-xl sm:text-2xl uppercase tracking-wider text-ink">
-              Verified Deployments Across Key Agricultural Corridors
+              {t('impact.corridors')}
             </h2>
             <p className="text-xs text-ink-60 font-body mt-1">
-              Active pilots across Bihar, Maharashtra, Karnataka, and Andhra Pradesh.
+              {t('impact.corridors_sub')}
             </p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="p-4 rounded-2xl bg-sand/50 text-center border border-ink/5">
               <span className="font-heading font-bold text-base text-ink block">Bihar</span>
-              <span className="text-[11px] text-ink-60 font-body">Retail Vegetable Mandis</span>
+              <span className="text-[11px] text-ink-60 font-body">{t('impact.bihar')}</span>
             </div>
             <div className="p-4 rounded-2xl bg-sand/50 text-center border border-ink/5">
               <span className="font-heading font-bold text-base text-ink block">Maharashtra</span>
-              <span className="text-[11px] text-ink-60 font-body">Cut Flowers & Vegetables</span>
+              <span className="text-[11px] text-ink-60 font-body">{t('impact.mh')}</span>
             </div>
             <div className="p-4 rounded-2xl bg-sand/50 text-center border border-ink/5">
               <span className="font-heading font-bold text-base text-ink block">
                 Andhra Pradesh
               </span>
-              <span className="text-[11px] text-ink-60 font-body">Tomato Harvest Collectives</span>
+              <span className="text-[11px] text-ink-60 font-body">{t('impact.ap')}</span>
             </div>
             <div className="p-4 rounded-2xl bg-sand/50 text-center border border-ink/5">
               <span className="font-heading font-bold text-base text-ink block">Karnataka</span>
-              <span className="text-[11px] text-ink-60 font-body">Smallholder Farm Hubs</span>
+              <span className="text-[11px] text-ink-60 font-body">{t('impact.ka')}</span>
             </div>
           </div>
         </div>
@@ -378,15 +367,13 @@ export const ImpactPage: React.FC = () => {
       <section className="w-full bg-[#FAF7F0] py-14 border-b border-ink/10">
         <div className="max-w-[900px] mx-auto px-4 sm:px-6 text-center">
           <span className="text-xs font-heading font-bold uppercase tracking-wider text-leaf block mb-1">
-            Community Centered
+            {t('impact.community')}
           </span>
           <h3 className="font-heading font-black text-xl sm:text-2xl uppercase tracking-wider text-ink mb-3">
-            Designed for Grower Autonomy
+            {t('impact.autonomy')}
           </h3>
           <p className="text-xs sm:text-sm text-ink-70 font-body max-w-xl mx-auto leading-relaxed">
-            By avoiding costly centralized subscription models and electricity dependence, ColdEasy
-            enables farmers and micro-retailers to own their cold chain and preserve crop value
-            independently.
+            {t('impact.autonomy_body')}
           </p>
         </div>
       </section>
@@ -395,11 +382,10 @@ export const ImpactPage: React.FC = () => {
       <section className="w-full bg-white py-16 sm:py-20">
         <div className="max-w-[900px] mx-auto px-4 sm:px-6 text-center">
           <h2 className="font-heading font-black text-2xl sm:text-4xl uppercase tracking-wider text-ink mb-3">
-            Help us take affordable cooling further.
+            {t('impact.cta')}
           </h2>
           <p className="text-xs sm:text-sm text-ink-60 font-body max-w-md mx-auto mb-8">
-            Join our mission to eliminate post-harvest losses and build resilient, sustainable rural
-            food systems.
+            {t('impact.cta_body')}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -407,21 +393,21 @@ export const ImpactPage: React.FC = () => {
               href="#/products"
               className="w-full sm:w-auto py-3.5 px-8 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-leaf/90 transition-all shadow-md text-center"
             >
-              Deploy ColdEasy
+              {t('impact.deploy')}
             </a>
 
             <a
               href="#/partner/partner"
               className="w-full sm:w-auto py-3.5 px-8 rounded-full border-2 border-ink text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-all text-center"
             >
-              Partner with us
+              {t('impact.partner')}
             </a>
 
             <a
               href="#/contact"
               className="w-full sm:w-auto py-3.5 px-8 rounded-full border-2 border-ink text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-all text-center"
             >
-              Contact our team
+              {t('impact.contact')}
             </a>
           </div>
         </div>
@@ -443,42 +429,38 @@ export const ImpactPage: React.FC = () => {
               type="button"
               onClick={() => setIsMethodologyOpen(false)}
               className="absolute top-5 right-5 p-2 rounded-full text-ink-60 hover:text-ink hover:bg-sand cursor-pointer transition-colors"
-              aria-label="Close dialog"
+              aria-label={t('impact.close')}
             >
               <X className="w-5 h-5" />
             </button>
 
             <h3 className="font-heading font-black text-xl uppercase tracking-wider text-ink mb-2">
-              Our Methodology & Impact Thesis
+              {t('impact.method_title')}
             </h3>
             <p className="text-xs sm:text-sm text-ink-60 font-body mb-6">
-              How we evaluate shelf life extension, distress sales prevention, and vendor income
-              stabilization.
+              {t('impact.method_sub')}
             </p>
 
             <div className="space-y-4 text-xs sm:text-sm text-ink-70 font-body">
               <div className="p-4 rounded-xl bg-sand/50 border border-ink/5">
                 <strong className="block text-ink font-heading uppercase text-xs mb-1">
-                  Baseline Field Mapping
+                  {t('impact.m1')}
                 </strong>
-                Structured tracking of ambient daily temperatures, vendor produce intake weights,
-                and mid-day spoilage discard volumes.
+                {t('impact.m1_body')}
               </div>
 
               <div className="p-4 rounded-xl bg-sand/50 border border-ink/5">
                 <strong className="block text-ink font-heading uppercase text-xs mb-1">
-                  Controlled Harvest Comparison
+                  {t('impact.m2')}
                 </strong>
-                Produce batches divided equally between standard open-crate handling and ColdEasy
-                SEEC passive evaporative crates.
+                {t('impact.m2_body')}
               </div>
 
               <div className="p-4 rounded-xl bg-sand/50 border border-ink/5">
                 <strong className="block text-ink font-heading uppercase text-xs mb-1">
-                  Economic Realization Tracking
+                  {t('impact.m3')}
                 </strong>
-                Measuring evening distress price deductions, percentage of produce retained for
-                next-day premium sale, and net income delta.
+                {t('impact.m3_body')}
               </div>
 
               <p className="text-[11px] text-ink-40 italic mt-4">

@@ -212,9 +212,9 @@ export const SciencePage: React.FC = () => {
           Crop selector: Banana | Tomato | Mango
           Large tomato visual with floating data cards over it
           Ambient Day 8: Freshness "8 Days", Marketability "~13%" gauge,
-          Weight Loss "—", pH "Data to be added", Firmness "Declining"
+          Weight Loss "—", pH "{t('sci.data')}", Firmness "Declining"
           Toggle button "VIEW TOMATOES IN COLDEASY BOX ->" flips values to "—" /
-          "Data to be added", and button becomes "VIEW AMBIENT RESULTS ->"
+          "{t('sci.data')}", and button becomes "VIEW AMBIENT RESULTS ->"
           Never invent numeric ColdEasy data!
           ========================================================================= */}
       <section className="w-full bg-[#F4EFE6] py-16 sm:py-24 border-b border-ink/10">
@@ -393,7 +393,7 @@ export const SciencePage: React.FC = () => {
                     {isColdEasyView ? '—' : '[TBC]'}
                   </div>
                   <span className="text-[10px] text-ink-40 font-body">
-                    {isColdEasyView ? 'Data to be added' : 'Days under observation'}
+                    {isColdEasyView ? t('sci.data') : t('sci.days_watch')}
                   </span>
                 </div>
 
@@ -441,7 +441,7 @@ export const SciencePage: React.FC = () => {
                     {isColdEasyView ? '—' : '[TBC]'}
                   </div>
                   <span className="text-[10px] text-ink-40 font-body">
-                    {isColdEasyView ? 'Data to be added' : 'Remaining saleable grade'}
+                    {isColdEasyView ? t('sci.data') : t('sci.saleable')}
                   </span>
                 </div>
 
@@ -461,7 +461,7 @@ export const SciencePage: React.FC = () => {
                   >
                     —
                   </div>
-                  <span className="text-[10px] text-ink-40 font-body">Data to be added</span>
+                  <span className="text-[10px] text-ink-40 font-body">{t('sci.data')}</span>
                 </div>
 
                 {/* 4. pH */}
@@ -478,7 +478,7 @@ export const SciencePage: React.FC = () => {
                     className="mt-1 font-heading font-semibold text-base text-ink animate-metric-breath"
                     style={{ animationDelay: '1350ms' }}
                   >
-                    Data to be added
+                    {t('sci.data')}
                   </div>
                   <span className="text-[10px] text-ink-40 font-body">Acidity retention assay</span>
                 </div>
@@ -506,7 +506,7 @@ export const SciencePage: React.FC = () => {
                     </div>
                   </div>
                   <span className="text-xs text-ink-40 font-body">
-                    {isColdEasyView ? 'Data to be added' : 'Cellular turgor pressure loss'}
+                    {isColdEasyView ? t('sci.data') : t('sci.turgor')}
                   </span>
                 </div>
               </div>
@@ -537,13 +537,13 @@ export const SciencePage: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-heading font-bold uppercase tracking-wider text-chilli">
-              Environmental Degradation Mechanics
+              {t('sci.lose_kicker')}
             </span>
             <h2 className="font-heading font-black text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider text-ink mt-1">
-              What happens when produce loses the right environment?
+              {t('sci.lose_title')}
             </h2>
             <p className="text-xs sm:text-sm text-ink-60 font-body mt-2">
-              Two distinct environmental breakdown pathways trigger rapid post-harvest collapse.
+              {t('sci.lose_sub')}
             </p>
           </div>
 
@@ -568,19 +568,18 @@ export const SciencePage: React.FC = () => {
                   </div>
                 </div>
                 <h3 className="font-heading font-black text-lg uppercase tracking-wider text-chilli">
-                  High Temperature
+                  {t('sci.hot')}
                 </h3>
                 <p className="mt-3 text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  Triggers accelerated respiration rates, rapid sugar breakdown, accelerated
-                  ripening, and swift cellular deterioration within hours of harvest.
+                  {t('sci.hot_body')}
                 </p>
               </div>
               <div className="mt-5 pt-4 border-t border-ink/10 flex items-center gap-2 text-xs font-heading font-bold text-chilli animate-metric-breath">
-                <span>Respiration</span>
+                <span>{t('sci.resp')}</span>
                 <span>→</span>
-                <span>Ripening</span>
+                <span>{t('sci.ripe')}</span>
                 <span>→</span>
-                <span>Deterioration</span>
+                <span>{t('sci.decay')}</span>
               </div>
             </div>
 
@@ -603,22 +602,21 @@ export const SciencePage: React.FC = () => {
                   </div>
                 </div>
                 <h3 className="font-heading font-black text-lg uppercase tracking-wider text-leaf">
-                  Low Humidity
+                  {t('sci.dry')}
                 </h3>
                 <p className="mt-3 text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  Draws moisture out of crop skin and foliage, causing immediate weight loss,
-                  physical shrinkage, surface wrinkling, and wilting.
+                  {t('sci.dry_body')}
                 </p>
               </div>
               <div
                 className="mt-5 pt-4 border-t border-ink/10 flex items-center gap-2 text-xs font-heading font-bold text-leaf animate-metric-breath"
                 style={{ animationDelay: '1200ms' }}
               >
-                <span>Moisture Loss</span>
+                <span>{t('sci.moist')}</span>
                 <span>→</span>
-                <span>Weight Loss</span>
+                <span>{t('sci.weight')}</span>
                 <span>→</span>
-                <span>Wilting</span>
+                <span>{t('sci.wilt')}</span>
               </div>
             </div>
           </div>
@@ -631,10 +629,10 @@ export const SciencePage: React.FC = () => {
               aria-hidden="true"
             />
             <span className="text-[11px] font-heading font-bold uppercase tracking-widest text-ink-60 block">
-              Both Pathways Converge On:
+              {t('sci.converge')}
             </span>
             <div className="mt-2 font-heading font-black text-lg sm:text-2xl text-chilli uppercase tracking-wider">
-              LOWER QUALITY + SHORTER SELLING WINDOW
+              {t('sci.converge_line')}
             </div>
           </div>
 
@@ -642,29 +640,25 @@ export const SciencePage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-6">
             <div className="p-6 sm:p-7 rounded-[26px] bg-white border-2 border-ink/10 shadow-xs hover:border-leaf/40 transition-colors">
               <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-leaf">
-                Impact On Aggregators
+                {t('sci.farm_kicker')}
               </span>
               <h4 className="font-heading font-black text-lg uppercase tracking-wider text-ink mt-1 mb-2">
-                Farmers
+                {t('sci.farmers')}
               </h4>
               <p className="text-xs sm:text-sm text-ink-60 font-body leading-relaxed">
-                Forced into immediate distress selling at farm gates or wholesale mandis. Inability
-                to hold produce past mid-day leads to heavy volume discards and depressed seasonal
-                earnings.
+                {t('sci.farm_body')}
               </p>
             </div>
 
             <div className="p-6 sm:p-7 rounded-[26px] bg-white border-2 border-ink/10 shadow-xs hover:border-marigold/40 transition-colors">
               <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-marigold">
-                Impact On Last-Mile Markets
+                {t('sci.vendor_kicker')}
               </span>
               <h4 className="font-heading font-black text-lg uppercase tracking-wider text-ink mt-1 mb-2">
-                Vendors & Retailers
+                {t('sci.vendors')}
               </h4>
               <p className="text-xs sm:text-sm text-ink-60 font-body leading-relaxed">
-                Produce wilts and shrinks under open sunlight. Vendors must discount prices
-                drastically by evening or dump unsellable inventory, eroding thin daily profit
-                margins.
+                {t('sci.vendor_body')}
               </p>
             </div>
           </div>
@@ -672,7 +666,7 @@ export const SciencePage: React.FC = () => {
           {/* Ending Headline */}
           <div className="mt-12 text-center">
             <span className="inline-block font-heading font-black text-xs sm:text-sm uppercase tracking-widest text-leaf bg-leaf-light px-5 py-2.5 rounded-full border border-leaf/25 shadow-2xs">
-              THE NEED FOR BETTER POST-HARVEST INFRASTRUCTURE
+              {t('sci.need')}
             </span>
           </div>
         </div>
@@ -689,31 +683,20 @@ export const SciencePage: React.FC = () => {
       <section className="w-full bg-[#FAF7F0] py-16 sm:py-24 border-b border-ink/10">
         <div className="max-w-[900px] mx-auto px-4 sm:px-6 text-center">
           <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-ink-60 mb-2">
-            So, How Can We Create a Better Post-Harvest Environment?
+            {t('sci.ask')}
           </p>
 
           <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl uppercase tracking-wider text-ink mb-8 leading-tight">
-            ColdEasy Box: Reimagining Post-Harvest Cooling
+            {t('sci.box_title')}
           </h2>
 
           <div className="space-y-6 text-sm sm:text-base text-ink-80 font-body leading-relaxed max-w-2xl mx-auto">
             <p>
-              ColdEasy Box uses passive cooling technology to create a controlled storage
-              environment for fresh produce. The system uses water evaporation and airflow to
-              maintain lower storage temperatures and improved humidity levels. This helps slow down
-              the deterioration of fruits and vegetables while preserving their freshness.
+              {t('sci.box_p1')}
             </p>
             <p className="text-base sm:text-lg">
-              <strong className="text-leaf font-heading font-bold">
-                ColdEasy takes a different approach.
-              </strong>{' '}
-              By deploying{' '}
-              <strong className="text-leaf font-heading font-extrabold underline decoration-leaf/40 underline-offset-4">
-                SEEC
-              </strong>{' '}
-              (Structurally Enhanced Evaporative Cooling) technology, the system operates without
-              conventional refrigeration compressors or electricity, providing an accessible cold
-              chain solution directly at farm gates and local markets.
+              <strong className="text-leaf font-heading font-bold">{t('sci.box_lead')}</strong>{' '}
+              {t('sci.box_p2')}
             </p>
           </div>
         </div>
@@ -741,14 +724,13 @@ export const SciencePage: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-heading font-bold uppercase tracking-wider text-sky">
-              Proprietary Thermodynamic System
+              {t('sci.seec_kicker')}
             </span>
             <h2 className="font-heading font-black text-2xl sm:text-4xl uppercase tracking-wider text-ink mt-1">
-              SEEC TECHNOLOGY
+              {t('sci.seec_title')}
             </h2>
             <p className="text-xs sm:text-sm text-ink-60 font-body mt-2">
-              Structurally Enhanced Evaporative Cooling engineered for rural farm and retail
-              conditions.
+              {t('sci.seec_sub')}
             </p>
           </div>
 
@@ -756,55 +738,47 @@ export const SciencePage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-16">
             {/* Left: Huge Stacked Words */}
             <div className="lg:col-span-5 font-heading font-black text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight uppercase flex flex-col select-none py-2">
-              <span className="text-ink">Structurally</span>
-              <span className="text-sky">Enhanced</span>
-              <span className="text-ink">Evaporative</span>
-              <span className="text-leaf">Cooling</span>
+              <span className="text-ink">{t('sci.w_struct')}</span>
+              <span className="text-sky">{t('sci.w_enhanced')}</span>
+              <span className="text-ink">{t('sci.w_evap')}</span>
+              <span className="text-leaf">{t('sci.w_cool')}</span>
             </div>
 
             {/* Right: What is SEEC / How it works / What it achieves / What is it best for? */}
             <div className="lg:col-span-7 space-y-4">
               <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F0] border border-ink/5 shadow-2xs">
                 <h4 className="font-heading font-extrabold text-sm uppercase tracking-wider text-ink mb-1">
-                  What is SEEC
+                  {t('sci.what')}
                 </h4>
                 <p className="text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  Structurally Enhanced Evaporative Cooling (SEEC) is a proprietary passive cooling
-                  approach that relies on natural thermodynamic phase change to absorb latent heat
-                  without chemical refrigerants or electricity.
+                  {t('sci.what_body')}
                 </p>
               </div>
 
               <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F0] border border-ink/5 shadow-2xs">
                 <h4 className="font-heading font-extrabold text-sm uppercase tracking-wider text-ink mb-1">
-                  How it works
+                  {t('sci.how')}
                 </h4>
                 <p className="text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  The water tank sits at the base of the crate. Two high-surface SEEC pads stand
-                  vertically in the reservoir and continuously absorb water upward through capillary
-                  wicking. Warm, dry outside air enters through side louvers, water evaporates and
-                  absorbs heat molecules, and cool humid air blankets the produce chamber before
-                  leaving through natural roof relief vents.
+                  {t('sci.how_body')}
                 </p>
               </div>
 
               <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F0] border border-ink/5 shadow-2xs">
                 <h4 className="font-heading font-extrabold text-sm uppercase tracking-wider text-ink mb-1">
-                  What it achieves
+                  {t('sci.achieve')}
                 </h4>
                 <p className="text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  Dramatically lowers internal storage temperatures and preserves natural produce
-                  relative humidity to arrest weight loss and retain marketable appearance.
+                  {t('sci.achieve_body')}
                 </p>
               </div>
 
               <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F0] border border-ink/5 shadow-2xs">
                 <h4 className="font-heading font-extrabold text-sm uppercase tracking-wider text-ink mb-1">
-                  What is it best for?
+                  {t('sci.best')}
                 </h4>
                 <p className="text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  Designed specifically for fresh fruits, vegetables, and cut flowers. Not designed
-                  for meat, fish, or dairy products which require sub-zero frozen temperatures.
+                  {t('sci.best_body')}
                 </p>
               </div>
 
@@ -815,27 +789,7 @@ export const SciencePage: React.FC = () => {
                   aria-hidden="true"
                 />
                 <Info className="w-4 h-4 text-leaf shrink-0 mt-0.5" />
-                <span>
-                  *Temperature drop (
-                  <strong className="not-italic font-heading font-bold text-ink animate-metric-breath inline-block">
-                    10–15°C
-                  </strong>
-                  ), shelf-life extension (
-                  <strong
-                    className="not-italic font-heading font-bold text-leaf animate-metric-breath inline-block"
-                    style={{ animationDelay: '700ms' }}
-                  >
-                    [TBC]
-                  </strong>
-                  ), and relative humidity (
-                  <strong
-                    className="not-italic font-heading font-bold text-sky animate-metric-breath inline-block"
-                    style={{ animationDelay: '1400ms' }}
-                  >
-                    ~80%
-                  </strong>
-                  ) are pending verified testing.
-                </span>
+                <span>{t('sci.note')}</span>
               </div>
             </div>
           </div>
@@ -844,15 +798,13 @@ export const SciencePage: React.FC = () => {
           <div className="bg-[#FAF7F0] rounded-[32px] p-6 sm:p-10 border border-ink/10 shadow-sm">
             <div className="text-center mb-8">
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-leaf">
-                Engineering Blueprint
+                {t('sci.blue')}
               </span>
               <h3 className="font-heading font-black text-xl sm:text-2xl uppercase tracking-wider text-ink mt-1">
-                SEEC Airflow & Thermodynamic Cycle
+                {t('sci.cycle')}
               </h3>
               <p className="text-xs text-ink-60 font-body max-w-xl mx-auto mt-1">
-                Water tank at the BASE; two SEEC pads stand in it and absorb water upward; warm dry
-                air enters through pads, cools by evaporation, flows over produce chamber, leaves
-                through roof vents with ethylene; zero fan.
+                {t('sci.cycle_sub')}
               </p>
             </div>
 
@@ -864,10 +816,10 @@ export const SciencePage: React.FC = () => {
             {/* Closing Statement */}
             <div className="mt-12 text-center max-w-xl mx-auto space-y-2">
               <p className="font-heading font-black text-xl sm:text-2xl uppercase tracking-wider text-leaf">
-                WATER + AIR + ENGINEERING → PASSIVE COOLING
+                {t('sci.formula')}
               </p>
               <p className="text-xs sm:text-sm text-ink-60 font-body">
-                The physics is simple. The engineering makes it practical.
+                {t('sci.simple')}
               </p>
             </div>
           </div>
@@ -877,18 +829,18 @@ export const SciencePage: React.FC = () => {
       {/* =========================================================================
           7. LAB TESTING
           3 Crop Tabs: Banana | Tomato | Mango
-          Empty chart placeholders ("Data to be added") per brief
+          Empty chart placeholders ("{t('sci.data')}") per brief
           ========================================================================= */}
       <section className="w-full bg-sand py-16 sm:py-24">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
           <span className="text-xs font-heading font-bold uppercase tracking-wider text-leaf">
-            Empirical Validation
+            {t('sci.lab_kicker')}
           </span>
           <h2 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-wider text-ink mt-1 mb-2">
-            Lab Testing & Documentation
+            {t('sci.lab_title')}
           </h2>
           <p className="text-xs sm:text-sm text-ink-60 font-body mb-8">
-            Evaluation data across commodity crops under controlled humidity chambers.
+            {t('sci.lab_sub')}
           </p>
 
           {/* 3 Crop Tabs */}
@@ -909,7 +861,7 @@ export const SciencePage: React.FC = () => {
             ))}
           </div>
 
-          {/* Empty Chart Placeholders per brief ("Data to be added") with subtle indicator pulses */}
+          {/* Empty Chart Placeholders per brief ("{t('sci.data')}") with subtle indicator pulses */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="relative bg-white rounded-[24px] p-6 border border-ink/10 shadow-xs flex flex-col justify-between min-h-[220px]">
               <span
@@ -931,20 +883,20 @@ export const SciencePage: React.FC = () => {
                   </div>
                 </div>
                 <span className="text-[11px] font-heading font-bold uppercase tracking-wider text-ink-60 block">
-                  Temperature Profile ({selectedLabCrop})
+                  {t('sci.temp_profile', { crop: t(CROP_KEYS[selectedLabCrop]) })}
                 </span>
                 <p className="text-xs text-ink-40 font-body mt-1">
-                  Chamber thermal curve over 7-day period.
+                  {t('sci.temp_note')}
                 </p>
               </div>
               <div className="h-28 rounded-xl bg-sand/60 border border-dashed border-ink/20 flex flex-col items-center justify-center p-3 text-center my-4">
                 <span className="text-xs font-heading font-bold text-ink-60 uppercase tracking-wider">
-                  Data to be added
+                  {t('sci.data')}
                 </span>
                 <span className="text-[10px] text-ink-40 mt-1">// TODO(client): Lab curve</span>
               </div>
               <div className="text-[10px] text-ink-40 text-left font-mono">
-                Status: Pending verification
+                {t('sci.pending')}
               </div>
             </div>
 
@@ -968,20 +920,20 @@ export const SciencePage: React.FC = () => {
                   </div>
                 </div>
                 <span className="text-[11px] font-heading font-bold uppercase tracking-wider text-ink-60 block">
-                  Relative Humidity ({selectedLabCrop})
+                  {t('sci.rh_profile', { crop: t(CROP_KEYS[selectedLabCrop]) })}
                 </span>
                 <p className="text-xs text-ink-40 font-body mt-1">
-                  Moisture vapor density retention.
+                  {t('sci.rh_note')}
                 </p>
               </div>
               <div className="h-28 rounded-xl bg-sand/60 border border-dashed border-ink/20 flex flex-col items-center justify-center p-3 text-center my-4">
                 <span className="text-xs font-heading font-bold text-ink-60 uppercase tracking-wider">
-                  Data to be added
+                  {t('sci.data')}
                 </span>
                 <span className="text-[10px] text-ink-40 mt-1">// TODO(client): RH dataset</span>
               </div>
               <div className="text-[10px] text-ink-40 text-left font-mono">
-                Status: Pending verification
+                {t('sci.pending')}
               </div>
             </div>
 
@@ -1005,22 +957,22 @@ export const SciencePage: React.FC = () => {
                   </div>
                 </div>
                 <span className="text-[11px] font-heading font-bold uppercase tracking-wider text-ink-60 block">
-                  Firmness & Weight Retention ({selectedLabCrop})
+                  {t('sci.firm_profile', { crop: t(CROP_KEYS[selectedLabCrop]) })}
                 </span>
                 <p className="text-xs text-ink-40 font-body mt-1">
-                  Penetrometer readings & mass delta.
+                  {t('sci.firm_note')}
                 </p>
               </div>
               <div className="h-28 rounded-xl bg-sand/60 border border-dashed border-ink/20 flex flex-col items-center justify-center p-3 text-center my-4">
                 <span className="text-xs font-heading font-bold text-ink-60 uppercase tracking-wider">
-                  Data to be added
+                  {t('sci.data')}
                 </span>
                 <span className="text-[10px] text-ink-40 mt-1">
                   // TODO(client): Firmness assay
                 </span>
               </div>
               <div className="text-[10px] text-ink-40 text-left font-mono">
-                Status: Pending verification
+                {t('sci.pending')}
               </div>
             </div>
           </div>

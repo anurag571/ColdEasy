@@ -90,4 +90,4 @@ English copy for the header, footer, home, product cards, and contact page is in
 
 Those files now hold a first draft of the header, home, stories, questions, press lines, product descriptions, About, Impact, and the Science introduction. ColdEasy, SEEC, and AutoBox stay in English. A named reviewer should still correct each file before the wording is treated as final. Replace any line in the matching file and save.
 
-The header menu shows each language in its own script. The choice is saved in the browser. Checkout, the calculator, and the legal pages stay in English. The lower Science charts and lab notes also stay in English until their copy is added.
+The header menu shows each language in its own script. The choice is saved in the browser. Home, How it Works, Science, Impact, checkout, the savings calculator, and the legal pages use the selected language. These translations are drafts until ColdEasy approves the final wording.

@@ -145,12 +145,11 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
         ? AIRFLOW_STEPS[AIRFLOW_STEPS.length - 1]
         : AIRFLOW_STEPS[0];
 
-  const currentStepTitle =
-    viewPerspective === 'hardware' ? currentHardwareStep.title : currentAirflowStep.title;
-  const currentStepDesc =
-    viewPerspective === 'hardware'
-      ? currentHardwareStep.description
-      : currentAirflowStep.description;
+  const stepPrefix = viewPerspective === 'hardware' ? 'works.hw' : 'works.air';
+  const stepId =
+    viewPerspective === 'hardware' ? currentHardwareStep.id : currentAirflowStep.id;
+  const currentStepTitle = t(`${stepPrefix}.${stepId}.title`);
+  const currentStepDesc = t(`${stepPrefix}.${stepId}.desc`);
   const currentStepNum =
     viewPerspective === 'hardware'
       ? currentHardwareStepIndex !== -1
@@ -457,14 +456,16 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
                 type="button"
                 onClick={startPlayback}
                 className="absolute inset-0 flex flex-col items-center justify-center bg-ink/25 hover:bg-ink/35 active:bg-ink/45 transition-colors z-20 cursor-pointer group/play"
-                aria-label="Play video"
+                aria-label={t('works.play')}
               >
                 <div className="w-16 h-16 rounded-full bg-leaf text-white flex items-center justify-center shadow-2xl group-hover/play:scale-110 active:scale-95 transition-transform">
                   <Play className="w-7 h-7 ml-1 fill-white" />
                 </div>
                 <span className="mt-3 px-4 py-1.5 rounded-full bg-ink/80 backdrop-blur-xs text-white text-xs font-heading font-semibold uppercase tracking-wider shadow">
-                  Watch{' '}
-                  {viewPerspective === 'hardware' ? 'Hardware Assembly (56s)' : 'SEEC Airflow (8s)'}
+                  {t('works.watch', {
+                    clip:
+                      viewPerspective === 'hardware' ? t('works.watch_hw') : t('works.watch_air'),
+                  })}
                 </span>
               </button>
             )}
@@ -473,7 +474,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               type="button"
               onClick={togglePlay}
               className="absolute bottom-4 right-4 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#251A10]/70 hover:bg-[#251A10]/90 text-white flex items-center justify-center transition-all cursor-pointer shadow-md z-20"
-              aria-label={isPlaying ? 'Pause video' : 'Play video'}
+              aria-label={isPlaying ? t('works.pause') : t('works.play')}
             >
               {isPlaying ? (
                 <Pause className="w-5 h-5 fill-white text-white" />
@@ -498,12 +499,12 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-xs font-mono font-bold text-ink-60 uppercase tracking-wider">
-                    Step {currentStepNum} of {totalSteps}
+                    {t('works.step', { n: currentStepNum, total: totalSteps })}
                   </span>
                   <span className="text-[10px] font-heading font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-leaf-light text-leaf">
                     {viewPerspective === 'hardware'
                       ? `00:${Math.floor(currentTime).toString().padStart(2, '0')}s`
-                      : 'Active Thermodynamics'}
+                      : t('works.thermo')}
                   </span>
                 </div>
                 <h4 className="font-heading font-black text-lg text-ink mt-1">
@@ -533,7 +534,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
                       }`}
                     >
                       <span>{idx + 1}.</span>
-                      <span className="hidden sm:inline">{s.title.split(' ')[0]}</span>
+                      <span className="hidden sm:inline">{t(`works.hw.${s.id}.chip`)}</span>
                     </button>
                   );
                 })
@@ -551,7 +552,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
                       }`}
                     >
                       <span>{idx + 1}.</span>
-                      <span>{s.title.split(' ')[0]}</span>
+                      <span>{t(`works.air.${s.id}.chip`)}</span>
                     </button>
                   );
                 })}
@@ -560,14 +561,14 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
           {/* Verified Thermal Specification Footer */}
           <div className="mt-6 pt-4 border-t border-ink/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2">
-              <span className="text-ink-60 font-body">Measured temperature drop:</span>
+              <span className="text-ink-60 font-body">{t('works.temp_label')}</span>
               <span className="font-heading font-bold text-leaf bg-leaf-light px-3 py-1 rounded-full">
-                8°C – 12°C below ambient
+                {t('works.temp_value')}
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-ink-70 font-heading font-semibold">
               <Sparkles className="w-4 h-4 text-marigold" />
-              <span>Cooling without electricity</span>
+              <span>{t('works.no_power')}</span>
             </div>
           </div>
         </div>
@@ -581,7 +582,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
           }`}
         >
           <p className="font-heading font-extrabold text-2xl sm:text-3xl uppercase tracking-wide text-ink">
-            Cooling without electricity.
+            {t('works.no_power_end')}
           </p>
           <div className="mt-3">
             <button
@@ -590,7 +591,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-ink/30 bg-white hover:bg-sand text-ink text-xs font-heading font-bold uppercase tracking-wider transition-all cursor-pointer shadow-xs active:scale-95"
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Replay Animation</span>
+              <span>{t('works.replay')}</span>
             </button>
           </div>
         </div>

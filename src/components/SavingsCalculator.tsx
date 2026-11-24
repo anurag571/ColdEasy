@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { PRODUCTS } from '../data/mock';
+import { useLanguage } from '../context/LanguageContext';
 
 export interface CalculatorCropAssumption {
   id: string;
@@ -97,15 +98,10 @@ export interface SavingsCalculatorProps {
 }
 
 const PERSONAS: { id: UserPersona; label: string; sub: string; icon: string }[] = [
-  { id: 'Farmer', label: 'Farmer / Grower', sub: 'Field harvest & shed storage', icon: '🚜' },
-  {
-    id: 'Vendor or retailer',
-    label: 'Vendor / Retailer',
-    sub: 'Mandi stall & pushcart',
-    icon: '🛒',
-  },
-  { id: 'FPO', label: 'FPO / Collective', sub: 'Collection & cluster hub', icon: '🏢' },
-  { id: 'Other', label: 'Other Business', sub: 'Catering, kitchen, logistics', icon: '📦' },
+  { id: 'Farmer', label: 'calc.who.farmer', sub: 'calc.who.farmer_sub', icon: '🚜' },
+  { id: 'Vendor or retailer', label: 'calc.who.vendor', sub: 'calc.who.vendor_sub', icon: '🛒' },
+  { id: 'FPO', label: 'calc.who.fpo', sub: 'calc.who.fpo_sub', icon: '🏢' },
+  { id: 'Other', label: 'calc.who.other', sub: 'calc.who.other_sub', icon: '📦' },
 ];
 
 const CROP_ICONS: Record<string, string> = {
@@ -193,6 +189,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
   className = '',
   onShowToast,
 }) => {
+  const { t } = useLanguage();
   const { addToCart, setIsCartOpen } = useCart();
   const [hasTrackedFirstChange, setHasTrackedFirstChange] = useState(() => {
     try {
@@ -398,7 +395,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
     const savedLowMonthly = Math.max(0, Math.round(savedLowRaw / 10) * 10);
     const savedHighMonthly = Math.max(0, Math.round(savedHighRaw / 10) * 10);
 
-    // Produce saved in kg/month
+    // {t('calc.saved')} in kg/month
     const produceSavedLowMonthly = Math.round(
       kgCovered * spoilageFraction * activeCrop.spoilageReduction.low * daysPerMonth,
     );
@@ -530,7 +527,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
       crop: activeCrop.name,
       kg: kgPerDay,
     });
-    const message = `Hi ColdEasy! I checked the savings calculator for my harvest:\n• Crop: ${activeCrop.name}\n• Daily Volume: ${kgPerDay} kg/day\n• Selling Price: ₹${pricePerKg}/kg\n• Estimated Spoilage Today: ${spoilagePct}%\n• Hardware: ${units} × ${activeProductAssumption.name}\n• Estimated Net Savings: ₹${calculations.savedLowMonthly.toLocaleString('en-IN')}–₹${calculations.savedHighMonthly.toLocaleString('en-IN')}/month\n• Payback: ${calculations.paybackText}\n\nCould you please help me with availability and doorstep delivery?`;
+    const message = `Hi ColdEasy! I checked the savings calculator for my harvest:\n• Crop: ${activeCrop.name}\n• Daily Volume: ${t('calc.per_day', { kg: kgPerDay })}\n• Selling Price: ₹${pricePerKg}/kg\n• Estimated Spoilage Today: ${spoilagePct}%\n• Hardware: ${units} × ${activeProductAssumption.name}\n• Estimated Net Savings: ₹${calculations.savedLowMonthly.toLocaleString('en-IN')}–₹${calculations.savedHighMonthly.toLocaleString('en-IN')}/month\n• Payback: ${calculations.paybackText}\n\nCould you please help me with availability and doorstep delivery?`;
     const url = waLink({ type: 'calculator', message });
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -545,7 +542,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
     const params = new URLSearchParams({
       product: selectedProductId,
       crop: activeCrop.name,
-      quantity: `${kgPerDay} kg/day (${units} units)`,
+      quantity: `${t('calc.per_day', { kg: kgPerDay })} (${units} units)`,
     });
     window.location.hash = `#/enquiry/bulk?${params.toString()}`;
   };
@@ -600,16 +597,16 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
             <div className="flex items-center gap-2">
               <span className="w-2 h-4 rounded-full bg-leaf" />
               <h3 className="font-heading font-bold text-sm sm:text-base uppercase tracking-wider text-ink">
-                How Much Could You Save?
+                {t('calc.save_q')}
               </h3>
             </div>
             <p className="text-[11px] text-ink-60 mt-0.5">
-              Live estimate for {activeProductAssumption.name}
+              {t('calc.live', { name: activeProductAssumption.name })}
             </p>
           </div>
           <span className="inline-flex items-center gap-1 text-[11px] font-heading font-semibold text-leaf bg-white px-2.5 py-1 rounded-full border border-leaf/20 shadow-2xs">
             <Sparkles className="w-3 h-3 text-leaf" />
-            Interactive
+            {t('calc.interactive')}
           </span>
         </div>
 
@@ -619,7 +616,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
           <div>
             <div className="flex items-center justify-between text-xs mb-1.5">
               <span className="font-heading font-semibold uppercase tracking-wider text-ink">
-                What do you store?
+                {t('calc.store')}
               </span>
               <span className="text-[11px] text-ink-60">
                 {activeCrop.name} (₹{pricePerKg}/kg)
@@ -641,7 +638,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                     }`}
                   >
                     <span>{emoji}</span>
-                    <span>{c.name}</span>
+                    <span>{t(`calc.crop.${c.id}`)}</span>
                   </button>
                 );
               })}
@@ -652,10 +649,10 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
           <div>
             <div className="flex items-center justify-between text-xs mb-1.5">
               <span className="font-heading font-semibold uppercase tracking-wider text-ink">
-                Daily volume
+                {t('calc.volume')}
               </span>
               <span className="font-heading font-bold text-ink bg-white px-3 py-0.5 rounded-full border border-ink/10 shadow-2xs text-xs">
-                {kgPerDay} kg/day
+                {t('calc.per_day', { kg: kgPerDay })}
               </span>
             </div>
             <div className="relative py-1">
@@ -716,7 +713,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
 
             <div className="bg-white rounded-2xl p-3 border border-ink/10">
               <div className="flex items-center justify-between text-[10px] font-heading font-bold uppercase tracking-wider mb-1">
-                <span className="text-ink-60">Spoilage</span>
+                <span className="text-ink-60">{t('calc.spoilage')}</span>
                 <span className="text-chilli font-extrabold">{spoilagePct}%</span>
               </div>
               <div className="pt-2">
@@ -761,7 +758,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
           <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] pt-2 border-t border-ink/5">
             <div className="bg-sand/60 p-2.5 rounded-xl">
               <span className="text-ink-60 block text-[10px] font-heading font-semibold uppercase">
-                Produce saved
+                {t('calc.saved')}
               </span>
               <span className="font-heading font-bold text-ink mt-0.5 block">
                 {calculations.produceSavedLow}–{calculations.produceSavedHigh} kg/mo
@@ -769,7 +766,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
             </div>
             <div className="bg-sand/60 p-2.5 rounded-xl">
               <span className="text-ink-60 block text-[10px] font-heading font-semibold uppercase">
-                Pays for itself
+                {t('calc.pays')}
               </span>
               <span
                 className="font-heading font-bold text-ink mt-0.5 block truncate"
@@ -785,10 +782,10 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
               href={`#/calculator?crop=${encodeURIComponent(activeCrop.id)}&kg=${kgPerDay}&price=${pricePerKg}&spoilage=${spoilagePct}&product=${selectedProductId}`}
               className="inline-flex items-center gap-1.5 text-xs font-heading font-bold text-leaf hover:underline cursor-pointer group"
             >
-              <span>Full savings breakdown</span>
+              <span>{t('calc.breakdown')}</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </a>
-            <span className="text-[10px] text-ink-40 italic">Conservative estimate</span>
+            <span className="text-[10px] text-ink-40 italic">{t('calc.conservative')}</span>
           </div>
         </div>
       </div>
@@ -807,7 +804,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
         {/* Section Heading with Share & Reset actions */}
         <SectionHeading
           title="HOW MUCH COULD YOU SAVE?"
-          subtitle="Interactive farm-to-mandi savings engine. Calculate realistic monthly earnings retained by preventing heat spoilage without electricity."
+          subtitle={t('calc.engine')}
           rightAction={
             <div className="flex items-center gap-2">
               <button
@@ -817,7 +814,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                 title="Reset to default settings"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-ink-60" />
-                <span className="hidden sm:inline">Reset</span>
+                <span className="hidden sm:inline">{t('calc.reset')}</span>
               </button>
 
               <button
@@ -829,12 +826,12 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                 {copiedLink ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-leaf stroke-[3]" />
-                    <span className="text-leaf font-bold">Link Copied!</span>
+                    <span className="text-leaf font-bold">{t('calc.copied')}</span>
                   </>
                 ) : (
                   <>
                     <Share2 className="w-3.5 h-3.5 text-ink-60" />
-                    <span>Share Estimate</span>
+                    <span>{t('calc.share')}</span>
                   </>
                 )}
               </button>
@@ -848,11 +845,11 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-marigold" />
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink">
-                Quick 1-Tap Scenarios:
+                {t('calc.scenarios')}
               </span>
             </div>
             <span className="text-[11px] text-ink-60">
-              Select a typical profile to explore instant estimates
+              {t('calc.scenarios_sub')}
             </span>
           </div>
 
@@ -899,7 +896,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                   </span>
                   I am operating as a:
                 </label>
-                <span className="text-[11px] text-ink-60">Personalises recommendations</span>
+                <span className="text-[11px] text-ink-60">{t('calc.personal')}</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -925,12 +922,12 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                         <p
                           className={`font-heading font-bold text-xs sm:text-sm ${isSelected ? 'text-cream font-extrabold' : 'text-ink'}`}
                         >
-                          {p.label}
+                          {t(p.label)}
                         </p>
                         <p
                           className={`text-[10px] truncate ${isSelected ? 'text-cream/80 font-medium' : 'text-ink-60'}`}
                         >
-                          {p.sub}
+                          {t(p.sub)}
                         </p>
                       </div>
                     </button>
@@ -972,7 +969,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                       }`}
                     >
                       <span className="text-base">{emoji}</span>
-                      <span>{c.name}</span>
+                      <span>{t(`calc.crop.${c.id}`)}</span>
                       {isSelected && <Check className="w-3.5 h-3.5 stroke-[3] ml-0.5 text-white" />}
                     </button>
                   );
@@ -980,7 +977,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
               </div>
             </div>
 
-            {/* Input 3: Daily volume (Stepper + Progress Fill Slider + Quick volume chips) */}
+            {/* Input 3: {t('calc.volume')} (Stepper + Progress Fill Slider + Quick volume chips) */}
             <div className="bg-white rounded-[24px] p-5 sm:p-6 border border-ink/10 shadow-xs space-y-3.5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
@@ -1057,7 +1054,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
 
               {/* Quick volume jump pills */}
               <div className="pt-1 flex flex-wrap items-center gap-1.5 text-xs">
-                <span className="text-[11px] text-ink-60 mr-1">Quick jump:</span>
+                <span className="text-[11px] text-ink-60 mr-1">{t('calc.jump')}</span>
                 {[20, 40, 80, 150, 250].map((quickKg) => (
                   <button
                     key={quickKg}
@@ -1090,7 +1087,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                     </span>
                     Selling price
                   </label>
-                  <span className="text-[11px] text-ink-60">Avg mandi rate</span>
+                  <span className="text-[11px] text-ink-60">{t('calc.mandi')}</span>
                 </div>
 
                 <div className="flex items-center justify-between bg-sand rounded-full p-1 border border-ink/10 shadow-2xs">
@@ -1406,23 +1403,25 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                 {/* Hero Number (Large Montserrat in leaf) */}
                 <div className="mt-4 p-4 rounded-2xl bg-leaf-light/40 border border-leaf/25">
                   <span className="text-[11px] font-heading font-bold uppercase tracking-wider text-leaf block">
-                    Estimated Net Cash Retained
+                    {t('calc.retained')}
                   </span>
                   <div className="text-3xl sm:text-4xl font-heading font-black text-leaf tracking-tight mt-1">
                     ₹{calculations.savedLow.toLocaleString('en-IN')} – ₹
                     {calculations.savedHigh.toLocaleString('en-IN')}
                     <span className="text-xs sm:text-sm font-semibold text-ink-60 block sm:inline sm:ml-1">
                       {timeframe === 'annual'
-                        ? '/ year'
+                        ? t('calc.per_year')
                         : timeframe === 'seasonal'
-                          ? '/ 4-mo season'
-                          : '/ month'}
+                          ? t('calc.per_season')
+                          : t('calc.per_month')}
                     </span>
                   </div>
                   <p className="text-[11px] text-ink-60 mt-1">
-                    After deducting ~₹
-                    {calculations.totalRunningCost * calculations.timeframeMultiplier} for tap water
-                    & routine pad care.
+                    {t('calc.deduct', {
+                      amount: (
+                        calculations.totalRunningCost * calculations.timeframeMultiplier
+                      ).toLocaleString('en-IN'),
+                    })}
                   </p>
                 </div>
 
@@ -1430,21 +1429,20 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                 <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-leaf-light/40 border border-leaf/25 text-xs text-ink">
                   <Sparkles className="w-4 h-4 text-leaf shrink-0" />
                   <span className="font-heading font-medium text-[11px] text-ink-80">
-                    Shelf-life extension used in this estimate: [TBC].
+                    {t('calc.shelf')}
                   </span>
                 </div>
 
                 {/* Disclaimer */}
                 <p className="mt-2 text-[11px] text-ink-60 leading-relaxed font-body">
-                  This is a conservative estimate, not a guarantee. Actual results depend on
-                  weather, crop grade, and loading density.
+                  {t('calc.disclaimer')}
                 </p>
               </div>
 
               {/* Enhanced Visual Comparison: Before vs After Cards */}
               <div className="p-4 rounded-2xl bg-sand/60 border border-ink/10 space-y-3">
                 <div className="flex items-center justify-between text-xs font-heading font-bold uppercase tracking-wider text-ink">
-                  <span>Before vs After ColdEasy</span>
+                  <span>{t('calc.before')}</span>
                   <span className="text-leaf">
                     {timeframe === 'annual'
                       ? 'Annualized'
@@ -1516,7 +1514,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                 <div className="p-3.5 rounded-2xl bg-sand/60 border border-ink/5">
                   <div className="flex items-center gap-1.5 text-[11px] font-heading font-semibold text-ink-60 uppercase tracking-wider">
                     <Scale className="w-3.5 h-3.5 text-leaf" />
-                    <span>Produce saved</span>
+                    <span>{t('calc.saved')}</span>
                   </div>
                   <span className="text-base sm:text-lg font-heading font-black text-ink mt-1.5 block">
                     {calculations.produceSavedLow}–{calculations.produceSavedHigh} kg
@@ -1533,7 +1531,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                 <div className="p-3.5 rounded-2xl bg-sand/60 border border-ink/5">
                   <div className="flex items-center gap-1.5 text-[11px] font-heading font-semibold text-ink-60 uppercase tracking-wider">
                     <Calendar className="w-3.5 h-3.5 text-marigold" />
-                    <span>Pays for itself</span>
+                    <span>{t('calc.pays')}</span>
                   </div>
                   <span className="text-sm sm:text-base font-heading font-black text-ink mt-1.5 block leading-tight">
                     {calculations.isPaybackOverYear
@@ -1572,7 +1570,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                   className="w-full py-3.5 px-6 rounded-full bg-[#25D366] text-white font-heading font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#20ba59] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-xs"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Send me this estimate on WhatsApp</span>
+                  <span>{t('calc.wa')}</span>
                 </button>
 
                 {/* Bulk quote link for FPO or > 150 kg/day */}
@@ -1584,7 +1582,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                       className="inline-flex items-center gap-1.5 text-xs font-heading font-bold text-leaf hover:underline cursor-pointer"
                     >
                       <Building2 className="w-3.5 h-3.5" />
-                      <span>Get a collective / FPO bulk quote →</span>
+                      <span>{t('calc.fpo')}</span>
                     </button>
                   </div>
                 )}
@@ -1616,7 +1614,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                         1. Produce capacity & volume covered
                       </span>
                       <p className="text-ink-60 text-[11px]">
-                        Lesser of your {kgPerDay} kg/day and {units} × {capacityPerUnit} kg capacity
+                        Lesser of your {t('calc.per_day', { kg: kgPerDay })} and {units} × {capacityPerUnit} kg capacity
                         = {calculations.kgCovered} kg/day covered.
                       </p>
                     </div>
