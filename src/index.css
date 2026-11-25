@@ -423,9 +423,10 @@ html.dark .home-fade-sellers {
   mask-image: radial-gradient(ellipse at 50% 48%, #000 52%, transparent 80%);
 }
 
-html.dark #bestsellers .bestseller-photo {
-  -webkit-mask-image: radial-gradient(ellipse at 50% 48%, #000 46%, transparent 78%);
-  mask-image: radial-gradient(ellipse at 50% 48%, #000 46%, transparent 78%);
+html.dark #bestsellers .bestseller-photo,
+html.dark .product-tile img {
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 /* Subtle elevation box shadows in dark mode */
