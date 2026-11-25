@@ -263,6 +263,10 @@ export const CheckoutPage: React.FC = () => {
         </div>
       </header>
 
+      <p className="border-b border-ink/10 bg-sand px-4 py-3 text-center font-body text-sm text-ink">
+        {t('checkout.not_for_meat')}
+      </p>
+
       {/* Mobile Collapsible "Order summary (₹total)" Bar at top */}
       <div className="lg:hidden bg-sand border-b border-ink/10">
         <button

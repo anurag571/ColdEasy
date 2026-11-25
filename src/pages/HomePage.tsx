@@ -10,6 +10,7 @@ import { ProductCard } from '../components/ProductCard';
 import { NotifyModal } from '../components/NotifyModal';
 import { ArrowRight, Droplets, Leaf, ZapOff } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useCart } from '../context/CartContext';
 
 interface HomePageProps {
   onShowToast: (message: string) => void;
@@ -18,6 +19,7 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
   const [selectedNotifyProduct, setSelectedNotifyProduct] = useState<Product | null>(null);
   const { t } = useLanguage();
+  const { buyNow } = useCart();
 
   const bestSellerProducts = [
     PRODUCTS.find((p) => p.id === 'coldeasy-box') || PRODUCTS[0],
@@ -61,12 +63,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
               </ul>
 
               <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                <a
-                  href="#/products/coldeasy-box"
-                  className="py-4 px-10 rounded-full bg-leaf text-white font-heading font-extrabold text-sm uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-lg hover:shadow-xl break-words"
+                <button
+                  type="button"
+                  onClick={() => buyNow('coldeasy-box')}
+                  className="py-4 px-10 rounded-full bg-leaf text-white font-heading font-extrabold text-sm uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-lg hover:shadow-xl break-words cursor-pointer"
                 >
                   {t('hero.cta_buy')}
-                </a>
+                </button>
 
                 <a
                   href="#/science?section=science-how"

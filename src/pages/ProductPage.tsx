@@ -16,7 +16,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
   const baseProduct: Product =
     PRODUCTS.find((p) => p.slug === slug || p.id === slug) || PRODUCTS[0];
 
-  const { addToCart } = useCart();
+  const { buyNow } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // AutoBox Variant Switch: Solar vs AC Grid
@@ -124,8 +124,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
 
   const handleBuyNow = () => {
     if (isAvailableForPurchase && displayPrice !== null) {
-      addToCart(baseProduct.id, 1);
-      window.location.hash = '#cart';
+      buyNow(baseProduct.id);
     }
   };
 

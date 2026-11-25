@@ -20,7 +20,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   index = 0,
   onNotifyClick,
 }) => {
-  const { addToCart } = useCart();
+  const { buyNow } = useCart();
   const { t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const [touchSwiped, setTouchSwiped] = useState(false);
@@ -32,8 +32,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const handleBuyNow = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (product.inStock && product.price !== null) {
-      addToCart(product.id, 1);
-      window.location.hash = `#/products/${product.slug}`;
+      buyNow(product.id);
     }
   };
 
