@@ -5,7 +5,6 @@ import { LanguageProvider } from './context/LanguageContext';
 import { TopBar } from './components/TopBar';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { DisclaimerBanner } from './components/DisclaimerBanner';
 import { CartDrawer } from './components/CartDrawer';
 import { TrackingDebugPanel } from './components/TrackingDebugPanel';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
@@ -213,9 +212,6 @@ function AppContent() {
 
       {/* Tracking Debug Panel (activates when ?debug=1 is in URL) */}
       <TrackingDebugPanel />
-
-      {/* Fixed bottom disclaimer banner */}
-      <DisclaimerBanner />
 
       {/* Floating WhatsApp Action Button */}
       <WhatsAppFloatingButton />

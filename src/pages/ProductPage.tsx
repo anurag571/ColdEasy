@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PRODUCTS, Product } from '../data/mock';
 import { useCart } from '../context/CartContext';
 import { ChevronRight, Share2, ChevronDown, Sun, Zap, Sparkles } from 'lucide-react';
+import { OptimizedImage } from '../components/OptimizedImage';
 import { track } from '../lib/track';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -15,7 +16,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
   const baseProduct: Product =
     PRODUCTS.find((p) => p.slug === slug || p.id === slug) || PRODUCTS[0];
 
-  const { addToCart } = useCart();
+  const { buyNow } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // AutoBox Variant Switch: Solar vs AC Grid
@@ -35,27 +36,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
 
   // Compute pricing and highlights based on variant for AutoBox
   let displayPrice = baseProduct.price;
-  let displayMrp = baseProduct.mrp;
-  let displayDiscount = baseProduct.saveAmount
-    ? `Save ₹${baseProduct.saveAmount.toLocaleString('en-IN')}`
-    : null;
 
-  if (isAutoBox) {
-    if (powerVariant === 'solar') {
-      displayMrp = 17000;
-      displayPrice = 16500;
-      displayDiscount = '₹500 OFF';
-    } else {
-      // AC Grid: same pricing per brief
-      // TODO(client): confirm AC Grid pricing
-      displayMrp = 17000;
-      displayPrice = 16500;
-      displayDiscount = '₹500 OFF';
-    }
-  }
-
-  // Highlights dynamically adjust for AutoBox variant
-  const activeHighlights = (baseProduct.highlights || []).map((h) => {
+  const activeHighlights = (baseProduct.highlights || [])
+    .filter((h) => !h.includes('[TBC]') && !h.includes('[CONFIRM]'))
+    .map((h) => {
     if (isAutoBox) {
       if (powerVariant === 'solar') {
         if (h.includes('POWERED')) return 'SOLAR POWERED (Runs on clean, renewable solar energy)';
@@ -140,8 +124,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
 
   const handleBuyNow = () => {
     if (isAvailableForPurchase && displayPrice !== null) {
-      addToCart(baseProduct.id, 1);
-      window.location.hash = '#cart';
+      buyNow(baseProduct.id);
     }
   };
 
@@ -173,10 +156,13 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
             {/* Main Display Image */}
             <div className="relative rounded-[28px] bg-white p-4 sm:p-6 border border-ink/10 shadow-sm flex items-center justify-center overflow-hidden aspect-[4/3] sm:aspect-[16/11] product-image-stage">
               {currentItem?.url ? (
-                <img
+                <OptimizedImage
                   src={currentItem.url}
                   alt={currentItem.label || baseProduct.name}
                   className="w-full h-full object-contain transition-transform duration-300"
+                  width={1400}
+                  height={1050}
+                  loading="eager"
                 />
               ) : (
                 <div className="p-8 text-center">
@@ -277,16 +263,6 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
                     <span className="font-heading font-black text-3xl sm:text-4xl text-ink">
                       ₹{displayPrice!.toLocaleString('en-IN')}
                     </span>
-                    {displayMrp && (
-                      <span className="text-sm sm:text-base font-semibold text-ink-40 line-through">
-                        ₹{displayMrp.toLocaleString('en-IN')}
-                      </span>
-                    )}
-                    {displayDiscount && (
-                      <span className="px-2.5 py-1 rounded-full bg-marigold text-ink text-xs font-heading font-extrabold uppercase tracking-wider shadow-2xs">
-                        {displayDiscount}
-                      </span>
-                    )}
                   </>
                 ) : (
                   <span className="text-base font-heading font-bold text-leaf bg-leaf-light px-4 py-1.5 rounded-full">

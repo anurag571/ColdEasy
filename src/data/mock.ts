@@ -55,20 +55,15 @@ export interface Product {
   faqs: FaqItem[];
 }
 
-export const SHOW_RATINGS = false;
-export const DEFAULT_REVIEW_COUNT = '[TBC]';
-
 export const PRODUCTS: Product[] = [
   {
     id: 'coldeasy-box',
     slug: 'coldeasy-box',
     name: 'ColdEasy Box',
     group: 'main',
-    mrp: 4999,
+    mrp: null,
     price: 3990,
-    saveAmount: 1009,
     inStock: true,
-    rating: 4.9,
     emiEligible: false,
     shortDescription:
       'ColdEasy Box keeps fruits and vegetables fresh for longer without using electricity. It uses water-based cooling to lower temperature and maintain high humidity, which reduces spoilage and weight loss. The compact design suits retailers, vendors, and homes, and also works well during transport.',
@@ -86,7 +81,7 @@ export const PRODUCTS: Product[] = [
       gallery: [
         {
           id: 'box-hero',
-          url: '/products/coldeasy-box/front.png',
+          url: '/products/coldeasy-box/front.webp',
           label: 'ColdEasy Box – Front View',
           sublabel: 'Single crate studio view',
         },
@@ -186,13 +181,10 @@ export const PRODUCTS: Product[] = [
     slug: 'coldeasy-autobox-3',
     name: 'ColdEasy AutoBox – 3 Box',
     group: 'main',
-    mrp: 19999,
+    mrp: null,
     price: 15490,
-    saveAmount: 4509,
     inStock: true,
-    rating: 4.87,
     emiEligible: true,
-    emiFromPerMonth: '₹1,420',
     shortDescription:
       'Automated water distribution across three stacked crates. High-capacity cooling for retailers, mandi vendors and aggregation points.',
     images: {
@@ -222,13 +214,13 @@ export const PRODUCTS: Product[] = [
         },
         {
           id: 'autobox-3-grid-front',
-          url: '/products/coldeasy-autobox-3/grid-front.jpeg',
+          url: '/products/coldeasy-autobox-3/grid-front.webp',
           label: 'ColdEasy AutoBox 3 – AC Grid Front View',
           sublabel: 'Triple-tier stack configured for standard wall AC power',
         },
         {
           id: 'autobox-3-grid-angle',
-          url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
+          url: '/products/coldeasy-autobox-3/grid-angle.webp',
           label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
           sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
         },
@@ -256,13 +248,13 @@ export const PRODUCTS: Product[] = [
           },
           {
             id: 'autobox-3-grid-angle',
-            url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-angle.webp',
             label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
             sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
           },
           {
             id: 'autobox-3-grid-front',
-            url: '/products/coldeasy-autobox-3/grid-front.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-front.webp',
             label: 'ColdEasy AutoBox 3 – AC Grid Front View',
             sublabel: 'Triple-tier stack configured for standard wall AC power',
           },
@@ -276,13 +268,13 @@ export const PRODUCTS: Product[] = [
           },
           {
             id: 'autobox-3-grid-front',
-            url: '/products/coldeasy-autobox-3/grid-front.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-front.webp',
             label: 'ColdEasy AutoBox 3 – AC Grid Front View',
             sublabel: 'Triple-tier stack configured for standard wall AC power',
           },
           {
             id: 'autobox-3-grid-angle',
-            url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-angle.webp',
             label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
             sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
           },
@@ -357,11 +349,9 @@ export const PRODUCTS: Product[] = [
     slug: 'coldeasy-autobox-2',
     name: 'ColdEasy AutoBox – 2 Box',
     group: 'main',
-    mrp: 14999,
+    mrp: null,
     price: 12990,
-    saveAmount: 2009,
     inStock: false, // ALWAYS sold out per client brief
-    rating: 4.85,
     emiEligible: false,
     shortDescription:
       'Automated water feed for two stacked crates. Compact footprint for roadside stalls and retail store display.',
@@ -652,14 +642,16 @@ export const COMPARISON_POINTS: ComparisonPoint[] = [
 export interface VideoSourcesConfig {
   video1080: string;
   video720: string;
+  videoWebm: string;
   poster: string;
   endFrame: string;
 }
 
 export const VIDEO_SOURCES: VideoSourcesConfig = {
-  video1080: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=final',
-  video720: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=final',
-  poster: '/video/coldeasy-box-exploded-poster.jpg',
+  video1080: '/video/coldeasy-box-1080.mp4',
+  video720: '/video/coldeasy-box-720.mp4',
+  videoWebm: '/video/coldeasy-box-1080.webm',
+  poster: '/video/coldeasy-box-poster.jpg',
   endFrame: '/video/coldeasy-box-exploded-end-frame.jpg',
 };
 
@@ -767,7 +759,7 @@ export const TESTIMONIAL_STORIES: TestimonialStory[] = [
       '"ColdEasy helped preserve produce quality and maintain market earnings without reliance on electricity."',
     description: 'Improving livelihood resilience for smallholder vegetable retailers.',
     storyUrl: 'https://www.coldeasy.in/deployment-story/improving-livelihood-resilience',
-    image: '/stories/gunja-devi.jpg',
+    image: '/stories/gunja-devi.webp',
   },
   {
     id: 'sobha-devi',
@@ -933,7 +925,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
 // Lead form benefit points
 export const FORM_BENEFITS = {
   distributor: [
-    'Distributor terms [TBC]',
     'Dedicated technical, marketing, and display demonstration kits',
     'Priority batch allocation and local logistics routing support',
   ],
@@ -943,12 +934,9 @@ export const FORM_BENEFITS = {
     'Direct technical training for rural extension officers and FPO staff',
   ],
   affiliate: [
-    'Commission [TBC]',
     'Custom tracked links and WhatsApp promotional creatives',
-    'Payout [TBC]',
   ],
   bulk: [
-    'Volume-based tier discounts for FPOs, mandis, and retail chains',
     'Dedicated logistics planning for multi-district bulk consignments',
     'Custom branding and crate serialization options available',
   ],

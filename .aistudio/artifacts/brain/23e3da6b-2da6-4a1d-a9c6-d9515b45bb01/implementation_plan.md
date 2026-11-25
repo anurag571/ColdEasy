@@ -58,7 +58,7 @@ A clean, accessible dual-theme system (Light & Dark Mode) for the ColdEasy appli
 
 - **Floating Switch Placement vs Header Bar**:
   - *Chosen Approach*: Floating bottom-left corner.
-  - *Why*: Leaves the header navigation focused strictly on core pages (`Home | Products | Science | Impact | About Us | Contact Us`) as defined in the client requirements document (`Website_Doc.pdf`), while keeping theme control universally accessible on every screen.
+  - *Why*: Leaves the header navigation focused strictly on core pages (`Home | Products | Science | Impact | About Us | Contact Us`) as defined in the client requirements, while keeping theme control universally accessible on every screen.
   - *Alternatives Considered*: Placing inside the header nav links (would add visual noise to the strict 1-line top bar contract) or footer only (hard to reach on long pages).
 - **CSS Variable Inversion vs Custom Variant Pairing**:
   - *Chosen Approach*: Hybrid architecture combining Tailwind v4 `@custom-variant dark (&:where(.dark, .dark *));` with established semantic CSS custom properties (`--color-ink`, `--color-cream`, `--color-sand`) and targeted surface rules in `src/index.css`.

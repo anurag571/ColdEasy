@@ -35,6 +35,14 @@ const journeyMilestones = [...(milestonesData as Milestone[])].sort((a, b) => {
   return a.order - b.order;
 });
 
+const publishedMilestones = journeyMilestones.filter(
+  (item) =>
+    item.title !== '[TBC]' &&
+    item.date !== '[TBC]' &&
+    !item.title.includes('[CONFIRM]') &&
+    !item.description.includes('[TBC]'),
+);
+
 export const AboutPage: React.FC = () => {
   const { t } = useLanguage();
   return (
@@ -147,9 +155,10 @@ export const AboutPage: React.FC = () => {
       {/* 4. JOURNEY TIMELINE, from src/content/milestones.json */}
       <section className="w-full bg-white py-16 md:py-24 border-b border-ink/5">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <SectionHeading title="OUR JOURNEY" subtitle="[TBC]" />
+          <SectionHeading title="OUR JOURNEY" subtitle={t('common.coming_soon')} />
 
-          {/* Desktop Horizontal Timeline */}
+          {publishedMilestones.length > 0 && (
+          <>
           <div className="hidden lg:block relative mt-12 mb-8">
             <div
               className="absolute top-7 left-8 right-8 h-1.5 rounded-full overflow-hidden flex -z-0"
@@ -223,6 +232,8 @@ export const AboutPage: React.FC = () => {
               </div>
             ))}
           </div>
+          </>
+          )}
         </div>
       </section>
 

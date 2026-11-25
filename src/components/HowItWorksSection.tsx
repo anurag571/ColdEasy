@@ -84,6 +84,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isEnded, setIsEnded] = useState<boolean>(false);
   // Loop on laptop and desktop. A continuous loop is hard on a low-end phone.
+  const [reducedMotion, setReducedMotion] = useState(false);
   const [loopOnThisScreen, setLoopOnThisScreen] = useState(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(HARDWARE_VIDEO_DURATION);
@@ -112,8 +113,9 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
     setDuration(perspective === 'hardware' ? HARDWARE_VIDEO_DURATION : 7.93);
 
     const video = videoRef.current;
-    if (video) {
-      video.src = newSrc;
+    if (video && !reducedMotion) {
+      if (perspective === 'hardware') video.removeAttribute('src');
+      else video.src = newSrc;
       video.currentTime = 0;
       video.muted = true;
       video.defaultMuted = true;
@@ -168,17 +170,10 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
   // Start playback helper
   const startPlayback = useCallback(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || reducedMotion) return;
 
     video.muted = true;
     video.defaultMuted = true;
-
-    if (!video.src && !video.currentSrc) {
-      const selectedSrc = resolveCurrentSource(viewPerspective);
-      setVideoSrc(selectedSrc);
-      video.src = selectedSrc;
-      video.load();
-    }
 
     const playPromise = video.play();
     if (playPromise !== undefined) {
@@ -195,14 +190,22 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
           console.warn('[HowItWorksVideo] Play blocked:', err);
         });
     }
-  }, [hasStartedPlaying, resolveCurrentSource, viewPerspective]);
+  }, [hasStartedPlaying, reducedMotion, viewPerspective]);
 
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 768px)');
-    const apply = () => setLoopOnThisScreen(media.matches);
+    const desktop = window.matchMedia('(min-width: 768px)');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const apply = () => {
+      setLoopOnThisScreen(desktop.matches);
+      setReducedMotion(reduced.matches);
+    };
     apply();
-    media.addEventListener('change', apply);
-    return () => media.removeEventListener('change', apply);
+    desktop.addEventListener('change', apply);
+    reduced.addEventListener('change', apply);
+    return () => {
+      desktop.removeEventListener('change', apply);
+      reduced.removeEventListener('change', apply);
+    };
   }, []);
 
   const loopVideo = viewPerspective === 'airflow' || loopOnThisScreen;
@@ -217,7 +220,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
       (entries) => {
         const entry = entries[0];
         if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
-          if (!isEnded && !isUserPaused && !isPlaying) {
+          if (!reducedMotion && !isEnded && !isUserPaused && !isPlaying) {
             startPlayback();
           }
         } else if (!entry.isIntersecting) {
@@ -232,7 +235,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
 
     observer.observe(video);
     return () => observer.disconnect();
-  }, [isEnded, isUserPaused, isPlaying, startPlayback]);
+  }, [isEnded, isUserPaused, isPlaying, reducedMotion, startPlayback]);
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -303,7 +306,18 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
     }
   };
 
-  const currentPoster = '/video/coldeasy-box-exploded-poster.jpg';
+  const currentPoster = VIDEO_SOURCES.poster;
+
+  const videoSources =
+    viewPerspective === 'hardware' ? (
+      <>
+        <source src={VIDEO_SOURCES.videoWebm} type="video/webm" media="(min-width: 768px)" />
+        <source src={VIDEO_SOURCES.video1080} type="video/mp4" media="(min-width: 768px)" />
+        <source src={VIDEO_SOURCES.video720} type="video/mp4" />
+      </>
+    ) : (
+      <source src={videoSrc} type="video/mp4" />
+    );
   const featheredMaskStyle: React.CSSProperties = {
     WebkitMaskImage: 'radial-gradient(ellipse 95% 95% at 50% 50%, #000 70%, transparent 100%)',
     maskImage: 'radial-gradient(ellipse 95% 95% at 50% 50%, #000 70%, transparent 100%)',
@@ -344,22 +358,32 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
         </div>
 
         <div className="relative w-full aspect-video overflow-hidden rounded-xl bg-ink/5">
+          {reducedMotion ? (
+            <img
+              src={currentPoster}
+              alt=""
+              className="h-full w-full object-cover"
+              style={featheredMaskStyle}
+            />
+          ) : (
           <video
+            key={viewPerspective}
             ref={videoRef}
-            src={videoSrc}
             className="h-full w-full object-cover"
             style={featheredMaskStyle}
-            autoPlay
             muted
             playsInline
-            preload="auto"
+            preload="none"
             loop={loopVideo}
             poster={currentPoster}
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleVideoEnded}
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
-          />
+          >
+            {videoSources}
+          </video>
+          )}
 
           {!isPlaying && !isEnded && (
             <button
@@ -438,21 +462,26 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
 
         <div className="how-works-card rounded-[28px] px-4 py-5 sm:px-7 sm:py-6">
           <div className="how-works-stage relative w-full aspect-video overflow-hidden rounded-2xl">
+            {reducedMotion ? (
+              <img src={currentPoster} alt="" className="block h-full w-full object-cover" />
+            ) : (
             <video
+              key={viewPerspective}
               ref={videoRef}
-              src={videoSrc}
               className="block h-full w-full object-cover"
-              autoPlay
               muted
               playsInline
-              preload="auto"
+              preload="none"
               loop={loopVideo}
               poster={currentPoster}
               onTimeUpdate={handleTimeUpdate}
               onEnded={handleVideoEnded}
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
-            />
+            >
+              {videoSources}
+            </video>
+            )}
 
             {!isPlaying && !isEnded && (
               <button
@@ -517,8 +546,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
 
           <div className="mt-8 flex flex-col items-center gap-3">
             <p className="text-sm text-ink-60 font-body">
-              {t('works.temp_label')}{' '}
-              <span className="font-heading font-bold text-leaf">{t('works.temp_value')}</span>
+              {t('works.temp_value')}
             </p>
             <p className="inline-flex items-center gap-2 font-heading font-bold text-xl sm:text-2xl tracking-wide text-ink">
               <Sparkles className="w-5 h-5 text-leaf" />

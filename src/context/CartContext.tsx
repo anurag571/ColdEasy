@@ -10,6 +10,7 @@ export interface CartItem {
 interface CartContextType {
   items: CartItem[];
   addToCart: (productId: string, quantity?: number) => void;
+  buyNow: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
@@ -78,6 +79,19 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
+  const buyNow = (productId: string) => {
+    const product = PRODUCTS.find((p) => p.id === productId);
+    if (!product || !product.inStock || product.price == null) return;
+    track('add_to_cart', {
+      item_id: product.id,
+      item_name: product.name,
+      price: product.price,
+      quantity: 1,
+    });
+    setItems([{ product, quantity: 1 }]);
+    window.location.hash = '#/checkout';
+  };
+
   const updateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(productId);
@@ -115,6 +129,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         items,
         addToCart,
+        buyNow,
         updateQuantity,
         removeFromCart,
         clearCart,

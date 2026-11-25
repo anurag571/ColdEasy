@@ -5,95 +5,90 @@ import { ComparisonSection } from '../components/ComparisonSection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { MediaSection } from '../components/MediaSection';
 import { FaqSection } from '../components/FaqSection';
-import { ImagePlaceholder } from '../components/ImagePlaceholder';
+import { OptimizedImage } from '../components/OptimizedImage';
+import { ProductCard } from '../components/ProductCard';
 import { NotifyModal } from '../components/NotifyModal';
-import { ArrowRight, Star } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { ArrowRight, Droplets, Leaf, ZapOff } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useCart } from '../context/CartContext';
 
 interface HomePageProps {
   onShowToast: (message: string) => void;
 }
 
-const RatingStars: React.FC<{ rating: number }> = ({ rating }) => (
-  <span className="inline-flex items-center gap-0.5" aria-hidden="true">
-    {[0, 1, 2, 3, 4].map((index) => {
-      const fill = Math.min(1, Math.max(0, rating - index));
-      return (
-        <span key={index} className="relative h-4 w-4">
-          <Star className="h-4 w-4 text-marigold/40" />
-          <span className="absolute inset-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
-            <Star className="h-4 w-4 fill-marigold text-marigold" />
-          </span>
-        </span>
-      );
-    })}
-  </span>
-);
-
 export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
   const [selectedNotifyProduct, setSelectedNotifyProduct] = useState<Product | null>(null);
-  const { addToCart } = useCart();
   const { t } = useLanguage();
+  const { buyNow } = useCart();
 
-  const handleNotifySuccess = (phone: string) => {
-    onShowToast(t('bestsellers.alert', { phone }));
-  };
-
-  // Best Sellers: Exactly 3 products (ColdEasy Box, AutoBox 3 Box, AutoBox 2 Box)
   const bestSellerProducts = [
     PRODUCTS.find((p) => p.id === 'coldeasy-box') || PRODUCTS[0],
     PRODUCTS.find((p) => p.id === 'coldeasy-autobox-3') || PRODUCTS[1],
     PRODUCTS.find((p) => p.id === 'coldeasy-autobox-2') || PRODUCTS[2],
   ];
 
-  const handleBuyNow = (e: React.MouseEvent, prod: Product) => {
-    e.stopPropagation();
-    if (!(prod.inStock && prod.price !== null)) return;
-    addToCart(prod.id, 1);
-    window.location.hash = prod.id === 'coldeasy-box' ? '#/checkout' : `#/products/${prod.slug}`;
+  const handleNotifySuccess = (phone: string) => {
+    onShowToast(t('bestsellers.alert', { phone }));
   };
 
   return (
     <div className="w-full">
       {/* 1. E-COMMERCE HERO FOR THE COLDEASY BOX */}
-      <section className="hero-scene relative w-full overflow-hidden py-12 sm:py-16 lg:py-20">
+      <section className="hero-scene relative w-full overflow-hidden bg-cream py-12 text-ink sm:py-16 lg:py-20">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center">
-            {/* Left Column: Headlines & Prominent BUY NOW */}
             <div className="relative z-10 lg:col-span-6 flex flex-col items-start text-left">
-              <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-[52px] text-[#251A10] leading-[1.05] tracking-tight break-words">
+              <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-[52px] text-ink leading-[1.05] tracking-tight break-words">
                 {t('hero.headline')}
               </h1>
 
-              <p className="mt-4 max-w-md text-sm sm:text-base text-[#5E554E] font-body leading-relaxed">
+              <p className="mt-4 max-w-md text-sm sm:text-base text-ink-60 font-body leading-relaxed">
                 {t('hero.desc')}
               </p>
 
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {[
+                  { icon: Droplets, label: t('hero.chip.evap') },
+                  { icon: ZapOff, label: t('hero.chip.power') },
+                  { icon: Leaf, label: t('hero.chip.produce') },
+                ].map(({ icon: Icon, label }) => (
+                  <li
+                    key={label}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-sand px-3 py-1.5 font-heading text-[11px] font-semibold text-ink"
+                  >
+                    <Icon className="h-3.5 w-3.5 text-leaf" aria-hidden="true" />
+                    {label}
+                  </li>
+                ))}
+              </ul>
+
               <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                <a
-                  href="#/products/coldeasy-box"
-                  className="py-4 px-10 rounded-full bg-leaf text-white font-heading font-extrabold text-sm uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-lg hover:shadow-xl break-words"
+                <button
+                  type="button"
+                  onClick={() => buyNow('coldeasy-box')}
+                  className="py-4 px-10 rounded-full bg-leaf text-white font-heading font-extrabold text-sm uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-lg hover:shadow-xl break-words cursor-pointer"
                 >
                   {t('hero.cta_buy')}
-                </a>
+                </button>
 
                 <a
                   href="#/science?section=science-how"
-                  className="hero-secondary py-4 px-6 rounded-full border border-[#251A10]/20 text-[#251A10] font-heading font-bold text-xs uppercase tracking-wider hover:bg-[#EFE8DB] transition-all text-center"
+                  className="hero-secondary py-4 px-6 rounded-full border border-ink/20 text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-all text-center"
                 >
                   {t('hero.cta_works')}
                 </a>
               </div>
             </div>
 
-            {/* Product sits on the page colour and runs off the right, the way the Oura ring does. */}
-            <div className="relative mt-2 lg:col-span-6 lg:-ml-8 lg:mt-6 lg:-mr-2">
-              <img
-                src="/products/coldeasy-box/front.png"
+            <div className="relative mt-2 lg:col-span-6">
+              <OptimizedImage
+                src="/assets/hero/hero-box.webp"
                 alt={t('hero.image_alt')}
-                className="hero-product ml-auto h-auto w-full object-contain object-left lg:w-[104%] lg:max-w-[640px]"
+                className="hero-product ml-auto h-auto w-full object-contain lg:max-w-[640px]"
+                width={1400}
+                height={788}
                 loading="eager"
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -120,98 +115,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {bestSellerProducts.map((prod) => {
-              const isAutoBox2 = prod.id === 'coldeasy-autobox-2';
-              const isSoldOut = !prod.inStock || isAutoBox2;
-
-              return (
-                <div
-                  key={prod.id}
-                  onClick={() => {
-                    window.location.hash = `#/products/${prod.slug}`;
-                  }}
-                  className="group flex cursor-pointer flex-col justify-between rounded-[24px] bg-[#FAF7F0] p-5 shadow-[0_8px_24px_rgba(37,26,16,0.05)] transition-all hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(37,26,16,0.08)] sm:p-6"
-                >
-                  <div>
-                    <div className="relative mb-5 flex aspect-[4/3] items-center justify-center">
-                      {prod.images.main.url ? (
-                        <img
-                          src={prod.images.main.url}
-                          alt={prod.name}
-                          className={`bestseller-photo h-full w-full object-contain drop-shadow-[0_12px_16px_rgba(37,26,16,0.14)] transition-transform duration-300 group-hover:scale-105 ${
-                            isSoldOut ? 'opacity-80' : ''
-                          }`}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <ImagePlaceholder
-                          label={t('bestsellers.images_soon')}
-                          sublabel={prod.name}
-                          aspectRatio="aspect-[4/3]"
-                          className="w-full"
-                        />
-                      )}
-                      {isSoldOut && (
-                        <div className="absolute top-1 right-1 rounded-full bg-chilli px-2.5 py-1 text-[10px] font-heading font-bold uppercase tracking-wider text-white">
-                          {t('bestsellers.sold_out')}
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="font-heading text-base font-extrabold leading-snug text-ink transition-colors group-hover:text-leaf sm:text-lg">
-                      {prod.name}
-                    </h3>
-
-                    {prod.rating != null && (
-                      <p
-                        className="mt-1.5 flex items-center gap-1.5 text-xs font-heading font-bold text-ink"
-                        aria-label={`${prod.rating} out of 5`}
-                      >
-                        <RatingStars rating={prod.rating} />
-                        <span>
-                          {prod.rating} / 5
-                        </span>
-                      </p>
-                    )}
-
-                    <div className="mt-2 flex flex-wrap items-baseline gap-2">
-                      {prod.price !== null ? (
-                        <>
-                          <span className="font-heading text-lg font-bold text-ink">
-                            ₹{prod.price.toLocaleString('en-IN')}
-                          </span>
-                          {prod.mrp && (
-                            <span className="text-xs font-medium text-ink-40 line-through">
-                              ₹{prod.mrp.toLocaleString('en-IN')}
-                            </span>
-                          )}
-                        </>
-                      ) : (
-                        <span className="text-xs font-heading font-bold text-leaf">
-                          Price coming soon
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="mt-6">
-                    {isSoldOut ? (
-                      <div className="w-full cursor-default select-none rounded-full bg-ink/10 py-3 text-center text-xs font-heading font-bold uppercase tracking-wider text-ink-40">
-                        {t('bestsellers.sold_out')}
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={(e) => handleBuyNow(e, prod)}
-                        className="w-full cursor-pointer rounded-full bg-leaf py-3 text-center text-xs font-heading font-bold uppercase tracking-wider text-white transition-all hover:bg-leaf/90 active:scale-95"
-                      >
-                        {t('product.buy_now')}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+            {bestSellerProducts.map((prod, index) => (
+              <ProductCard
+                key={prod.id}
+                product={prod}
+                index={index}
+                onNotifyClick={setSelectedNotifyProduct}
+                onShowToast={onShowToast}
+              />
+            ))}
           </div>
         </div>
       </section>
