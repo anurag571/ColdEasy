@@ -284,7 +284,7 @@ html.dark .media-logo {
 }
 
 .hero-scene {
-  background-color: var(--color-cream);
+  background-color: #dccfb8;
   color: var(--color-ink);
 }
 
@@ -353,7 +353,7 @@ html.dark .how-works-stage {
 }
 
 .home-fade-hero {
-  --home-fade-from: var(--color-cream);
+  --home-fade-from: #dccfb8;
 }
 
 .home-fade-works {
