@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Product } from '../data/mock';
+import { OptimizedImage } from './OptimizedImage';
 import { ImagePlaceholder } from './ImagePlaceholder';
 import { useCart } from '../context/CartContext';
 import { ArrowRight } from 'lucide-react';
@@ -58,10 +59,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         ) : null}
 
         {currentImageData.url ? (
-          <img
+          <OptimizedImage
             src={currentImageData.url}
             alt={currentImageData.label || product.name}
             className={`h-full w-full object-contain ${product.inStock ? '' : 'opacity-80'}`}
+            width={1400}
+            height={1050}
             loading="lazy"
           />
         ) : (

@@ -18,7 +18,7 @@ const VIDEO_TILES: VideoTile[] = [
     customerName: 'Gunja Devi',
     location: 'Patna, Bihar',
     videoUrl: 'https://www.instagram.com/coldeasyglobal',
-    posterUrl: '/stories/gunja-devi.jpg',
+    posterUrl: '/stories/gunja-devi.webp',
     posterPosition: 'center 18%',
   },
   {

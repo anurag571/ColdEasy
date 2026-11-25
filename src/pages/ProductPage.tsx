@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PRODUCTS, Product } from '../data/mock';
 import { useCart } from '../context/CartContext';
 import { ChevronRight, Share2, ChevronDown, Sun, Zap, Sparkles } from 'lucide-react';
+import { OptimizedImage } from '../components/OptimizedImage';
 import { track } from '../lib/track';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -156,10 +157,13 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
             {/* Main Display Image */}
             <div className="relative rounded-[28px] bg-white p-4 sm:p-6 border border-ink/10 shadow-sm flex items-center justify-center overflow-hidden aspect-[4/3] sm:aspect-[16/11] product-image-stage">
               {currentItem?.url ? (
-                <img
+                <OptimizedImage
                   src={currentItem.url}
                   alt={currentItem.label || baseProduct.name}
                   className="w-full h-full object-contain transition-transform duration-300"
+                  width={1400}
+                  height={1050}
+                  loading="eager"
                 />
               ) : (
                 <div className="p-8 text-center">

@@ -6,6 +6,7 @@ import { TestimonialsSection } from '../components/TestimonialsSection';
 import { MediaSection } from '../components/MediaSection';
 import { FaqSection } from '../components/FaqSection';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
+import { OptimizedImage } from '../components/OptimizedImage';
 import { NotifyModal } from '../components/NotifyModal';
 import { ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -73,11 +74,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
 
             {/* Product sits on the page colour and runs off the right, the way the Oura ring does. */}
             <div className="relative mt-2 lg:col-span-6 lg:-ml-8 lg:mt-6 lg:-mr-2">
-              <img
-                src="/products/coldeasy-box/front.png"
+              <OptimizedImage
+                src="/products/coldeasy-box/front.webp"
                 alt={t('hero.image_alt')}
                 className="hero-product ml-auto h-auto w-full object-contain object-left lg:w-[104%] lg:max-w-[640px]"
+                width={1400}
+                height={1050}
                 loading="eager"
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -119,12 +123,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                   <div>
                     <div className="relative mb-5 flex aspect-[4/3] items-center justify-center">
                       {prod.images.main.url ? (
-                        <img
+                        <OptimizedImage
                           src={prod.images.main.url}
                           alt={prod.name}
                           className={`bestseller-photo h-full w-full object-contain drop-shadow-[0_12px_16px_rgba(37,26,16,0.14)] transition-transform duration-300 group-hover:scale-105 ${
                             isSoldOut ? 'opacity-80' : ''
                           }`}
+                          width={1200}
+                          height={900}
                           loading="lazy"
                         />
                       ) : (

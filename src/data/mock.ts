@@ -81,7 +81,7 @@ export const PRODUCTS: Product[] = [
       gallery: [
         {
           id: 'box-hero',
-          url: '/products/coldeasy-box/front.png',
+          url: '/products/coldeasy-box/front.webp',
           label: 'ColdEasy Box – Front View',
           sublabel: 'Single crate studio view',
         },
@@ -214,13 +214,13 @@ export const PRODUCTS: Product[] = [
         },
         {
           id: 'autobox-3-grid-front',
-          url: '/products/coldeasy-autobox-3/grid-front.jpeg',
+          url: '/products/coldeasy-autobox-3/grid-front.webp',
           label: 'ColdEasy AutoBox 3 – AC Grid Front View',
           sublabel: 'Triple-tier stack configured for standard wall AC power',
         },
         {
           id: 'autobox-3-grid-angle',
-          url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
+          url: '/products/coldeasy-autobox-3/grid-angle.webp',
           label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
           sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
         },
@@ -248,13 +248,13 @@ export const PRODUCTS: Product[] = [
           },
           {
             id: 'autobox-3-grid-angle',
-            url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-angle.webp',
             label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
             sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
           },
           {
             id: 'autobox-3-grid-front',
-            url: '/products/coldeasy-autobox-3/grid-front.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-front.webp',
             label: 'ColdEasy AutoBox 3 – AC Grid Front View',
             sublabel: 'Triple-tier stack configured for standard wall AC power',
           },
@@ -268,13 +268,13 @@ export const PRODUCTS: Product[] = [
           },
           {
             id: 'autobox-3-grid-front',
-            url: '/products/coldeasy-autobox-3/grid-front.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-front.webp',
             label: 'ColdEasy AutoBox 3 – AC Grid Front View',
             sublabel: 'Triple-tier stack configured for standard wall AC power',
           },
           {
             id: 'autobox-3-grid-angle',
-            url: '/products/coldeasy-autobox-3/grid-angle.jpeg',
+            url: '/products/coldeasy-autobox-3/grid-angle.webp',
             label: 'ColdEasy AutoBox 3 – AC Grid Perspective',
             sublabel: '3/4 studio view showing vertical water distribution line and AC controller',
           },
@@ -642,14 +642,16 @@ export const COMPARISON_POINTS: ComparisonPoint[] = [
 export interface VideoSourcesConfig {
   video1080: string;
   video720: string;
+  videoWebm: string;
   poster: string;
   endFrame: string;
 }
 
 export const VIDEO_SOURCES: VideoSourcesConfig = {
-  video1080: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=final',
-  video720: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=final',
-  poster: '/video/coldeasy-box-exploded-poster.jpg',
+  video1080: '/video/coldeasy-box-1080.mp4',
+  video720: '/video/coldeasy-box-720.mp4',
+  videoWebm: '/video/coldeasy-box-1080.webm',
+  poster: '/video/coldeasy-box-poster.jpg',
   endFrame: '/video/coldeasy-box-exploded-end-frame.jpg',
 };
 
@@ -757,7 +759,7 @@ export const TESTIMONIAL_STORIES: TestimonialStory[] = [
       '"ColdEasy helped preserve produce quality and maintain market earnings without reliance on electricity."',
     description: 'Improving livelihood resilience for smallholder vegetable retailers.',
     storyUrl: 'https://www.coldeasy.in/deployment-story/improving-livelihood-resilience',
-    image: '/stories/gunja-devi.jpg',
+    image: '/stories/gunja-devi.webp',
   },
   {
     id: 'sobha-devi',
