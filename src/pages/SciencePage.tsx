@@ -27,6 +27,66 @@ const CROP_PHOTOS: Record<CropName, { fresh: string; ambient: string }> = {
   },
 };
 
+type StorageSide = 'ambient' | 'box';
+
+const CROP_DAYS: Partial<Record<CropName, Partial<Record<number, Partial<Record<StorageSide, string>>>>>> = {
+  Tomato: {
+    1: { ambient: '/assets/crops/tomato-day-1.webp', box: '/assets/crops/tomato-day-1.webp' },
+    3: { ambient: '/assets/crops/tomato-ambient-day-3.webp', box: '/assets/crops/tomato-box-day-3.webp' },
+    5: { ambient: '/assets/crops/tomato-ambient-day-5.webp', box: '/assets/crops/tomato-box-day-5.webp' },
+    8: { ambient: '/assets/crops/tomato-ambient-day-8.webp', box: '/assets/crops/tomato-box-day-8.webp' },
+  },
+  Banana: {
+    1: { ambient: '/assets/crops/banana-day-1.webp', box: '/assets/crops/banana-day-1.webp' },
+    3: { ambient: '/assets/crops/banana-ambient-day-3.webp', box: '/assets/crops/banana-box-day-3.webp' },
+    5: { ambient: '/assets/crops/banana-ambient-day-5.webp', box: '/assets/crops/banana-box-day-5.webp' },
+    7: { ambient: '/assets/crops/banana-ambient-day-7.webp' },
+    8: { ambient: '/assets/crops/banana-ambient-day-8.webp', box: '/assets/crops/banana-box-day-8.webp' },
+  },
+  Mango: {
+    1: { ambient: '/assets/crops/mango-day-1.webp', box: '/assets/crops/mango-day-1.webp' },
+    3: { ambient: '/assets/crops/mango-ambient-day-3.webp', box: '/assets/crops/mango-box-day-3.webp' },
+    5: { ambient: '/assets/crops/mango-ambient-day-5.webp', box: '/assets/crops/mango-box-day-5.webp' },
+    8: { ambient: '/assets/crops/mango-ambient-day-8.webp', box: '/assets/crops/mango-box-day-8.webp' },
+  },
+};
+
+type PreviewReadout = {
+  freshness: string;
+  marketability: string;
+  weightLoss: string;
+  ph: string;
+  firmness: number;
+};
+
+// TODO(client): replace these preview figures with laboratory values.
+// Ambient day 8 marketability stays the client's ~13%. The other numbers only
+// let the cards move with the day slider until real results are added.
+const PREVIEW_READOUT: Record<StorageSide, Record<number, PreviewReadout>> = {
+  ambient: {
+    1: { freshness: '98%', marketability: '97%', weightLoss: '0.6%', ph: '4.5', firmness: 8 },
+    3: { freshness: '74%', marketability: '68%', weightLoss: '3.2%', ph: '4.4', firmness: 34 },
+    5: { freshness: '46%', marketability: '38%', weightLoss: '6.8%', ph: '4.2', firmness: 58 },
+    7: { freshness: '28%', marketability: '21%', weightLoss: '9.4%', ph: '4.0', firmness: 72 },
+    8: { freshness: '18%', marketability: '~13%', weightLoss: '11%', ph: '3.9', firmness: 78 },
+  },
+  box: {
+    1: { freshness: '98%', marketability: '97%', weightLoss: '0.6%', ph: '4.5', firmness: 8 },
+    3: { freshness: '94%', marketability: '93%', weightLoss: '1.1%', ph: '4.5', firmness: 12 },
+    5: { freshness: '90%', marketability: '88%', weightLoss: '1.6%', ph: '4.4', firmness: 16 },
+    8: { freshness: '86%', marketability: '84%', weightLoss: '2.1%', ph: '4.4', firmness: 20 },
+  },
+};
+
+function daysFor(crop: CropName, side: StorageSide) {
+  const frames = CROP_DAYS[crop];
+  if (!frames) return [];
+  return Object.keys(frames)
+    .map(Number)
+    .filter((day) => frames[day]?.[side])
+    .sort((a, b) => a - b);
+}
+
 function CropPortrait({ crop, fresh, alt }: { crop: CropName; fresh: boolean; alt: string }) {
   return (
     <div className="flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-black/10 shadow-lg sm:h-64 sm:w-64">
@@ -43,6 +103,7 @@ export const SciencePage: React.FC = () => {
   const { t } = useLanguage();
   const [selectedCrop, setSelectedCrop] = useState<'Banana' | 'Tomato' | 'Mango'>('Tomato');
   const [isColdEasyView, setIsColdEasyView] = useState(false);
+  const [cropDay, setCropDay] = useState(1);
   const [selectedLabCrop, setSelectedLabCrop] = useState<'Banana' | 'Tomato' | 'Mango'>('Tomato');
 
   // Tomato decay time-lapse. Loops while the hero is on screen.
@@ -110,6 +171,22 @@ export const SciencePage: React.FC = () => {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }, []);
+
+  const storageSide: StorageSide = isColdEasyView ? 'box' : 'ambient';
+  const seriesDays = daysFor(selectedCrop, storageSide);
+  const activeDay =
+    seriesDays.find((day) => day === cropDay) ??
+    seriesDays.reduce(
+      (nearest, day) => (Math.abs(day - cropDay) < Math.abs(nearest - cropDay) ? day : nearest),
+      seriesDays[0] ?? 1,
+    );
+  const seriesSrc = CROP_DAYS[selectedCrop]?.[activeDay]?.[storageSide];
+  const hasDaySeries = seriesDays.length > 0;
+  const freshLook = hasDaySeries ? activeDay === 1 || isColdEasyView : isColdEasyView;
+  const showSkinChip = !hasDaySeries || !freshLook || !(isColdEasyView && activeDay === 8);
+  const readout = PREVIEW_READOUT[storageSide][activeDay] ?? PREVIEW_READOUT[storageSide][1];
+  const marketability =
+    storageSide === 'ambient' && activeDay === 8 ? t('sci.ambient_market') : readout.marketability;
 
   return (
     <div className="w-full bg-cream text-ink">
@@ -271,25 +348,49 @@ export const SciencePage: React.FC = () => {
                   {isColdEasyView ? t('sci.fresh_box_sub') : t('sci.fresh_ambient_sub')}
                 </p>
               </div>
-              <div className="inline-flex items-center gap-1 rounded-full bg-white/70 p-1">
-                {(['Banana', 'Tomato', 'Mango'] as const).map((crop) => (
+              <div className="flex flex-col items-start gap-2 sm:items-end">
+                <div className="inline-flex items-center gap-1 rounded-full bg-white/70 p-1">
+                  {(['Banana', 'Tomato', 'Mango'] as const).map((crop) => (
+                    <button
+                      key={crop}
+                      type="button"
+                      onClick={() => setSelectedCrop(crop)}
+                      className={`inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 font-heading text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                        selectedCrop === crop ? 'bg-leaf text-white' : 'text-[#5E554E] hover:text-[#251A10]'
+                      }`}
+                    >
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${
+                          crop === 'Banana' ? 'bg-marigold' : crop === 'Tomato' ? 'bg-chilli' : 'bg-[#E07A1F]'
+                        }`}
+                        aria-hidden="true"
+                      />
+                      {t(CROP_KEYS[crop])}
+                    </button>
+                  ))}
+                </div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-white/70 p-1" role="group" aria-label={t('sci.fresh_kicker')}>
                   <button
-                    key={crop}
                     type="button"
-                    onClick={() => setSelectedCrop(crop)}
-                    className={`inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 font-heading text-[11px] font-bold uppercase tracking-wider transition-colors ${
-                      selectedCrop === crop ? 'bg-leaf text-white' : 'text-[#5E554E] hover:text-[#251A10]'
+                    onClick={() => setIsColdEasyView(false)}
+                    aria-pressed={!isColdEasyView}
+                    className={`cursor-pointer rounded-full px-3 py-1.5 font-heading text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                      isColdEasyView ? 'text-[#5E554E] hover:text-[#251A10]' : 'bg-ink text-white'
                     }`}
                   >
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        crop === 'Banana' ? 'bg-marigold' : crop === 'Tomato' ? 'bg-chilli' : 'bg-[#E07A1F]'
-                      }`}
-                      aria-hidden="true"
-                    />
-                    {t(CROP_KEYS[crop])}
+                    {t('sci.ambient_storage')}
                   </button>
-                ))}
+                  <button
+                    type="button"
+                    onClick={() => setIsColdEasyView(true)}
+                    aria-pressed={isColdEasyView}
+                    className={`cursor-pointer rounded-full px-3 py-1.5 font-heading text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                      isColdEasyView ? 'bg-leaf text-white' : 'text-[#5E554E] hover:text-[#251A10]'
+                    }`}
+                  >
+                    {t('sci.in_box')}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -305,25 +406,83 @@ export const SciencePage: React.FC = () => {
 
                   <div className="relative mx-auto mt-6 flex h-72 w-full max-w-md items-center justify-center">
                     <div className="pointer-events-none absolute h-64 w-64 rounded-full border border-white/15" aria-hidden="true" />
-                    <CropPortrait
-                      crop={selectedCrop}
-                      fresh={isColdEasyView}
-                      alt={t(isColdEasyView ? 'sci.photo_fresh' : 'sci.photo_ambient', {
-                        crop: t(CROP_KEYS[selectedCrop]),
-                      })}
-                    />
+                    {seriesSrc ? (
+                      <div className="flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-black/40 shadow-lg sm:h-64 sm:w-64">
+                        <OptimizedImage
+                          src={seriesSrc}
+                          alt={t('sci.tomato_day_alt', {
+                            storage: t(isColdEasyView ? 'sci.in_box' : 'sci.ambient_storage'),
+                            day: activeDay,
+                          })}
+                          className={`h-full w-full ${selectedCrop === 'Tomato' ? 'object-cover' : 'object-contain'}`}
+                        />
+                      </div>
+                    ) : (
+                      <CropPortrait
+                        crop={selectedCrop}
+                        fresh={isColdEasyView}
+                        alt={t(isColdEasyView ? 'sci.photo_fresh' : 'sci.photo_ambient', {
+                          crop: t(CROP_KEYS[selectedCrop]),
+                        })}
+                      />
+                    )}
                   </div>
+
+                  {hasDaySeries && (
+                    <div className="mx-auto mt-4 w-full max-w-md">
+                      <div className="mb-1 flex items-center justify-between font-heading text-[11px] font-bold uppercase tracking-wider text-white/80">
+                        <span>{t('sci.drag_days')}</span>
+                        <span>{t('sci.day_n', { day: activeDay })}</span>
+                      </div>
+                      <div className="relative">
+                        <div className="pointer-events-none absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-white/25" aria-hidden="true">
+                          <div
+                            className="h-full rounded-full bg-white"
+                            style={{ width: `${(seriesDays.indexOf(activeDay) / (seriesDays.length - 1)) * 100}%` }}
+                          />
+                        </div>
+                        <input
+                          type="range"
+                          className="crop-day-range relative z-10"
+                          min={0}
+                          max={seriesDays.length - 1}
+                          step={1}
+                          value={seriesDays.indexOf(activeDay)}
+                          aria-label={t('sci.drag_days')}
+                          aria-valuetext={t('sci.day_n', { day: activeDay })}
+                          onChange={(event) => setCropDay(seriesDays[Number(event.target.value)])}
+                        />
+                      </div>
+                      <div className="mt-1 flex justify-between">
+                        {seriesDays.map((day) => (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => setCropDay(day)}
+                            className={`cursor-pointer font-heading text-[11px] font-bold ${
+                              day === activeDay ? 'text-white' : 'text-white/55 hover:text-white'
+                            }`}
+                            aria-pressed={day === activeDay}
+                          >
+                            {t('sci.day_n', { day })}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     <span className="rounded-full bg-black/25 px-3 py-1 font-heading text-[11px] font-bold text-white">
-                      {isColdEasyView ? t('sci.index_high') : t('sci.index_low')}
+                      {freshLook ? t('sci.index_high') : t('sci.index_low')}
                     </span>
                     <span className="rounded-full bg-black/25 px-3 py-1 font-heading text-[11px] font-bold text-white">
-                      {isColdEasyView ? t('sci.firm_high') : t('sci.firm_low')}
+                      {freshLook ? t('sci.firm_high') : t('sci.firm_low')}
                     </span>
-                    <span className="rounded-full bg-black/25 px-3 py-1 font-heading text-[11px] font-bold text-white">
-                      {isColdEasyView ? t('sci.gloss_note') : t('sci.spoil_note')}
-                    </span>
+                    {showSkinChip && (
+                      <span className="rounded-full bg-black/25 px-3 py-1 font-heading text-[11px] font-bold text-white">
+                        {freshLook ? t('sci.gloss_note') : t('sci.spoil_note')}
+                      </span>
+                    )}
                   </div>
 
                   <p className="mt-4 font-body text-sm text-white/85">
@@ -344,9 +503,9 @@ export const SciencePage: React.FC = () => {
                       {t('sci.freshness')}
                     </span>
                     <div className="mt-1 font-heading text-3xl font-semibold leading-none">
-                      {t('sci.day_8')} <span className="text-lg">{t('sci.days')}</span>
+                      {readout.freshness}
                     </div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.days_watch')}</span>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.fresh_score')}</span>
                   </div>
 
                   <div className="rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
@@ -354,13 +513,11 @@ export const SciencePage: React.FC = () => {
                       {t('sci.marketability')}
                     </span>
                     <div
-                      className={
-                        isColdEasyView
-                          ? 'mt-1 font-heading text-lg font-semibold leading-snug'
-                          : 'mt-1 font-heading text-3xl font-semibold leading-none text-chilli'
-                      }
+                      className={`mt-1 font-heading text-3xl font-semibold leading-none ${
+                        storageSide === 'ambient' && activeDay > 1 ? 'text-chilli' : ''
+                      }`}
                     >
-                      {isColdEasyView ? t('sci.data') : t('sci.ambient_market')}
+                      {marketability}
                     </div>
                     <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.saleable')}</span>
                   </div>
@@ -369,15 +526,15 @@ export const SciencePage: React.FC = () => {
                     <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                       {t('sci.weight')}
                     </span>
-                    <div className="mt-1 font-heading text-3xl font-semibold leading-none">—</div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.data')}</span>
+                    <div className="mt-1 font-heading text-3xl font-semibold leading-none">{readout.weightLoss}</div>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.weight_since')}</span>
                   </div>
 
                   <div className="rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
                     <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                       {t('sci.ph')}
                     </span>
-                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('sci.data')}</div>
+                    <div className="mt-1 font-heading text-3xl font-semibold leading-none">{readout.ph}</div>
                     <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.ph_note')}</span>
                   </div>
 
@@ -388,16 +545,16 @@ export const SciencePage: React.FC = () => {
                       </span>
                       <span
                         className={`font-heading text-sm font-semibold ${
-                          isColdEasyView ? 'text-leaf' : 'text-chilli'
+                          freshLook ? 'text-leaf' : 'text-chilli'
                         }`}
                       >
-                        {isColdEasyView ? t('sci.holding') : t('sci.declining')}
+                        {freshLook ? t('sci.holding') : t('sci.declining')}
                       </span>
                     </div>
                     <div className="relative mt-3 h-1.5 rounded-full bg-gradient-to-r from-leaf via-marigold to-chilli">
                       <span
                         className="absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full border-2 border-white bg-[#251A10] shadow"
-                        style={{ left: isColdEasyView ? '8%' : '78%' }}
+                        style={{ left: `${readout.firmness}%` }}
                       />
                     </div>
                     <div className="mt-2 flex justify-between font-body text-[10px] text-[#8A8176]">
@@ -405,7 +562,7 @@ export const SciencePage: React.FC = () => {
                       <span>{t('sci.softening')}</span>
                       <span>{t('sci.overripe')}</span>
                     </div>
-                    {!isColdEasyView && (
+                    {!freshLook && (
                       <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.turgor')}</span>
                     )}
                   </div>
@@ -413,20 +570,9 @@ export const SciencePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-              <p className="max-w-md font-body text-xs text-[#8A8176]">
-                {t('sci.figures_note')} {t('sci.photo_credit')}
-              </p>
-              <button
-                type="button"
-                onClick={() => setIsColdEasyView((prev) => !prev)}
-                className="cursor-pointer rounded-full bg-leaf px-5 py-3 font-heading text-xs font-bold uppercase tracking-wider text-white transition-transform active:scale-95"
-              >
-                {isColdEasyView
-                  ? t('sci.view_ambient', { crop: t(CROP_KEYS[selectedCrop]) })
-                  : `${t('sci.view_box', { crop: t(CROP_KEYS[selectedCrop]) })} →`}
-              </button>
-            </div>
+            <p className="mt-5 max-w-md font-body text-xs text-[#8A8176]">
+              {t('sci.figures_note')} {t('sci.photo_credit')}
+            </p>
           </div>
         </div>
       </section>
