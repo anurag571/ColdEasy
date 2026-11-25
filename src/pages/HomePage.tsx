@@ -34,7 +34,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
   return (
     <div className="w-full">
       {/* 1. E-COMMERCE HERO FOR THE COLDEASY BOX */}
-      <section className="hero-scene relative w-full overflow-hidden bg-cream py-12 text-ink sm:py-16 lg:py-20">
+      <section className="hero-scene relative w-full overflow-hidden py-12 text-ink sm:py-16 lg:py-20">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center">
             <div className="relative z-10 lg:col-span-6 flex flex-col items-start text-left">
@@ -85,8 +85,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                 src="/assets/hero/hero-box.webp"
                 alt={t('hero.image_alt')}
                 className="hero-product ml-auto h-auto w-full object-contain lg:max-w-[640px]"
-                width={1400}
-                height={788}
+                width={1024}
+                height={1024}
                 loading="eager"
                 fetchPriority="high"
               />

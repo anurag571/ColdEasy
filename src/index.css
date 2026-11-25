@@ -284,8 +284,24 @@ html.dark .media-logo {
 }
 
 .hero-scene {
-  background-color: var(--color-cream);
+  /* Matched to the open studio backdrop in the hero crate photo. */
+  background-color: #f7efe6;
   color: var(--color-ink);
+}
+
+.hero-product {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 3%, #000 97%, transparent),
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 3%, #000 97%, transparent),
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  mask-composite: intersect;
+}
+
+html.dark .hero-scene {
+  background-color: #14120e;
 }
 
 html.dark .home-fade-hero {
@@ -337,7 +353,7 @@ html.dark .how-works-stage {
 }
 
 .home-fade-hero {
-  --home-fade-from: var(--color-cream);
+  --home-fade-from: #f7efe6;
 }
 
 .home-fade-works {
