@@ -301,57 +301,40 @@ html.dark .media-logo {
   opacity: 1;
   transform: scale(0.96);
   pointer-events: none;
-  animation: hero-shadow 2.4s ease-in-out 0.15s backwards;
-  transition:
-    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: hero-shadow 2.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s backwards;
 }
 
 .hero-product {
   position: relative;
   z-index: 1;
-  --hero-shadow: none;
-  filter: none;
   translate: 0 0;
-  animation: hero-bounce 2.4s ease-in-out 0.15s backwards;
-  transition: translate 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  scale: 1;
+  transform-origin: 78% 12%;
+  animation: hero-arrive 2.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s backwards;
 }
 
-@keyframes hero-bounce {
-  0%,
-  50%,
-  100% {
-    translate: 0 0;
+@keyframes hero-arrive {
+  from {
+    translate: 18% -22%;
+    scale: 0.72;
+    opacity: 0.8;
   }
-  25%,
-  75% {
-    translate: 0 -28px;
+  to {
+    translate: 0 0;
+    scale: 1;
+    opacity: 1;
   }
 }
 
 @keyframes hero-shadow {
-  0%,
-  50%,
-  100% {
+  from {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+  to {
     opacity: 1;
     transform: scale(0.96);
   }
-  25%,
-  75% {
-    opacity: 0.14;
-    transform: scale(1.08);
-  }
-}
-
-.hero-frame:hover .hero-product,
-.hero-frame:focus-within .hero-product {
-  translate: 0 -28px;
-}
-
-.hero-frame:hover::before,
-.hero-frame:focus-within::before {
-  opacity: 0.14;
-  transform: scale(1.08);
 }
 
 html.dark .hero-scene {
@@ -470,18 +453,6 @@ html.dark .home-fade-sellers {
   .hero-product,
   .hero-frame::before {
     animation: none;
-  }
-
-  .hero-frame:hover .hero-product,
-  .hero-frame:focus-within .hero-product {
-    translate: 0 0;
-    filter: var(--hero-shadow);
-  }
-
-  .hero-frame:hover::before,
-  .hero-frame:focus-within::before {
-    opacity: 1;
-    transform: scale(0.96);
   }
 
   .buy-press:active {
