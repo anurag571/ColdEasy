@@ -90,6 +90,8 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
   const [duration, setDuration] = useState<number>(HARDWARE_VIDEO_DURATION);
   const [hasStartedPlaying, setHasStartedPlaying] = useState<boolean>(false);
   const [isUserPaused, setIsUserPaused] = useState<boolean>(false);
+  const [clipVisible, setClipVisible] = useState(true);
+  const switchingRef = useRef(false);
 
   // Ensure native DOM properties for reliable playback
   useEffect(() => {
@@ -112,31 +114,55 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
       return;
     }
 
-    video.muted = true;
-    video.defaultMuted = true;
-    if (viewPerspective === 'hardware') video.removeAttribute('src');
-    else video.src = videoSrc;
-    video.load();
-
-    if (reducedMotion) return;
-
     let cancelled = false;
-    const play = () => {
+    let detach = () => {};
+    switchingRef.current = true;
+    if (!reducedMotion) setClipVisible(false);
+
+    const swapAndPlay = () => {
       if (cancelled) return;
-      video
-        .play()
-        .then(() => {
-          if (!cancelled) {
+      video.muted = true;
+      video.defaultMuted = true;
+      if (viewPerspective === 'hardware') video.removeAttribute('src');
+      else video.src = videoSrc;
+      video.load();
+      if (reducedMotion) {
+        switchingRef.current = false;
+        return;
+      }
+      let started = false;
+      const play = () => {
+        if (cancelled || started) return;
+        started = true;
+        video.removeEventListener('loadeddata', play);
+        video
+          .play()
+          .then(() => {
+            if (cancelled) return;
             setIsPlaying(true);
             setIsEnded(false);
-          }
-        })
-        .catch(() => {});
+            setClipVisible(true);
+            window.setTimeout(() => {
+              if (!cancelled) switchingRef.current = false;
+            }, 80);
+          })
+          .catch(() => {
+            if (cancelled) return;
+            setIsPlaying(false);
+            setClipVisible(true);
+            switchingRef.current = false;
+          });
+      };
+      video.addEventListener('loadeddata', play);
+      detach = () => video.removeEventListener('loadeddata', play);
+      if (video.readyState >= 2) play();
     };
-    video.addEventListener('loadeddata', play, { once: true });
+
+    const fadeTimer = window.setTimeout(swapAndPlay, reducedMotion ? 0 : 160);
     return () => {
       cancelled = true;
-      video.removeEventListener('loadeddata', play);
+      window.clearTimeout(fadeTimer);
+      detach();
     };
   }, [viewPerspective, videoSrc, reducedMotion]);
 
@@ -144,7 +170,6 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
   const handlePerspectiveChange = (perspective: ViewPerspective) => {
     if (perspective === viewPerspective) return;
     setIsUserPaused(false);
-    setIsPlaying(false);
     setViewPerspective(perspective);
     setVideoSrc(resolveCurrentSource(perspective));
     setCurrentTime(0);
@@ -391,6 +416,10 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               style={featheredMaskStyle}
             />
           ) : (
+          <div
+            className="h-full w-full transition-opacity duration-200 ease-out"
+            style={{ opacity: clipVisible ? 1 : 0 }}
+          >
           <video
             ref={videoRef}
             className="h-full w-full object-cover"
@@ -403,10 +432,16 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleVideoEnded}
             onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
+            onPause={() => {
+              window.setTimeout(() => {
+                if (switchingRef.current || !videoRef.current?.paused) return;
+                setIsPlaying(false);
+              }, 0);
+            }}
           >
             {videoSources}
           </video>
+          </div>
           )}
 
           {!isPlaying && !isEnded && (
@@ -489,6 +524,10 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
             {reducedMotion ? (
               <img src={currentPoster} alt="" className="block h-full w-full object-cover" />
             ) : (
+            <div
+              className="h-full w-full transition-opacity duration-200 ease-out"
+              style={{ opacity: clipVisible ? 1 : 0 }}
+            >
             <video
               ref={videoRef}
               className="block h-full w-full object-cover"
@@ -500,10 +539,16 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               onTimeUpdate={handleTimeUpdate}
               onEnded={handleVideoEnded}
               onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
+              onPause={() => {
+                window.setTimeout(() => {
+                  if (switchingRef.current || !videoRef.current?.paused) return;
+                  setIsPlaying(false);
+                }, 0);
+              }}
             >
               {videoSources}
             </video>
+            </div>
             )}
 
             {!isPlaying && !isEnded && (

@@ -61,8 +61,9 @@ export const PRODUCTS: Product[] = [
     slug: 'coldeasy-box',
     name: 'ColdEasy Box',
     group: 'main',
-    mrp: null,
+    mrp: 4999,
     price: 3990,
+    rating: 4.9,
     inStock: true,
     emiEligible: false,
     shortDescription:
@@ -181,8 +182,9 @@ export const PRODUCTS: Product[] = [
     slug: 'coldeasy-autobox-3',
     name: 'ColdEasy AutoBox – 3 Box',
     group: 'main',
-    mrp: null,
+    mrp: 19999,
     price: 15490,
+    rating: 4.87,
     inStock: true,
     emiEligible: true,
     shortDescription:
@@ -349,8 +351,9 @@ export const PRODUCTS: Product[] = [
     slug: 'coldeasy-autobox-2',
     name: 'ColdEasy AutoBox – 2 Box',
     group: 'main',
-    mrp: null,
+    mrp: 14999,
     price: 12990,
+    rating: 4.85,
     inStock: false, // ALWAYS sold out per client brief
     emiEligible: false,
     shortDescription:

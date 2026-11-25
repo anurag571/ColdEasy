@@ -342,7 +342,7 @@ html.dark .how-works-stage {
   left: 0;
   right: 0;
   top: 0;
-  height: 14rem;
+  height: 5rem;
   pointer-events: none;
   background: linear-gradient(
     to bottom,
@@ -382,6 +382,40 @@ html.dark .home-fade-works {
 
 html.dark .home-fade-sellers {
   --home-fade-from: #14120e;
+}
+
+.buy-press {
+  transition: transform 150ms ease;
+}
+
+.buy-press:active {
+  transform: scale(0.98);
+}
+
+@keyframes cart-count-tick {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cart-count-tick {
+  animation: cart-count-tick 180ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buy-press:active {
+    transform: none;
+  }
+
+  .cart-count-tick {
+    animation: none;
+  }
 }
 
 #bestsellers .bestseller-photo {
@@ -624,6 +658,14 @@ html.dark .shadow-2xl {
 .buy-outline {
   transition:
     transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.buy-outline.buy-press {
+  transition:
+    transform 150ms ease,
     background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
     color 0.5s cubic-bezier(0.22, 1, 0.36, 1);

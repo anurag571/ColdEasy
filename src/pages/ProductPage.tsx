@@ -5,6 +5,7 @@ import { ChevronRight, Share2, ChevronDown, Sun, Zap, Sparkles } from 'lucide-re
 import { OptimizedImage } from '../components/OptimizedImage';
 import { track } from '../lib/track';
 import { useLanguage } from '../context/LanguageContext';
+import { StarRating } from '../components/StarRating';
 
 interface ProductPageProps {
   slug?: string;
@@ -257,13 +258,21 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
 
             {/* Price Row directly above large BUY NOW button */}
             <div className="mt-8 pt-6 border-t border-ink/10">
+              {typeof baseProduct.rating === 'number' && (
+                <div className="mb-3">
+                  <StarRating rating={baseProduct.rating} />
+                </div>
+              )}
               <div className="flex items-baseline gap-3 flex-wrap mb-4">
+                {baseProduct.mrp != null && (
+                  <span className="font-heading text-lg font-medium text-ink-40 line-through sm:text-xl">
+                    ₹{baseProduct.mrp.toLocaleString('en-IN')}
+                  </span>
+                )}
                 {hasPrice ? (
-                  <>
-                    <span className="font-heading font-black text-3xl sm:text-4xl text-ink">
-                      ₹{displayPrice!.toLocaleString('en-IN')}
-                    </span>
-                  </>
+                  <span className="font-heading font-black text-3xl sm:text-4xl text-ink">
+                    ₹{displayPrice!.toLocaleString('en-IN')}
+                  </span>
                 ) : (
                   <span className="text-base font-heading font-bold text-leaf bg-leaf-light px-4 py-1.5 rounded-full">
                     Price coming soon
@@ -276,7 +285,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
                 <button
                   type="button"
                   onClick={handleBuyNow}
-                  className="w-full py-4 px-8 rounded-full bg-leaf text-white font-heading font-extrabold text-sm sm:text-base uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-md cursor-pointer"
+                  className="buy-press w-full py-4 px-8 rounded-full bg-leaf text-white font-heading font-extrabold text-sm sm:text-base uppercase tracking-wider hover:bg-leaf/90 transition-colors text-center shadow-md cursor-pointer"
                 >
                   BUY NOW
                 </button>

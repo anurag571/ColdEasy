@@ -5,6 +5,7 @@ import { ImagePlaceholder } from './ImagePlaceholder';
 import { useCart } from '../context/CartContext';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { StarRating } from './StarRating';
 
 interface ProductCardProps {
   product: Product;
@@ -83,13 +84,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {t(`product.desc.${product.id}`)}
       </p>
 
+      {typeof product.rating === 'number' && (
+        <div className="mt-2">
+          <StarRating rating={product.rating} />
+        </div>
+      )}
+
       <div className="mt-3 flex flex-wrap items-baseline gap-2">
+        {product.mrp != null && (
+          <span className="font-heading text-sm font-medium text-ink-40 line-through">
+            ₹{product.mrp.toLocaleString('en-IN')}
+          </span>
+        )}
         {hasPrice ? (
-          <>
-            <span className="font-heading text-xl font-bold text-ink">
-              ₹{product.price!.toLocaleString('en-IN')}
-            </span>
-          </>
+          <span className="font-heading text-xl font-bold text-ink">
+            ₹{product.price!.toLocaleString('en-IN')}
+          </span>
         ) : (
           <span className="font-heading text-sm font-bold text-ink-60">{t('product.price_soon')}</span>
         )}
@@ -100,7 +110,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <button
             type="button"
             onClick={handleBuyNow}
-            className="buy-outline cursor-pointer rounded-full border border-leaf px-5 py-2.5 font-heading text-xs font-bold uppercase tracking-wider text-leaf active:bg-leaf active:text-white"
+            className="buy-press buy-outline cursor-pointer rounded-full border border-leaf px-5 py-2.5 font-heading text-xs font-bold uppercase tracking-wider text-leaf active:bg-leaf active:text-white"
           >
             {t('product.buy_now')}
           </button>

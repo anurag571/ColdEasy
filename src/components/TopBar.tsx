@@ -3,6 +3,7 @@ import { ShoppingBag, MessageCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { MobileSignupModal } from './MobileSignupModal';
+import { CartCount } from './CartCount';
 
 interface TopBarProps {
   onShowToast: (message: string) => void;
@@ -68,9 +69,10 @@ export const TopBar: React.FC<TopBarProps> = ({ onShowToast }) => {
             >
               <ShoppingBag className="w-3.5 h-3.5" />
               <span>{t('topbar.cart')}</span>
-              <span className="inline-flex items-center justify-center min-w-4.5 h-4.5 px-1 rounded-full bg-leaf text-white text-[10px] font-bold">
-                {totalItems}
-              </span>
+              <CartCount
+                count={totalItems}
+                className="inline-flex items-center justify-center min-w-4.5 h-4.5 px-1 rounded-full bg-leaf text-white text-[10px] font-bold"
+              />
             </button>
           </div>
         </div>
