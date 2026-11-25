@@ -66,7 +66,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                 <button
                   type="button"
                   onClick={() => buyNow('coldeasy-box')}
-                  className="py-4 px-10 rounded-full bg-leaf text-white font-heading font-extrabold text-sm uppercase tracking-wider hover:bg-leaf/90 active:scale-[0.98] transition-all text-center shadow-lg hover:shadow-xl break-words cursor-pointer"
+                  className="buy-press py-4 px-10 rounded-full bg-leaf text-white font-heading font-extrabold text-sm uppercase tracking-wider hover:bg-leaf/90 transition-colors text-center shadow-lg break-words cursor-pointer"
                 >
                   {t('hero.cta_buy')}
                 </button>

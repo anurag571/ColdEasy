@@ -13,6 +13,7 @@ import { Logo } from './Logo';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { LanguageMenu } from './LanguageMenu';
+import { CartCount } from './CartCount';
 
 interface HeaderProps {
   currentRoute: string;
@@ -214,9 +215,10 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
             >
               <ShoppingBag className="w-5 h-5" />
               {totalItems > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-leaf text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
+                <CartCount
+                  count={totalItems}
+                  className="absolute top-1 right-1 w-4 h-4 bg-leaf text-white text-[10px] font-bold rounded-full flex items-center justify-center"
+                />
               )}
             </button>
 
