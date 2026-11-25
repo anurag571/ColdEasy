@@ -657,8 +657,8 @@ export interface VideoSourcesConfig {
 }
 
 export const VIDEO_SOURCES: VideoSourcesConfig = {
-  video1080: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=clean',
-  video720: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=clean',
+  video1080: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=final',
+  video720: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=final',
   poster: '/video/coldeasy-box-exploded-poster.jpg',
   endFrame: '/video/coldeasy-box-exploded-end-frame.jpg',
 };
@@ -671,49 +671,49 @@ export interface HowItWorksStep {
   description: string;
 }
 
-// Extended assembly cut is 56.2s. These marks follow that file.
+// Marks follow Coldeasy_final_cut.mp4 (56.2s).
 export const HARDWARE_VIDEO_DURATION = 56.2;
 
 export const HOW_IT_WORKS_STEPS: HowItWorksStep[] = [
   {
     id: 1,
     start: 0,
-    end: 4,
+    end: 1.2,
     title: 'Full Product',
     description: 'The complete ColdEasy Box unit ready for deployment at field or market.',
   },
   {
     id: 2,
-    start: 4,
-    end: 7,
+    start: 1.2,
+    end: 6.6,
     title: '360° Rotation',
     description: 'Seamless ergonomic exterior with durable produce storage chamber.',
   },
   {
     id: 3,
-    start: 7,
-    end: 16,
+    start: 6.6,
+    end: 15.6,
     title: 'Lid + Box + Water Tank Separate',
     description: 'Modular sub-assemblies separate smoothly without tools.',
   },
   {
     id: 4,
-    start: 16,
-    end: 20,
+    start: 15.6,
+    end: 18.4,
     title: 'Lid and Tank Disappear',
     description: 'Revealing the inner honeycomb SEEC evaporative core.',
   },
   {
     id: 5,
-    start: 20,
-    end: 23,
+    start: 18.4,
+    end: 21,
     title: 'Cooling Pad Slides Out Halfway',
     description:
       'SEEC cooling pad with high-surface wicking media for optimal moisture absorption.',
   },
   {
     id: 6,
-    start: 23,
+    start: 21,
     end: 33,
     title: 'Water Trickles Down',
     description: 'Tap water trickles evenly through the honeycomb matrix by gravity.',
@@ -721,20 +721,20 @@ export const HOW_IT_WORKS_STEPS: HowItWorksStep[] = [
   {
     id: 7,
     start: 33,
-    end: 43,
+    end: 39,
     title: 'Air Flow & Evaporation',
     description: 'Outside air → wet pad → evaporation → cooler air blankets produce.',
   },
   {
     id: 8,
-    start: 43,
-    end: 49,
+    start: 39,
+    end: 45.6,
     title: 'Reassemble',
     description: 'Parts slot firmly back into place as a compact, self-contained unit.',
   },
   {
     id: 9,
-    start: 49,
+    start: 45.6,
     end: 56.3,
     title: 'Cooling Without Electricity',
     description: 'Pure thermodynamic cooling: zero motor, zero fan, zero electricity.',
