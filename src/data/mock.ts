@@ -68,6 +68,7 @@ export const PRODUCTS: Product[] = [
     price: 3990,
     saveAmount: 1009,
     inStock: true,
+    rating: 4.9,
     emiEligible: false,
     shortDescription:
       'ColdEasy Box keeps fruits and vegetables fresh for longer without using electricity. It uses water-based cooling to lower temperature and maintain high humidity, which reduces spoilage and weight loss. The compact design suits retailers, vendors, and homes, and also works well during transport.',
@@ -189,6 +190,7 @@ export const PRODUCTS: Product[] = [
     price: 15490,
     saveAmount: 4509,
     inStock: true,
+    rating: 4.87,
     emiEligible: true,
     emiFromPerMonth: '₹1,420',
     shortDescription:
@@ -359,6 +361,7 @@ export const PRODUCTS: Product[] = [
     price: 12990,
     saveAmount: 2009,
     inStock: false, // ALWAYS sold out per client brief
+    rating: 4.85,
     emiEligible: false,
     shortDescription:
       'Automated water feed for two stacked crates. Compact footprint for roadside stalls and retail store display.',
@@ -654,8 +657,8 @@ export interface VideoSourcesConfig {
 }
 
 export const VIDEO_SOURCES: VideoSourcesConfig = {
-  video1080: '/assets/aistudio/Coldeasy_box_extended_cut_487f8994.mp4',
-  video720: '/assets/aistudio/Coldeasy_box_extended_cut_487f8994.mp4',
+  video1080: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=clean',
+  video720: '/assets/aistudio/Coldeasy_box_extended_final_cut.mp4?v=clean',
   poster: '/video/coldeasy-box-exploded-poster.jpg',
   endFrame: '/video/coldeasy-box-exploded-end-frame.jpg',
 };
@@ -668,7 +671,7 @@ export interface HowItWorksStep {
   description: string;
 }
 
-// Extended assembly cut is 56.2s. These marks follow that file, not the older 39.8s cut.
+// Extended assembly cut is 56.2s. These marks follow that file.
 export const HARDWARE_VIDEO_DURATION = 56.2;
 
 export const HOW_IT_WORKS_STEPS: HowItWorksStep[] = [

@@ -283,9 +283,127 @@ html.dark .media-logo {
   filter: brightness(0) invert(1);
 }
 
+/* Home hero uses the poster's own cream, so the photo has no rectangle edge.
+   Only the side toward the headline fades. */
+.hero-scene {
+  background-color: #f5f2e9;
+}
+
+.hero-product {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 100%);
+}
+
+@media (min-width: 1024px) {
+  .hero-product {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 100%);
+  }
+}
+
+html.dark .hero-scene,
+html.dark .hero-scene h1,
+html.dark .hero-scene .hero-secondary {
+  background-color: #f5f2e9;
+  color: #251a10;
+}
+
+html.dark .hero-scene p {
+  color: #5e554e;
+}
+
+html.dark .hero-scene .hero-secondary {
+  border-color: rgba(37, 26, 16, 0.22);
+}
+
 /* How It Works section background in dark mode */
 html.dark #how-it-works {
   background: linear-gradient(to bottom, #221e17 0%, #181510 100%) !important;
+}
+
+.how-works-card {
+  background: #f6f1e6;
+  box-shadow: 0 10px 28px rgba(37, 26, 16, 0.06);
+}
+
+html.dark .how-works-card {
+  background: #241f18;
+  box-shadow: none;
+}
+
+.how-works-stage {
+  background: #efe8d8;
+}
+
+html.dark .how-works-stage {
+  background: #1a1713;
+}
+
+/* Soft join between home sections. Each section names the colour it fades in from. */
+.home-fade {
+  position: relative;
+}
+
+.home-fade::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 14rem;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--home-fade-from) 0%,
+    color-mix(in srgb, var(--home-fade-from) 42%, transparent) 48%,
+    transparent 100%
+  );
+}
+
+.home-fade-hero {
+  --home-fade-from: #f5f2e9;
+}
+
+.home-fade-works {
+  --home-fade-from: #e4dccb;
+}
+
+.home-fade-sellers {
+  --home-fade-from: #ffffff;
+}
+
+.home-fade-sand {
+  --home-fade-from: var(--color-sand);
+}
+
+.home-fade-cream {
+  --home-fade-from: var(--color-cream);
+}
+
+.home-fade-studio {
+  --home-fade-from: var(--color-studio);
+}
+
+html.dark .home-fade-hero {
+  --home-fade-from: #f5f2e9;
+}
+
+html.dark .home-fade-works {
+  --home-fade-from: #181510;
+}
+
+html.dark .home-fade-sellers {
+  --home-fade-from: #1e1a14;
+}
+
+#bestsellers .bestseller-photo {
+  -webkit-mask-image: radial-gradient(ellipse at 50% 48%, #000 52%, transparent 80%);
+  mask-image: radial-gradient(ellipse at 50% 48%, #000 52%, transparent 80%);
+}
+
+html.dark #bestsellers .bestseller-photo {
+  -webkit-mask-image: radial-gradient(ellipse at 50% 48%, #000 46%, transparent 78%);
+  mask-image: radial-gradient(ellipse at 50% 48%, #000 46%, transparent 78%);
 }
 
 /* Subtle elevation box shadows in dark mode */
@@ -368,8 +486,17 @@ html.dark .shadow-2xl {
   animation-play-state: paused;
 }
 
+.media-marquee-track {
+  animation: marquee-ltr 48s linear infinite;
+}
+
+.media-marquee-track.is-paused {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .partner-marquee-track {
+  .partner-marquee-track,
+  .media-marquee-track {
     animation: none;
     transform: none;
   }
@@ -418,6 +545,13 @@ html.dark .shadow-2xl {
     opacity: 0.9;
     transform: scale(1.012);
   }
+}
+
+.crop-board {
+  background:
+    radial-gradient(ellipse at 30% 42%, rgba(86, 150, 78, 0.42), transparent 46%),
+    radial-gradient(ellipse at 72% 68%, rgba(12, 40, 22, 0.55), transparent 42%),
+    #102616;
 }
 
 .animate-science-pulse {
@@ -475,6 +609,77 @@ html.dark .shadow-2xl {
 
 .animate-svg-pulse {
   animation: svgNodePulse 3.2s ease-in-out infinite;
+}
+
+@keyframes product-rise {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.product-rise {
+  animation: product-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.product-tile img {
+  -webkit-mask-image: radial-gradient(ellipse at 50% 48%, #000 46%, transparent 78%);
+  mask-image: radial-gradient(ellipse at 50% 48%, #000 46%, transparent 78%);
+}
+
+.product-tile,
+.product-tile img,
+.buy-outline {
+  transition:
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.product-tile-card {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-tile-card:hover,
+  .product-tile-card:focus-within {
+    transform: translateY(-6px);
+  }
+
+  .product-tile-card:hover .product-tile,
+  .product-tile-card:focus-within .product-tile {
+    background-color: var(--color-studio-deep);
+    box-shadow: 0 12px 24px rgba(37, 26, 16, 0.08);
+  }
+
+  .product-tile-card:hover .product-tile img,
+  .product-tile-card:focus-within .product-tile img {
+    transform: scale(1.05);
+  }
+
+  .product-tile-card:hover .buy-outline,
+  .product-tile-card:focus-within .buy-outline {
+    background-color: var(--color-leaf);
+    color: #ffffff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-rise {
+    animation: none;
+  }
+
+  .product-tile-card:hover,
+  .product-tile-card:focus-within,
+  .product-tile-card:hover .product-tile img,
+  .product-tile-card:focus-within .product-tile img {
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

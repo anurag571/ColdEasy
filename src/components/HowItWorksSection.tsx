@@ -83,6 +83,8 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
   const [videoSrc, setVideoSrc] = useState<string>(() => resolveCurrentSource('hardware'));
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isEnded, setIsEnded] = useState<boolean>(false);
+  // Loop on laptop and desktop. A continuous loop is hard on a low-end phone.
+  const [loopOnThisScreen, setLoopOnThisScreen] = useState(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(HARDWARE_VIDEO_DURATION);
   const [hasStartedPlaying, setHasStartedPlaying] = useState<boolean>(false);
@@ -194,6 +196,16 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
         });
     }
   }, [hasStartedPlaying, resolveCurrentSource, viewPerspective]);
+
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 768px)');
+    const apply = () => setLoopOnThisScreen(media.matches);
+    apply();
+    media.addEventListener('change', apply);
+    return () => media.removeEventListener('change', apply);
+  }, []);
+
+  const loopVideo = viewPerspective === 'airflow' || loopOnThisScreen;
 
   // Autoplay on mount / intersection
   useEffect(() => {
@@ -335,13 +347,13 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
           <video
             ref={videoRef}
             src={videoSrc}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             style={featheredMaskStyle}
             autoPlay
             muted
             playsInline
             preload="auto"
-            loop={viewPerspective === 'airflow'}
+            loop={loopVideo}
             poster={currentPoster}
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleVideoEnded}
@@ -389,61 +401,52 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
     <section
       id="how-it-works"
       ref={sectionRef}
-      className={`relative w-full overflow-hidden ${className}`}
+      className={`home-fade home-fade-hero relative w-full overflow-hidden ${className}`}
       style={{
         background: 'linear-gradient(to bottom, #EEE8DB 0%, #E4DCCB 100%)',
       }}
     >
       <div className="relative z-10 max-w-[900px] mx-auto px-4 sm:px-6 py-14 sm:py-16 md:py-20 text-center">
-        <SectionHeading
-          title={t('works.title')}
-          subtitle={t('works.subtitle')}
-          isCentered
-        />
+        <SectionHeading title={t('works.title')} isCentered />
 
-        {/* Dual Mode Switcher Bar */}
-        <div className="flex justify-center mt-6 mb-8">
-          <div className="inline-flex flex-wrap items-center justify-center gap-1 p-1.5 rounded-full bg-white/80 backdrop-blur-xs border border-ink/10 shadow-sm max-w-full">
-            <button
-              type="button"
-              onClick={() => handlePerspectiveChange('hardware')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-heading font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                viewPerspective === 'hardware'
-                  ? 'bg-leaf text-white shadow-xs'
-                  : 'text-ink-60 hover:text-ink'
-              }`}
-            >
-              <Box className="w-4 h-4" />
-              <span className="break-words">{t('works.hardware')}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handlePerspectiveChange('airflow')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-heading font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                viewPerspective === 'airflow'
-                  ? 'bg-sky text-ink shadow-xs font-extrabold'
-                  : 'text-ink-60 hover:text-ink'
-              }`}
-            >
-              <Wind className="w-4 h-4" />
-              <span className="break-words">{t('works.airflow')}</span>
-            </button>
-          </div>
+        <div className="mt-6 mb-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          <button
+            type="button"
+            onClick={() => handlePerspectiveChange('hardware')}
+            className={`inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-wider cursor-pointer ${
+              viewPerspective === 'hardware'
+                ? 'text-leaf underline decoration-2 underline-offset-[6px]'
+                : 'text-ink-40 hover:text-ink'
+            }`}
+          >
+            <Box className="w-4 h-4" />
+            <span>{t('works.hardware')}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => handlePerspectiveChange('airflow')}
+            className={`inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-wider cursor-pointer ${
+              viewPerspective === 'airflow'
+                ? 'text-leaf underline decoration-2 underline-offset-[6px]'
+                : 'text-ink-40 hover:text-ink'
+            }`}
+          >
+            <Wind className="w-4 h-4" />
+            <span>{t('works.airflow')}</span>
+          </button>
         </div>
 
-        {/* Central Video Player Card (Single Viewport Focus, No Scrolling Required) */}
-        <div className="bg-white rounded-[32px] p-5 sm:p-8 border border-ink/10 shadow-xl">
-          <div className="relative w-full aspect-video overflow-hidden rounded-2xl bg-ink/5 shadow-inner">
+        <div className="how-works-card rounded-[28px] px-4 py-5 sm:px-7 sm:py-6">
+          <div className="how-works-stage relative w-full aspect-video overflow-hidden rounded-2xl">
             <video
               ref={videoRef}
               src={videoSrc}
-              className="w-full h-full object-cover border-none shadow-none rounded-none outline-none block"
-              style={featheredMaskStyle}
+              className="block h-full w-full object-cover"
               autoPlay
               muted
               playsInline
               preload="auto"
-              loop={viewPerspective === 'airflow'}
+              loop={loopVideo}
               poster={currentPoster}
               onTimeUpdate={handleTimeUpdate}
               onEnded={handleVideoEnded}
@@ -455,17 +458,11 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               <button
                 type="button"
                 onClick={startPlayback}
-                className="absolute inset-0 flex flex-col items-center justify-center bg-ink/25 hover:bg-ink/35 active:bg-ink/45 transition-colors z-20 cursor-pointer group/play"
+                className="absolute inset-0 flex items-center justify-center cursor-pointer z-20"
                 aria-label={t('works.play')}
               >
-                <div className="w-16 h-16 rounded-full bg-leaf text-white flex items-center justify-center shadow-2xl group-hover/play:scale-110 active:scale-95 transition-transform">
-                  <Play className="w-7 h-7 ml-1 fill-white" />
-                </div>
-                <span className="mt-3 px-4 py-1.5 rounded-full bg-ink/80 backdrop-blur-xs text-white text-xs font-heading font-semibold uppercase tracking-wider shadow">
-                  {t('works.watch', {
-                    clip:
-                      viewPerspective === 'hardware' ? t('works.watch_hw') : t('works.watch_air'),
-                  })}
+                <span className="w-14 h-14 rounded-full bg-leaf/90 text-white flex items-center justify-center">
+                  <Play className="w-6 h-6 ml-0.5 fill-white" />
                 </span>
               </button>
             )}
@@ -473,126 +470,70 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
             <button
               type="button"
               onClick={togglePlay}
-              className="absolute bottom-4 right-4 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#251A10]/70 hover:bg-[#251A10]/90 text-white flex items-center justify-center transition-all cursor-pointer shadow-md z-20"
+              className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/40 text-leaf backdrop-blur-sm hover:bg-white/70 flex items-center justify-center cursor-pointer z-20"
               aria-label={isPlaying ? t('works.pause') : t('works.play')}
             >
               {isPlaying ? (
-                <Pause className="w-5 h-5 fill-white text-white" />
+                <Pause className="w-3.5 h-3.5 fill-leaf" />
               ) : (
-                <Play className="w-5 h-5 ml-0.5 fill-white text-white" />
+                <Play className="w-3.5 h-3.5 ml-0.5 fill-leaf" />
               )}
             </button>
 
-            {/* Progress Bar */}
-            <div className="absolute bottom-0 inset-x-0 h-[4px] bg-ink/10 pointer-events-none z-10">
+            <div className="absolute bottom-0 inset-x-0 h-[3px] bg-leaf/15 pointer-events-none z-10">
               <div
-                className="h-full bg-sky transition-all duration-100 ease-linear"
+                className="h-full bg-leaf transition-all duration-100 ease-linear"
                 style={{ width: `${progressPct}%` }}
               />
             </div>
           </div>
 
-          {/* Synchronized Step Banner directly below video */}
-          <div className="mt-6 p-4 sm:p-5 rounded-2xl bg-sand/60 border border-ink/10 text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-start gap-3.5 flex-1">
-              <span className="w-3 h-3 rounded-full bg-leaf shrink-0 mt-1.5 animate-pulse" />
-              <div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-mono font-bold text-ink-60 uppercase tracking-wider">
-                    {t('works.step', { n: currentStepNum, total: totalSteps })}
-                  </span>
-                  <span className="text-[10px] font-heading font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-leaf-light text-leaf">
-                    {viewPerspective === 'hardware'
-                      ? `00:${Math.floor(currentTime).toString().padStart(2, '0')}s`
-                      : t('works.thermo')}
-                  </span>
-                </div>
-                <h4 className="font-heading font-black text-lg text-ink mt-1">
-                  {currentStepTitle}
-                </h4>
-                <p className="text-xs sm:text-sm text-ink-70 font-body leading-relaxed mt-0.5">
-                  {currentStepDesc}
-                </p>
-              </div>
-            </div>
+          <div className="mt-5">
+            <h4 className="font-heading font-bold text-lg text-ink">{currentStepTitle}</h4>
+            <p className="mt-1 text-sm text-ink-60 font-body leading-relaxed">{currentStepDesc}</p>
           </div>
 
-          {/* Compact Clickable Step Navigation Bar (No vertical scrolling needed) */}
-          <div className="mt-4 flex items-center justify-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
-            {viewPerspective === 'hardware'
-              ? HOW_IT_WORKS_STEPS.map((s, idx) => {
-                  const isActive = idx + 1 === currentStepNum;
-                  return (
-                    <button
-                      key={s.id}
-                      type="button"
-                      onClick={() => jumpToStep(s.start)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-heading font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-                        isActive
-                          ? 'bg-leaf text-white shadow-xs scale-105'
-                          : 'bg-sand/70 text-ink-70 hover:bg-sand hover:text-ink'
-                      }`}
-                    >
-                      <span>{idx + 1}.</span>
-                      <span className="hidden sm:inline">{t(`works.hw.${s.id}.chip`)}</span>
-                    </button>
-                  );
-                })
-              : AIRFLOW_STEPS.map((s, idx) => {
-                  const isActive = idx + 1 === currentStepNum;
-                  return (
-                    <button
-                      key={s.id}
-                      type="button"
-                      onClick={() => jumpToStep(s.start)}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs font-heading font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-                        isActive
-                          ? 'bg-sky text-ink shadow-xs scale-105 font-extrabold'
-                          : 'bg-sand/70 text-ink-70 hover:bg-sand hover:text-ink'
-                      }`}
-                    >
-                      <span>{idx + 1}.</span>
-                      <span>{t(`works.air.${s.id}.chip`)}</span>
-                    </button>
-                  );
-                })}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
+            {(viewPerspective === 'hardware' ? HOW_IT_WORKS_STEPS : AIRFLOW_STEPS).map((s, idx) => {
+              const isActive = idx + 1 === currentStepNum;
+              const chipKey =
+                viewPerspective === 'hardware' ? `works.hw.${s.id}.chip` : `works.air.${s.id}.chip`;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => jumpToStep(s.start)}
+                  className={`px-1 py-1 text-xs font-heading font-semibold cursor-pointer ${
+                    isActive
+                      ? 'text-leaf underline decoration-2 underline-offset-[6px]'
+                      : 'text-ink-40 hover:text-ink'
+                  }`}
+                >
+                  {idx + 1}. {t(chipKey)}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Verified Thermal Specification Footer */}
-          <div className="mt-6 pt-4 border-t border-ink/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2">
-              <span className="text-ink-60 font-body">{t('works.temp_label')}</span>
-              <span className="font-heading font-bold text-leaf bg-leaf-light px-3 py-1 rounded-full">
-                {t('works.temp_value')}
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 text-ink-70 font-heading font-semibold">
-              <Sparkles className="w-4 h-4 text-marigold" />
-              <span>{t('works.no_power')}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* End Statement */}
-        <div
-          className={`transition-all duration-400 text-center ${
-            isEnded
-              ? 'opacity-100 translate-y-0 mt-8'
-              : 'opacity-0 translate-y-3 pointer-events-none h-0 overflow-hidden mt-0'
-          }`}
-        >
-          <p className="font-heading font-extrabold text-2xl sm:text-3xl uppercase tracking-wide text-ink">
-            {t('works.no_power_end')}
-          </p>
-          <div className="mt-3">
-            <button
-              type="button"
-              onClick={handleReplay}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-ink/30 bg-white hover:bg-sand text-ink text-xs font-heading font-bold uppercase tracking-wider transition-all cursor-pointer shadow-xs active:scale-95"
-            >
-              <RotateCcw className="w-4 h-4" />
-              <span>{t('works.replay')}</span>
-            </button>
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <p className="text-sm text-ink-60 font-body">
+              {t('works.temp_label')}{' '}
+              <span className="font-heading font-bold text-leaf">{t('works.temp_value')}</span>
+            </p>
+            <p className="inline-flex items-center gap-2 font-heading font-bold text-xl sm:text-2xl tracking-wide text-ink">
+              <Sparkles className="w-5 h-5 text-leaf" />
+              <span>{t('works.no_power_end')}</span>
+            </p>
+            {isEnded && (
+              <button
+                type="button"
+                onClick={handleReplay}
+                className="inline-flex items-center gap-1.5 text-xs font-heading font-bold uppercase tracking-wider text-leaf cursor-pointer"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>{t('works.replay')}</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

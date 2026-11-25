@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Play, ExternalLink, Quote, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Quote } from 'lucide-react';
 import { TESTIMONIAL_STORIES, TestimonialStory } from '../data/mock';
 import { useLanguage } from '../context/LanguageContext';
 
-// Video tiles for the marquee loop (linked to Instagram / TODO)
 interface VideoTile {
   id: string;
   customerName: string;
   location: string;
-  caption: string;
   videoUrl: string;
-  posterUrl?: string;
+  posterUrl: string;
   posterPosition?: string;
-  isTodoPlaceholder?: boolean;
 }
 
 const VIDEO_TILES: VideoTile[] = [
@@ -20,7 +17,6 @@ const VIDEO_TILES: VideoTile[] = [
     id: 'vid-1',
     customerName: 'Gunja Devi',
     location: 'Patna, Bihar',
-    caption: 'Selling leafy greens fresh till late evening',
     videoUrl: 'https://www.instagram.com/coldeasyglobal',
     posterUrl: '/stories/gunja-devi.jpg',
     posterPosition: 'center 18%',
@@ -29,7 +25,6 @@ const VIDEO_TILES: VideoTile[] = [
     id: 'vid-2',
     customerName: 'Sobha Devi',
     location: 'Bihar',
-    caption: 'Overcoming mid-day vegetable spoilage and heat stress',
     videoUrl: 'https://www.instagram.com/coldeasyglobal',
     posterUrl: '/assets/aistudio/test_graded.jpg',
   },
@@ -37,32 +32,14 @@ const VIDEO_TILES: VideoTile[] = [
     id: 'vid-3',
     customerName: 'Lathabhai Jadhav',
     location: 'Maharashtra',
-    caption: 'Flower preservation from morning harvest to mandi',
     videoUrl: 'https://www.instagram.com/coldeasyglobal',
     posterUrl: '/assets/aistudio/test_autobox2_graded.jpg',
-  },
-  {
-    id: 'vid-4',
-    customerName: 'Vannama & Lakshmi',
-    location: 'Kurnool, Andhra Pradesh',
-    caption: '// TODO(client): Add video reel from Instagram',
-    videoUrl: 'https://www.instagram.com/coldeasyglobal',
-    isTodoPlaceholder: true,
-  },
-  {
-    id: 'vid-5',
-    customerName: 'Regional Agri Collective',
-    location: 'Karnataka',
-    caption: '// TODO(client): Add video reel from Instagram',
-    videoUrl: 'https://www.instagram.com/coldeasyglobal',
-    isTodoPlaceholder: true,
   },
 ];
 
 export const TestimonialsSection: React.FC = () => {
   const { t } = useLanguage();
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
   const activeStory: TestimonialStory =
     TESTIMONIAL_STORIES[activeStoryIndex] || TESTIMONIAL_STORIES[0];
@@ -76,194 +53,95 @@ export const TestimonialsSection: React.FC = () => {
   };
 
   return (
-    <section className="w-full bg-cream py-16 md:py-24 border-t border-ink/5 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        {/* Section Heading per brief */}
-        <div className="mb-10 sm:mb-12">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-1 h-7 rounded-full overflow-hidden flex flex-col shrink-0">
-              <span className="w-full h-1/4 bg-sky" />
-              <span className="w-full h-1/4 bg-marigold" />
-              <span className="w-full h-1/4 bg-chilli" />
-              <span className="w-full h-1/4 bg-leaf" />
-            </div>
-            <h2 className="font-heading font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider text-ink">
-              {t('testimonials.title')}
-            </h2>
+    <section className="home-fade home-fade-sand relative w-full overflow-hidden bg-cream py-16 md:py-20">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+        <div className="mb-8 flex items-center gap-3 sm:mb-10">
+          <div className="flex h-7 w-1 shrink-0 flex-col overflow-hidden rounded-full">
+            <span className="h-1/4 w-full bg-sky" />
+            <span className="h-1/4 w-full bg-marigold" />
+            <span className="h-1/4 w-full bg-chilli" />
+            <span className="h-1/4 w-full bg-leaf" />
           </div>
-          <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-leaf">
-            {t('testimonials.subtitle')}
-          </p>
+          <h2 className="font-heading text-2xl font-extrabold uppercase tracking-wider text-ink sm:text-3xl md:text-4xl">
+            {t('testimonials.title')}
+          </h2>
         </div>
 
-        {/* 1/3 + 2/3 Grid: Mobile Stack (Card on top) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Left 1/3: Portrait Still-Image + Quote Card (col-span-4 on desktop) */}
-          <div className="lg:col-span-4 flex flex-col justify-between bg-white rounded-[28px] p-6 sm:p-7 border border-ink/10 shadow-md relative overflow-hidden">
-            <div>
-              {/* Portrait Still-Image */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-sand mb-5 border border-ink/5">
-                {activeStory.image ? (
-                  <img
-                    src={activeStory.image}
-                    alt={activeStory.customerName}
-                    className="w-full h-full object-cover object-[center_22%]"
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center bg-sand/60">
-                    <div className="w-12 h-12 rounded-full bg-leaf-light flex items-center justify-center text-leaf font-bold text-lg mb-2">
-                      {activeStory.customerName.charAt(0)}
-                    </div>
-                    <span className="text-xs font-heading font-bold uppercase text-ink">
-                      {activeStory.customerName}
-                    </span>
-                  </div>
-                )}
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-full text-[10px] font-heading font-bold uppercase text-leaf tracking-wider shadow-2xs">
-                  {t(`story.${activeStory.id}.role`)}
-                </div>
-              </div>
-
-              {/* Quote Card Content */}
-              <div className="relative">
-                <Quote className="w-6 h-6 text-marigold mb-3 fill-current opacity-80" />
-                <blockquote className="font-body italic text-ink text-sm sm:text-base leading-relaxed mb-4">
-                  {t(`story.${activeStory.id}.quote`)}
-                </blockquote>
-
-                <div>
-                  <h4 className="font-heading font-extrabold text-base text-ink">
-                    {activeStory.customerName}
-                  </h4>
-                  <p className="text-xs font-semibold text-leaf mt-0.5">{t(`story.${activeStory.id}.crop`)}</p>
-                  <p className="text-xs text-ink-60 mt-0.5">{activeStory.location}</p>
+        <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-8">
+          <article className="relative overflow-hidden rounded-[28px] lg:col-span-5">
+            {activeStory.image ? (
+              <img
+                src={activeStory.image}
+                alt={activeStory.customerName}
+                className="absolute inset-0 h-full w-full object-cover object-[center_22%]"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-[#E7DFD0]" />
+            )}
+            <div className="relative flex min-h-[460px] flex-col justify-end bg-gradient-to-t from-ink/80 via-ink/25 to-transparent p-5 sm:min-h-[520px] sm:p-6">
+              <Quote className="mb-3 h-7 w-7 fill-marigold text-marigold" />
+              <blockquote className="font-body text-base font-medium leading-relaxed text-white sm:text-lg">
+                {t(`story.${activeStory.id}.quote`)}
+              </blockquote>
+              <p className="mt-4 font-heading text-sm font-extrabold text-white">
+                {activeStory.customerName}
+              </p>
+              <p className="mt-0.5 text-xs text-white/80">
+                {t(`story.${activeStory.id}.role`)} · {activeStory.location}
+              </p>
+              <div className="mt-4 flex items-center justify-between">
+                <a
+                  href={`#/story/${activeStory.id}`}
+                  className="text-xs font-heading font-bold uppercase tracking-wider text-white hover:underline"
+                >
+                  {t('testimonials.know_more')} →
+                </a>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handlePrevStory}
+                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/35"
+                    aria-label={t('testimonials.prev')}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNextStory}
+                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/35"
+                    aria-label={t('testimonials.next')}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
             </div>
+          </article>
 
-            {/* Bottom Actions: Know More -> & Prev / Next Controls */}
-            <div className="mt-6 pt-4 border-t border-ink/10 flex items-center justify-between">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:col-span-7">
+            {VIDEO_TILES.map((tile) => (
               <a
-                href={`#/story/${activeStory.id}`}
-                className="inline-flex items-center gap-1.5 text-xs font-heading font-bold uppercase tracking-wider text-leaf hover:underline"
-              >
-                <span>{t('testimonials.know_more')}</span>
-                <span>→</span>
-              </a>
-
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={handlePrevStory}
-                  className="w-8 h-8 rounded-full bg-sand hover:bg-leaf-light text-ink hover:text-leaf flex items-center justify-center transition-colors cursor-pointer"
-                  aria-label={t('testimonials.prev')}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <span className="text-[11px] font-heading font-semibold text-ink-60 px-1">
-                  {activeStoryIndex + 1}/{TESTIMONIAL_STORIES.length}
-                </span>
-                <button
-                  type="button"
-                  onClick={handleNextStory}
-                  className="w-8 h-8 rounded-full bg-sand hover:bg-leaf-light text-ink hover:text-leaf flex items-center justify-center transition-colors cursor-pointer"
-                  aria-label={t('testimonials.next')}
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Right 2/3: Testimonial Video Tiles in slow seamless right-to-left loop (col-span-8 on desktop) */}
-          <div
-            className="lg:col-span-8 flex flex-col justify-center overflow-hidden rounded-[28px] bg-sand/40 p-4 sm:p-6 border border-ink/5"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            onTouchStart={() => setIsPaused(true)}
-            onTouchEnd={() => setIsPaused(false)}
-          >
-            <div className="flex items-center justify-between mb-4 px-2">
-              <span className="text-xs font-heading font-bold uppercase tracking-wider text-ink-60 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-leaf" />
-                {t('testimonials.reels')}
-              </span>
-              <a
-                href="https://www.instagram.com/coldeasyglobal"
+                key={tile.id}
+                href={tile.videoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[11px] font-heading font-bold uppercase tracking-wider text-leaf hover:underline flex items-center gap-1"
+                className="group block"
               >
-                @coldeasyglobal
-                <ExternalLink className="w-3 h-3" />
+                <div className="relative aspect-[3/4] overflow-hidden rounded-[28px] bg-[#E7DFD0]">
+                  <img
+                    src={tile.posterUrl}
+                    alt={tile.customerName}
+                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    style={{ objectPosition: tile.posterPosition || 'center' }}
+                  />
+                  <span className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-leaf text-white">
+                    <Play className="ml-0.5 h-5 w-5 fill-white" />
+                  </span>
+                </div>
+                <p className="mt-3 font-heading text-sm font-bold text-ink">{tile.customerName}</p>
+                <p className="text-xs text-ink-60">{tile.location}</p>
               </a>
-            </div>
-
-            {/* Seamless scrolling marquee container */}
-            <div className="relative w-full overflow-hidden">
-              <div
-                className={`flex gap-4 sm:gap-5 w-max transition-all ${
-                  isPaused ? 'animate-none' : 'animate-[marquee_25s_linear_infinite]'
-                }`}
-                style={{
-                  animationPlayState: isPaused ? 'paused' : 'running',
-                }}
-              >
-                {/* Render tiles twice for continuous marquee looping */}
-                {[...VIDEO_TILES, ...VIDEO_TILES].map((tile, idx) => (
-                  <a
-                    key={`${tile.id}-${idx}`}
-                    href={tile.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-[220px] sm:w-[260px] shrink-0 group block bg-white rounded-[22px] p-3 border border-ink/10 shadow-xs hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer"
-                  >
-                    {/* Video Tile Box */}
-                    <div className="relative aspect-[9/16] max-h-[300px] w-full rounded-[16px] overflow-hidden bg-ink/90 flex flex-col items-center justify-center text-center p-4">
-                      {tile.posterUrl ? (
-                        <img
-                          src={tile.posterUrl}
-                          alt={tile.customerName}
-                          className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-300"
-                          style={{ objectPosition: tile.posterPosition || 'center' }}
-                        />
-                      ) : null}
-
-                      {tile.isTodoPlaceholder ? (
-                        <div className="relative z-10 p-3 rounded-xl bg-ink/75 border border-white/20 text-white space-y-1">
-                          <span className="px-2 py-0.5 rounded-full bg-marigold text-ink text-[10px] font-heading font-extrabold tracking-wider uppercase block">
-                            TODO
-                          </span>
-                          <span className="text-[11px] font-medium leading-tight block">
-                            {t('testimonials.reel_todo')}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="relative z-10 w-12 h-12 rounded-full bg-leaf/90 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                          <Play className="w-5 h-5 ml-0.5 fill-white" />
-                        </div>
-                      )}
-
-                      <div className="absolute bottom-2 left-2 right-2 px-2 py-1 rounded-lg bg-ink/80 backdrop-blur-xs text-white text-[10px] text-center truncate">
-                        {t('testimonials.watch')}
-                      </div>
-                    </div>
-
-                    {/* Name and location below */}
-                    <div className="mt-3 px-1">
-                      <h4 className="font-heading font-bold text-xs sm:text-sm text-ink group-hover:text-leaf transition-colors truncate">
-                        {tile.customerName}
-                      </h4>
-                      <p className="text-[11px] text-ink-60 font-body truncate">{tile.location}</p>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <p className="text-[11px] text-ink-40 text-center mt-3 font-body">
-              Hover or tap on any video tile to pause the reel loop.
-            </p>
+            ))}
           </div>
         </div>
       </div>

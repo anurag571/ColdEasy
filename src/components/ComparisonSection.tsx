@@ -39,14 +39,9 @@ export const ComparisonSection: React.FC = () => {
   ];
 
   return (
-    <section id="comparison" className="w-full bg-sand py-12 md:py-16 border-y border-ink/5">
+    <section id="comparison" className="home-fade home-fade-sellers relative w-full bg-sand py-12 md:py-16">
       <div className="max-w-[1000px] mx-auto px-4 sm:px-6">
-        <SectionHeading
-          title={t('comparison.title')}
-          subtitle={t('comparison.subtitle')}
-          isCentered
-          className="mb-5 md:mb-6"
-        />
+        <SectionHeading title={t('comparison.title')} isCentered className="mb-5 md:mb-6" />
 
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <figure className="flex flex-col items-center rounded-2xl border border-ink/10 bg-white px-2 pt-3 pb-2">

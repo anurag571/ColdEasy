@@ -78,48 +78,44 @@ const MediaCard: React.FC<{
       rel="noopener noreferrer"
       aria-hidden={hiddenCopy || undefined}
       tabIndex={hiddenCopy ? -1 : undefined}
-      className="group shrink-0 w-[280px] sm:w-[320px] bg-white rounded-[24px] p-5 border border-ink/5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg"
+      className="group flex w-[260px] shrink-0 flex-col sm:w-[300px]"
     >
-      <div>
+      {item.image ? (
+        <div className="aspect-[4/3] overflow-hidden rounded-[28px] bg-studio-deep">
+          <img
+            src={item.image}
+            alt=""
+            className={`h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] ${
+              item.id === 'ahmedabad-mirror' ? 'object-[center_68%]' : 'object-center'
+            }`}
+          />
+        </div>
+      ) : (
+        <div
+          className="flex aspect-[4/3] items-center justify-center rounded-[28px] bg-studio-deep px-6 text-center"
+          aria-hidden="true"
+        >
+          <span className="font-heading text-lg font-bold text-ink">{item.outlet}</span>
+        </div>
+      )}
+
+      <div className="mt-4">
         <OutletMark logo={item.logo} outlet={item.outlet} />
-
-        {item.image ? (
-          <div className="relative mt-4 aspect-video overflow-hidden rounded-[18px] bg-sand border border-ink/10">
-            <img
-              src={item.image}
-              alt=""
-              className={`h-full w-full object-cover ${
-                item.id === 'ahmedabad-mirror' ? 'object-[center_68%]' : 'object-center'
-              }`}
-            />
-          </div>
-        ) : isSocial ? (
-          <div
-            className="mt-4 aspect-video rounded-[18px] bg-sand border border-ink/10 flex items-center justify-center"
-            aria-hidden="true"
-          >
-            <svg viewBox="0 0 48 48" className="w-10 h-10 text-ink-40" fill="none">
-              <rect x="8" y="8" width="32" height="32" rx="8" stroke="currentColor" strokeWidth="2" />
-              <circle cx="24" cy="24" r="7" stroke="currentColor" strokeWidth="2" />
-              <circle cx="33" cy="15" r="1.5" fill="currentColor" />
-            </svg>
-          </div>
-        ) : null}
-
-        <h3 className="mt-4 font-heading font-bold text-base text-ink leading-snug group-hover:text-leaf transition-colors">
-          {item.headline}
-        </h3>
-
-        {item.published_date ? (
-          <p className="mt-2 text-xs text-ink-40 font-body">
-            <time dateTime={item.published_date}>{formatPublishedDate(item.published_date)}</time>
-          </p>
-        ) : null}
       </div>
 
-      <div className="mt-5 pt-3 border-t border-ink/5 text-xs font-heading font-semibold text-leaf">
-        <span>{isSocial ? instagramLabel : readLabel}</span>
-      </div>
+      <h3 className="mt-3 font-heading text-base font-bold leading-snug text-ink transition-colors duration-500 group-hover:text-leaf">
+        {item.headline}
+      </h3>
+
+      {item.published_date ? (
+        <p className="mt-2 font-body text-xs text-ink-40">
+          <time dateTime={item.published_date}>{formatPublishedDate(item.published_date)}</time>
+        </p>
+      ) : null}
+
+      <span className="mt-3 font-heading text-sm font-semibold text-leaf transition-opacity duration-500 group-hover:opacity-70">
+        {isSocial ? instagramLabel : readLabel}
+      </span>
     </a>
   );
 };
@@ -143,7 +139,7 @@ export const MediaSection: React.FC = () => {
   }));
 
   return (
-    <section className="w-full bg-sand py-16 md:py-24 border-y border-ink/5">
+    <section className="home-fade home-fade-cream relative w-full bg-studio py-16 md:py-24">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="mb-8 md:mb-12 flex items-center gap-3">
           <div
@@ -162,17 +158,16 @@ export const MediaSection: React.FC = () => {
       </div>
 
       <div
-        className={`relative w-full overflow-hidden ${reducedMotion ? 'overflow-x-auto snap-x snap-mandatory' : ''}`}
+        className={`media-marquee relative w-full overflow-hidden ${reducedMotion ? 'overflow-x-auto snap-x snap-mandatory' : ''}`}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={() => setIsPaused(true)}
         onTouchEnd={() => setIsPaused(false)}
       >
         <div
-          className={`flex gap-4 sm:gap-5 w-max ${
-            reducedMotion ? '' : isPaused ? 'animate-none' : 'animate-[marquee_25s_linear_infinite]'
+          className={`flex w-max gap-6 px-4 sm:gap-8 sm:px-6 ${
+            reducedMotion ? '' : `media-marquee-track ${isPaused ? 'is-paused' : ''}`
           }`}
-          style={{ animationPlayState: reducedMotion || isPaused ? 'paused' : 'running' }}
         >
           {loop.map(({ item, copy }) => (
             <div key={`${item.id}-${copy}`} className={reducedMotion ? 'snap-start' : undefined}>

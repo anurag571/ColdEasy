@@ -16,7 +16,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ title, subtitle, classNa
   const [openIndex, setOpenIndex] = useState<number | null>(0); // First question open by default
 
   const displayTitle = title || t('faqs.title');
-  const displaySubtitle = subtitle || t('faqs.subtitle');
+  const displaySubtitle = subtitle;
 
   const toggleAccordion = (index: number) => {
     const willOpen = openIndex !== index;
@@ -27,7 +27,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ title, subtitle, classNa
   };
 
   return (
-    <section className={`w-full bg-cream py-16 md:py-24 ${className}`}>
+    <section className={`home-fade home-fade-studio relative w-full bg-cream py-16 md:py-24 ${className}`}>
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <SectionHeading title={displayTitle} subtitle={displaySubtitle} />
 
