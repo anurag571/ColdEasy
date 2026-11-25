@@ -5,11 +5,10 @@ import { ComparisonSection } from '../components/ComparisonSection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { MediaSection } from '../components/MediaSection';
 import { FaqSection } from '../components/FaqSection';
-import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { OptimizedImage } from '../components/OptimizedImage';
+import { ProductCard } from '../components/ProductCard';
 import { NotifyModal } from '../components/NotifyModal';
 import { ArrowRight, Droplets, Leaf, ZapOff } from 'lucide-react';
-import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 
 interface HomePageProps {
@@ -18,25 +17,16 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
   const [selectedNotifyProduct, setSelectedNotifyProduct] = useState<Product | null>(null);
-  const { addToCart } = useCart();
   const { t } = useLanguage();
 
-  const handleNotifySuccess = (phone: string) => {
-    onShowToast(t('bestsellers.alert', { phone }));
-  };
-
-  // Best Sellers: Exactly 3 products (ColdEasy Box, AutoBox 3 Box, AutoBox 2 Box)
   const bestSellerProducts = [
     PRODUCTS.find((p) => p.id === 'coldeasy-box') || PRODUCTS[0],
     PRODUCTS.find((p) => p.id === 'coldeasy-autobox-3') || PRODUCTS[1],
     PRODUCTS.find((p) => p.id === 'coldeasy-autobox-2') || PRODUCTS[2],
   ];
 
-  const handleBuyNow = (e: React.MouseEvent, prod: Product) => {
-    e.stopPropagation();
-    if (!(prod.inStock && prod.price !== null)) return;
-    addToCart(prod.id, 1);
-    window.location.hash = prod.id === 'coldeasy-box' ? '#/checkout' : `#/products/${prod.slug}`;
+  const handleNotifySuccess = (phone: string) => {
+    onShowToast(t('bestsellers.alert', { phone }));
   };
 
   return (
@@ -122,81 +112,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {bestSellerProducts.map((prod) => {
-              const isAutoBox2 = prod.id === 'coldeasy-autobox-2';
-              const isSoldOut = !prod.inStock || isAutoBox2;
-
-              return (
-                <div
-                  key={prod.id}
-                  onClick={() => {
-                    window.location.hash = `#/products/${prod.slug}`;
-                  }}
-                  className="group flex cursor-pointer flex-col justify-between rounded-[24px] bg-[#FAF7F0] p-5 shadow-[0_8px_24px_rgba(37,26,16,0.05)] transition-all hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(37,26,16,0.08)] sm:p-6"
-                >
-                  <div>
-                    <div className="relative mb-5 flex aspect-[4/3] items-center justify-center">
-                      {prod.images.main.url ? (
-                        <OptimizedImage
-                          src={prod.images.main.url}
-                          alt={prod.name}
-                          className={`bestseller-photo h-full w-full object-contain drop-shadow-[0_12px_16px_rgba(37,26,16,0.14)] transition-transform duration-300 group-hover:scale-105 ${
-                            isSoldOut ? 'opacity-80' : ''
-                          }`}
-                          width={1200}
-                          height={900}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <ImagePlaceholder
-                          label={t('bestsellers.images_soon')}
-                          sublabel={prod.name}
-                          aspectRatio="aspect-[4/3]"
-                          className="w-full"
-                        />
-                      )}
-                      {isSoldOut && (
-                        <div className="absolute top-1 right-1 rounded-full bg-chilli px-2.5 py-1 text-[10px] font-heading font-bold uppercase tracking-wider text-white">
-                          {t('bestsellers.sold_out')}
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="font-heading text-base font-extrabold leading-snug text-ink transition-colors group-hover:text-leaf sm:text-lg">
-                      {prod.name}
-                    </h3>
-
-                    <div className="mt-2 flex flex-wrap items-baseline gap-2">
-                      {prod.price !== null ? (
-                        <span className="font-heading text-lg font-bold text-ink">
-                          ₹{prod.price.toLocaleString('en-IN')}
-                        </span>
-                      ) : (
-                        <span className="text-xs font-heading font-bold text-leaf">
-                          Price coming soon
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="mt-6">
-                    {isSoldOut ? (
-                      <div className="w-full cursor-default select-none rounded-full bg-ink/10 py-3 text-center text-xs font-heading font-bold uppercase tracking-wider text-ink-40">
-                        {t('bestsellers.sold_out')}
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={(e) => handleBuyNow(e, prod)}
-                        className="w-full cursor-pointer rounded-full bg-leaf py-3 text-center text-xs font-heading font-bold uppercase tracking-wider text-white transition-all hover:bg-leaf/90 active:scale-95"
-                      >
-                        {t('product.buy_now')}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+            {bestSellerProducts.map((prod, index) => (
+              <ProductCard
+                key={prod.id}
+                product={prod}
+                index={index}
+                onNotifyClick={setSelectedNotifyProduct}
+                onShowToast={onShowToast}
+              />
+            ))}
           </div>
         </div>
       </section>
