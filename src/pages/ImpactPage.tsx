@@ -66,7 +66,9 @@ export const ImpactPage: React.FC = () => {
                 className="bg-[#FAF7F0] rounded-[24px] p-6 text-center border border-ink/10 shadow-xs flex flex-col items-center justify-center min-h-[140px]"
               >
                 <div className="text-2xl sm:text-3xl lg:text-4xl font-heading font-black text-leaf tracking-tight">
-                  {metric.value}
+                  {metric.value.includes('[TBC]') || metric.value.includes('[CONFIRM]')
+                    ? t('common.coming_soon')
+                    : metric.value}
                 </div>
                 <span className="font-heading font-bold text-xs uppercase tracking-wider text-ink-60 mt-1.5">
                   {METRIC_KEYS[metric.label] ? t(METRIC_KEYS[metric.label]) : metric.label}

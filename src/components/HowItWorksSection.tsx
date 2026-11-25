@@ -517,8 +517,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
 
           <div className="mt-8 flex flex-col items-center gap-3">
             <p className="text-sm text-ink-60 font-body">
-              {t('works.temp_label')}{' '}
-              <span className="font-heading font-bold text-leaf">{t('works.temp_value')}</span>
+              {t('works.temp_value')}
             </p>
             <p className="inline-flex items-center gap-2 font-heading font-bold text-xl sm:text-2xl tracking-wide text-ink">
               <Sparkles className="w-5 h-5 text-leaf" />

@@ -55,20 +55,15 @@ export interface Product {
   faqs: FaqItem[];
 }
 
-export const SHOW_RATINGS = false;
-export const DEFAULT_REVIEW_COUNT = '[TBC]';
-
 export const PRODUCTS: Product[] = [
   {
     id: 'coldeasy-box',
     slug: 'coldeasy-box',
     name: 'ColdEasy Box',
     group: 'main',
-    mrp: 4999,
+    mrp: null,
     price: 3990,
-    saveAmount: 1009,
     inStock: true,
-    rating: 4.9,
     emiEligible: false,
     shortDescription:
       'ColdEasy Box keeps fruits and vegetables fresh for longer without using electricity. It uses water-based cooling to lower temperature and maintain high humidity, which reduces spoilage and weight loss. The compact design suits retailers, vendors, and homes, and also works well during transport.',
@@ -186,13 +181,10 @@ export const PRODUCTS: Product[] = [
     slug: 'coldeasy-autobox-3',
     name: 'ColdEasy AutoBox – 3 Box',
     group: 'main',
-    mrp: 19999,
+    mrp: null,
     price: 15490,
-    saveAmount: 4509,
     inStock: true,
-    rating: 4.87,
     emiEligible: true,
-    emiFromPerMonth: '₹1,420',
     shortDescription:
       'Automated water distribution across three stacked crates. High-capacity cooling for retailers, mandi vendors and aggregation points.',
     images: {
@@ -357,11 +349,9 @@ export const PRODUCTS: Product[] = [
     slug: 'coldeasy-autobox-2',
     name: 'ColdEasy AutoBox – 2 Box',
     group: 'main',
-    mrp: 14999,
+    mrp: null,
     price: 12990,
-    saveAmount: 2009,
     inStock: false, // ALWAYS sold out per client brief
-    rating: 4.85,
     emiEligible: false,
     shortDescription:
       'Automated water feed for two stacked crates. Compact footprint for roadside stalls and retail store display.',
@@ -933,7 +923,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
 // Lead form benefit points
 export const FORM_BENEFITS = {
   distributor: [
-    'Distributor terms [TBC]',
     'Dedicated technical, marketing, and display demonstration kits',
     'Priority batch allocation and local logistics routing support',
   ],
@@ -943,12 +932,9 @@ export const FORM_BENEFITS = {
     'Direct technical training for rural extension officers and FPO staff',
   ],
   affiliate: [
-    'Commission [TBC]',
     'Custom tracked links and WhatsApp promotional creatives',
-    'Payout [TBC]',
   ],
   bulk: [
-    'Volume-based tier discounts for FPOs, mandis, and retail chains',
     'Dedicated logistics planning for multi-district bulk consignments',
     'Custom branding and crate serialization options available',
   ],

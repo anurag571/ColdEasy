@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Product } from '../data/mock';
 import { ImagePlaceholder } from './ImagePlaceholder';
 import { useCart } from '../context/CartContext';
-import { ArrowRight, Star } from 'lucide-react';
-import { EmiInfoModal } from './EmiInfoModal';
+import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface ProductCardProps {
@@ -15,22 +14,6 @@ interface ProductCardProps {
   onShowToast?: (message: string) => void;
 }
 
-const RatingStars: React.FC<{ rating: number }> = ({ rating }) => (
-  <span className="inline-flex items-center gap-0.5" aria-hidden="true">
-    {[0, 1, 2, 3, 4].map((star) => {
-      const fill = Math.min(1, Math.max(0, rating - star));
-      return (
-        <span key={star} className="relative h-3.5 w-3.5">
-          <Star className="h-3.5 w-3.5 text-marigold/40" />
-          <span className="absolute inset-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
-            <Star className="h-3.5 w-3.5 fill-marigold text-marigold" />
-          </span>
-        </span>
-      );
-    })}
-  </span>
-);
-
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   index = 0,
@@ -40,7 +23,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const { t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const [touchSwiped, setTouchSwiped] = useState(false);
-  const [showEmiModal, setShowEmiModal] = useState(false);
 
   const handleCardClick = () => {
     window.location.hash = `#/products/${product.slug}`;
@@ -57,11 +39,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const currentImageData = isHovered || touchSwiped ? product.images.hover : product.images.main;
   const hasPrice = product.price !== null;
   const isAvailableForPurchase = product.inStock && hasPrice;
-  const quietLabel = !product.inStock
-    ? t('product.quiet_stock')
-    : product.saveAmount && product.saveAmount > 0
-      ? t('product.save_label', { amount: product.saveAmount.toLocaleString('en-IN') })
-      : null;
+  const quietLabel = !product.inStock ? t('product.quiet_stock') : null;
 
   return (
     <article
@@ -109,44 +87,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <span className="font-heading text-xl font-bold text-ink">
               ₹{product.price!.toLocaleString('en-IN')}
             </span>
-            {product.mrp ? (
-              <span className="text-sm font-medium text-ink-40 line-through">
-                ₹{product.mrp.toLocaleString('en-IN')}
-              </span>
-            ) : null}
           </>
         ) : (
           <span className="font-heading text-sm font-bold text-ink-60">{t('product.price_soon')}</span>
         )}
       </div>
-
-      {product.emiEligible ? (
-        <div className="mt-1 flex items-center gap-1.5 text-xs font-medium text-olive">
-          <span>
-            {t('product.emi', {
-              amount: (product.emiFromPerMonth || '₹1,420').replace(/^₹/, ''),
-            })}
-          </span>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowEmiModal(true);
-            }}
-            className="flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-sand text-[10px] font-bold text-ink-60"
-            aria-label={t('product.emi_details')}
-          >
-            i
-          </button>
-        </div>
-      ) : null}
-
-      {product.rating != null ? (
-        <div className="mt-2 flex items-center gap-2">
-          <RatingStars rating={product.rating} />
-          <span className="font-body text-sm text-ink">{product.rating} / 5</span>
-        </div>
-      ) : null}
 
       <div className="mt-4">
         {isAvailableForPurchase ? (
@@ -187,8 +132,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {t('product.view_product')}
         <ArrowRight className="h-3.5 w-3.5" />
       </a>
-
-      <EmiInfoModal isOpen={showEmiModal} onClose={() => setShowEmiModal(false)} />
     </article>
   );
 };

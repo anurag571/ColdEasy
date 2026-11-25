@@ -76,26 +76,21 @@ export const SciencePage: React.FC = () => {
   // Tomato decay time-lapse. Loops while the hero is on screen.
   const tomatoVideoRef = useRef<HTMLVideoElement>(null);
   const tomatoStageRef = useRef<HTMLDivElement>(null);
-  const [decayDay, setDecayDay] = useState(1);
   const [decayProgress, setDecayProgress] = useState(0);
 
-  const decayStages = [
-    { day: 1, key: 'science.stage.1' },
-    { day: 2, key: 'science.stage.2' },
-    { day: 5, key: 'science.stage.5' },
-    { day: 7, key: 'science.stage.7' },
-    { day: 8, key: 'science.stage.8' },
+  const freshnessStages = [
+    { id: 'fresh', at: 0, key: 'science.stage.fresh' },
+    { id: 'holding', at: 0.34, key: 'science.stage.holding' },
+    { id: 'ageing', at: 0.67, key: 'science.stage.ageing' },
   ] as const;
 
   const activeStage =
-    [...decayStages].reverse().find((stage) => decayDay >= stage.day) ?? decayStages[0];
+    [...freshnessStages].reverse().find((stage) => decayProgress >= stage.at) ?? freshnessStages[0];
 
-  const updateDecayDay = () => {
+  const updateDecayProgress = () => {
     const video = tomatoVideoRef.current;
     if (!video || !video.duration) return;
-    const progress = Math.min(1, video.currentTime / video.duration);
-    setDecayProgress(progress);
-    setDecayDay(Math.min(8, Math.floor(1 + progress * 7)));
+    setDecayProgress(Math.min(1, video.currentTime / video.duration));
   };
 
   const startTomatoAnimation = () => {
@@ -221,44 +216,20 @@ export const SciencePage: React.FC = () => {
                     loop
                     playsInline
                     preload="auto"
-                    onTimeUpdate={updateDecayDay}
+                    onTimeUpdate={updateDecayProgress}
                   />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-2xl bg-gradient-to-t from-black/80 via-black/45 to-transparent px-4 pb-3 pt-12">
-                    <div className="mb-2 flex items-baseline justify-between gap-3">
-                      <span className="font-heading text-sm font-bold text-white">
-                        {t('science.day_label', { n: decayDay })}
-                      </span>
-                      <span className="font-body text-[11px] text-white/80">{t(activeStage.key)}</span>
-                    </div>
-                    <div className="relative mx-1 h-1.5 rounded-full bg-white/25">
+                    <span className="font-heading text-sm font-bold text-white">{t(activeStage.key)}</span>
+                    <div className="relative mx-1 mt-2 h-1.5 rounded-full bg-white/25">
                       <div
-                        className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-leaf via-marigold to-chilli"
+                        className="absolute inset-y-0 left-0 rounded-full bg-white/80"
                         style={{ width: `${decayProgress * 100}%` }}
                       />
-                      {decayStages.map((stage) => {
-                        const left = ((stage.day - 1) / 7) * 100;
-                        const reached = decayDay >= stage.day;
-                        return (
-                          <span
-                            key={stage.day}
-                            className={`absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-black/30 ${
-                              reached ? 'bg-white' : 'bg-white/35'
-                            }`}
-                            style={{ left: `${left}%` }}
-                          />
-                        );
-                      })}
                     </div>
-                    <div className="relative mx-1 mt-1.5 h-4">
-                      {decayStages.map((stage) => (
-                        <span
-                          key={stage.day}
-                          className={`absolute -translate-x-1/2 font-heading text-[10px] font-bold ${
-                            decayDay >= stage.day ? 'text-white' : 'text-white/45'
-                          }`}
-                          style={{ left: `${((stage.day - 1) / 7) * 100}%` }}
-                        >
-                          {stage.day}
+                    <div className="mt-1.5 flex justify-between font-heading text-[10px] font-bold text-white/80">
+                      {freshnessStages.map((stage) => (
+                        <span key={stage.id} className={stage.id === activeStage.id ? 'text-white' : ''}>
+                          {t(stage.key)}
                         </span>
                       ))}
                     </div>
@@ -277,8 +248,8 @@ export const SciencePage: React.FC = () => {
                 </div>
               </div>
 
-              <p className="text-[11px] text-[#EDE8DE]/50 mt-3 italic text-center max-w-xs">
-                Ambient water-weight loss: [TBC].
+              <p className="text-[11px] text-[#EDE8DE]/70 mt-3 text-center max-w-xs">
+                {t('science.illustrative')}
               </p>
             </div>
           </div>
@@ -359,49 +330,14 @@ export const SciencePage: React.FC = () => {
                   <p className="mt-1 font-body text-sm text-white/75">
                     {isColdEasyView ? t('sci.in_box') : t('sci.ambient_storage')}
                   </p>
-                  <span className="mt-3 inline-flex rounded-full bg-black/25 px-3 py-1 font-heading text-[11px] font-bold uppercase tracking-wider">
-                    {t('sci.day_8')}
-                  </span>
 
                   <div className="relative mx-auto mt-6 flex h-64 w-full max-w-md items-center justify-center">
                     <div className="pointer-events-none absolute h-52 w-52 rounded-full border border-white/15" aria-hidden="true" />
                     <CropPortrait crop={selectedCrop} fresh={isColdEasyView} />
-                    <span className="absolute left-0 top-8 hidden max-w-[9.5rem] rounded-full bg-black/35 px-3 py-1 text-center font-heading text-[11px] leading-snug sm:block">
-                      {isColdEasyView ? t('sci.firm_high') : t('sci.firm_low')}
-                    </span>
-                    <span className="absolute left-0 top-1/2 hidden max-w-[10rem] -translate-y-1/2 rounded-full bg-black/35 px-3 py-1 text-center font-heading text-[11px] leading-snug sm:block">
-                      {isColdEasyView ? t('sci.index_high') : t('sci.index_low')}
-                    </span>
-                    <span className="absolute bottom-2 right-0 hidden max-w-[10rem] rounded-full bg-black/35 px-3 py-1 text-center font-heading text-[11px] leading-snug sm:block">
-                      {isColdEasyView ? t('sci.gloss_note') : t('sci.spoil_note')}
-                    </span>
-                  </div>
-
-                  <div className="mt-3 flex flex-wrap justify-center gap-2 sm:hidden">
-                    <span className="rounded-full bg-black/35 px-3 py-1 font-heading text-[11px]">
-                      {isColdEasyView ? t('sci.index_high') : t('sci.index_low')}
-                    </span>
-                    <span className="rounded-full bg-black/35 px-3 py-1 font-heading text-[11px]">
-                      {isColdEasyView ? t('sci.firm_high') : t('sci.firm_low')}
-                    </span>
-                    <span className="rounded-full bg-black/35 px-3 py-1 font-heading text-[11px]">
-                      {isColdEasyView ? t('sci.gloss_note') : t('sci.spoil_note')}
-                    </span>
                   </div>
 
                   <p className="mt-6 font-body text-sm text-white/85">
-                    {isColdEasyView ? (
-                      <>
-                        <span className="mr-2 inline-block h-2 w-2 rounded-full bg-sky" aria-hidden="true" />
-                        {t('works.temp_value')}
-                        <span className="mt-1 block pl-4 text-white/70">{t('sci.zero_power')}</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="mr-2 inline-block h-2 w-2 rounded-full bg-chilli" aria-hidden="true" />
-                        {t('sci.room_heat')}
-                      </>
-                    )}
+                    {isColdEasyView ? t('works.temp_value') : t('sci.room_heat')}
                   </p>
                 </div>
 
@@ -410,11 +346,8 @@ export const SciencePage: React.FC = () => {
                     <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                       {t('sci.freshness')}
                     </span>
-                    <div className="mt-1 flex items-end gap-1.5 font-heading font-bold leading-none">
-                      <span className="text-3xl">{t('sci.watch_count')}</span>
-                      <span className="pb-0.5 text-sm">{t('sci.days')}</span>
-                    </div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.days_watch')}</span>
+                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('common.coming_soon')}</div>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.empty')}</span>
                   </div>
 
                   <div className="rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
@@ -422,37 +355,25 @@ export const SciencePage: React.FC = () => {
                       <span className="font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                         {t('sci.marketability')}
                       </span>
-                      <svg viewBox="0 0 36 22" className="h-5 w-8" aria-hidden="true">
-                        <path d="M4 18 A14 14 0 0 1 32 18" fill="none" stroke="#E4DDD2" strokeWidth="3" strokeLinecap="round" />
-                        {!isColdEasyView && selectedCrop === 'Tomato' && (
-                          <path d="M4 18 A14 14 0 0 1 8 10" fill="none" stroke="#EC2727" strokeWidth="3" strokeLinecap="round" />
-                        )}
-                      </svg>
                     </div>
-                    <div className={`mt-1 font-heading text-2xl font-bold leading-none ${!isColdEasyView && selectedCrop === 'Tomato' ? 'text-chilli' : 'text-[#251A10]'}`}>
-                      {!isColdEasyView && selectedCrop === 'Tomato' ? t('sci.ambient_market') : t('sci.data')}
-                    </div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">
-                      {!isColdEasyView && selectedCrop === 'Tomato' ? t('sci.saleable') : t('sci.data')}
-                    </span>
+                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('common.coming_soon')}</div>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.empty')}</span>
                   </div>
 
                   <div className="rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
                     <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                       {t('sci.weight')}
                     </span>
-                    <div className="mt-1 font-heading text-2xl font-bold leading-none">—</div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.data')}</span>
+                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('common.coming_soon')}</div>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.empty')}</span>
                   </div>
 
                   <div className="rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
                     <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                       {t('sci.ph')}
                     </span>
-                    <div className="mt-1 font-heading text-base font-semibold leading-snug">
-                      {isColdEasyView ? '—' : t('sci.data')}
-                    </div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.data')}</span>
+                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('common.coming_soon')}</div>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.empty')}</span>
                   </div>
 
                   <div className="col-span-2 rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
@@ -460,21 +381,9 @@ export const SciencePage: React.FC = () => {
                       <span className="font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                         {t('sci.firmness')}
                       </span>
-                      <span className={`font-heading text-sm font-bold ${isColdEasyView ? 'text-leaf' : 'text-chilli'}`}>
-                        {isColdEasyView ? t('sci.holding') : t('sci.declining')}
-                      </span>
+                      <span className="font-heading text-sm font-semibold text-[#8A8176]">{t('common.coming_soon')}</span>
                     </div>
-                    <div className="relative mt-3 h-1.5 rounded-full bg-gradient-to-r from-[#487537] via-[#F0A023] to-[#EC2727]">
-                      <span
-                        className={`absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full border-2 border-white ${isColdEasyView ? 'left-[6%] bg-leaf' : 'left-[78%] bg-chilli'}`}
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <div className="mt-2 flex justify-between font-body text-[10px] text-[#8A8176]">
-                      <span>{t('sci.firm')}</span>
-                      <span>{t('sci.softening')}</span>
-                      <span>{t('sci.overripe')}</span>
-                    </div>
+                    <div className="relative mt-3 h-1.5 rounded-full bg-[#E4DDD2]" />
                   </div>
                 </div>
               </div>

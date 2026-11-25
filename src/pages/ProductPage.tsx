@@ -35,27 +35,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
 
   // Compute pricing and highlights based on variant for AutoBox
   let displayPrice = baseProduct.price;
-  let displayMrp = baseProduct.mrp;
-  let displayDiscount = baseProduct.saveAmount
-    ? `Save ₹${baseProduct.saveAmount.toLocaleString('en-IN')}`
-    : null;
 
-  if (isAutoBox) {
-    if (powerVariant === 'solar') {
-      displayMrp = 17000;
-      displayPrice = 16500;
-      displayDiscount = '₹500 OFF';
-    } else {
-      // AC Grid: same pricing per brief
-      // TODO(client): confirm AC Grid pricing
-      displayMrp = 17000;
-      displayPrice = 16500;
-      displayDiscount = '₹500 OFF';
-    }
-  }
-
-  // Highlights dynamically adjust for AutoBox variant
-  const activeHighlights = (baseProduct.highlights || []).map((h) => {
+  const activeHighlights = (baseProduct.highlights || [])
+    .filter((h) => !h.includes('[TBC]') && !h.includes('[CONFIRM]'))
+    .map((h) => {
     if (isAutoBox) {
       if (powerVariant === 'solar') {
         if (h.includes('POWERED')) return 'SOLAR POWERED (Runs on clean, renewable solar energy)';
@@ -277,16 +260,6 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
                     <span className="font-heading font-black text-3xl sm:text-4xl text-ink">
                       ₹{displayPrice!.toLocaleString('en-IN')}
                     </span>
-                    {displayMrp && (
-                      <span className="text-sm sm:text-base font-semibold text-ink-40 line-through">
-                        ₹{displayMrp.toLocaleString('en-IN')}
-                      </span>
-                    )}
-                    {displayDiscount && (
-                      <span className="px-2.5 py-1 rounded-full bg-marigold text-ink text-xs font-heading font-extrabold uppercase tracking-wider shadow-2xs">
-                        {displayDiscount}
-                      </span>
-                    )}
                   </>
                 ) : (
                   <span className="text-base font-heading font-bold text-leaf bg-leaf-light px-4 py-1.5 rounded-full">

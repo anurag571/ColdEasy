@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import partnersFile from '../content/partners.json';
+import { useLanguage } from '../context/LanguageContext';
 
 const TABS = [
   { id: 'all', label: 'All' },
@@ -35,6 +36,7 @@ function partnerHash(id: CategoryId) {
 }
 
 export const PartnerEcosystem: React.FC = () => {
+  const { t } = useLanguage();
   const [category, setCategory] = useState<CategoryId>(() =>
     partnerCategoryFromHash(window.location.hash),
   );
@@ -109,12 +111,7 @@ export const PartnerEcosystem: React.FC = () => {
           logo: partner.logo,
           url: partner.mayLink === false ? undefined : partner.url,
         }))
-      : Array.from({ length: 6 }, (_, index) => ({
-          key: `tbc-${index}`,
-          name: '[TBC]',
-          logo: '/partners/tbc.svg',
-          url: undefined as string | undefined,
-        }));
+      : [];
 
   const loop = reducedMotion ? tiles : [...tiles, ...tiles];
 
@@ -125,7 +122,7 @@ export const PartnerEcosystem: React.FC = () => {
           <h2 className="font-heading font-bold text-xl sm:text-2xl md:text-3xl text-ink uppercase tracking-wider">
             Partner ecosystem
           </h2>
-          <p className="mt-2 text-ink-60 text-sm sm:text-base">[TBC]</p>
+          <p className="mt-2 text-ink-60 text-sm sm:text-base">{t('common.coming_soon')}</p>
         </div>
 
         <div
@@ -164,9 +161,10 @@ export const PartnerEcosystem: React.FC = () => {
           aria-labelledby={`partner-tab-${category}`}
           className="mt-6 rounded-[24px] bg-white border border-ink/10 p-5 sm:p-6 text-center"
         >
-          <p className="text-sm text-ink-60 font-body">[TBC]</p>
+          <p className="text-sm text-ink-60 font-body">{t('common.coming_soon')}</p>
         </div>
 
+        {loop.length > 0 && (
         <div
           className="partner-marquee mt-6 overflow-hidden rounded-[24px] bg-white border border-ink/10 py-6"
           aria-label="Partner logos"
@@ -199,6 +197,7 @@ export const PartnerEcosystem: React.FC = () => {
             })}
           </div>
         </div>
+        )}
       </div>
     </section>
   );

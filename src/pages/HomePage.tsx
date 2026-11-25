@@ -7,29 +7,13 @@ import { MediaSection } from '../components/MediaSection';
 import { FaqSection } from '../components/FaqSection';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { NotifyModal } from '../components/NotifyModal';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 
 interface HomePageProps {
   onShowToast: (message: string) => void;
 }
-
-const RatingStars: React.FC<{ rating: number }> = ({ rating }) => (
-  <span className="inline-flex items-center gap-0.5" aria-hidden="true">
-    {[0, 1, 2, 3, 4].map((index) => {
-      const fill = Math.min(1, Math.max(0, rating - index));
-      return (
-        <span key={index} className="relative h-4 w-4">
-          <Star className="h-4 w-4 text-marigold/40" />
-          <span className="absolute inset-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
-            <Star className="h-4 w-4 fill-marigold text-marigold" />
-          </span>
-        </span>
-      );
-    })}
-  </span>
-);
 
 export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
   const [selectedNotifyProduct, setSelectedNotifyProduct] = useState<Product | null>(null);
@@ -162,30 +146,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
                       {prod.name}
                     </h3>
 
-                    {prod.rating != null && (
-                      <p
-                        className="mt-1.5 flex items-center gap-1.5 text-xs font-heading font-bold text-ink"
-                        aria-label={`${prod.rating} out of 5`}
-                      >
-                        <RatingStars rating={prod.rating} />
-                        <span>
-                          {prod.rating} / 5
-                        </span>
-                      </p>
-                    )}
-
                     <div className="mt-2 flex flex-wrap items-baseline gap-2">
                       {prod.price !== null ? (
-                        <>
-                          <span className="font-heading text-lg font-bold text-ink">
-                            ₹{prod.price.toLocaleString('en-IN')}
-                          </span>
-                          {prod.mrp && (
-                            <span className="text-xs font-medium text-ink-40 line-through">
-                              ₹{prod.mrp.toLocaleString('en-IN')}
-                            </span>
-                          )}
-                        </>
+                        <span className="font-heading text-lg font-bold text-ink">
+                          ₹{prod.price.toLocaleString('en-IN')}
+                        </span>
                       ) : (
                         <span className="text-xs font-heading font-bold text-leaf">
                           Price coming soon
