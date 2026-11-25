@@ -288,20 +288,78 @@ html.dark .media-logo {
   color: var(--color-ink);
 }
 
+.hero-frame::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 12%;
+  width: 58%;
+  bottom: 16%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(37, 26, 16, 0.82) 0%, rgba(37, 26, 16, 0.5) 38%, transparent 74%);
+  opacity: 1;
+  transform: scale(0.96);
+  pointer-events: none;
+  animation: hero-shadow 2.4s ease-in-out 0.15s backwards;
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .hero-product {
-  filter:
-    drop-shadow(0 16px 12px rgba(37, 26, 16, 0.22))
-    drop-shadow(0 34px 28px rgba(37, 26, 16, 0.18));
+  position: relative;
+  z-index: 1;
+  --hero-shadow: none;
+  filter: none;
+  translate: 0 0;
+  animation: hero-bounce 2.4s ease-in-out 0.15s backwards;
+  transition: translate 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes hero-bounce {
+  0%,
+  50%,
+  100% {
+    translate: 0 0;
+  }
+  25%,
+  75% {
+    translate: 0 -28px;
+  }
+}
+
+@keyframes hero-shadow {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+    transform: scale(0.96);
+  }
+  25%,
+  75% {
+    opacity: 0.14;
+    transform: scale(1.08);
+  }
+}
+
+.hero-frame:hover .hero-product,
+.hero-frame:focus-within .hero-product {
+  translate: 0 -28px;
+}
+
+.hero-frame:hover::before,
+.hero-frame:focus-within::before {
+  opacity: 0.14;
+  transform: scale(1.08);
 }
 
 html.dark .hero-scene {
   background-color: #14120e;
 }
 
-html.dark .hero-product {
-  filter:
-    drop-shadow(0 16px 16px rgba(0, 0, 0, 0.42))
-    drop-shadow(0 34px 40px rgba(0, 0, 0, 0.34));
+html.dark .hero-frame::before {
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.55) 38%, transparent 74%);
 }
 
 html.dark .home-fade-hero {
@@ -409,6 +467,23 @@ html.dark .home-fade-sellers {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-product,
+  .hero-frame::before {
+    animation: none;
+  }
+
+  .hero-frame:hover .hero-product,
+  .hero-frame:focus-within .hero-product {
+    translate: 0 0;
+    filter: var(--hero-shadow);
+  }
+
+  .hero-frame:hover::before,
+  .hero-frame:focus-within::before {
+    opacity: 1;
+    transform: scale(0.96);
+  }
+
   .buy-press:active {
     transform: none;
   }
