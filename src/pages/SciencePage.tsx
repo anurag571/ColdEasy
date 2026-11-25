@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Thermometer, Droplets, ShoppingBag, Info, RotateCcw, Activity } from 'lucide-react';
 import { SeecAnimationPlayer } from '../components/SeecAnimationPlayer';
+import { OptimizedImage } from '../components/OptimizedImage';
 import { useLanguage } from '../context/LanguageContext';
 
 const CROP_KEYS = {
@@ -11,59 +12,30 @@ const CROP_KEYS = {
 
 type CropName = keyof typeof CROP_KEYS;
 
-function CropPortrait({ crop, fresh }: { crop: CropName; fresh: boolean }) {
-  if (crop === 'Banana') {
-    return (
-      <svg viewBox="0 0 200 200" className="h-44 w-44 drop-shadow-lg" aria-hidden="true">
-        <ellipse cx="100" cy="168" rx="48" ry="8" fill="rgba(0,0,0,0.28)" />
-        <path
-          d="M 58 142 Q 96 168 148 108 Q 156 72 132 52 Q 84 98 58 142 Z"
-          fill={fresh ? '#F0A023' : '#6A5428'}
-        />
-        {!fresh && <path d="M 96 118 Q 112 108 124 96" stroke="#3A2A14" strokeWidth="3" fill="none" />}
-        <path d="M 132 52 L 144 40" stroke="#3E2723" strokeWidth="6" strokeLinecap="round" />
-      </svg>
-    );
-  }
+const CROP_PHOTOS: Record<CropName, { fresh: string; ambient: string }> = {
+  Tomato: {
+    fresh: '/assets/crops/tomato-fresh.webp',
+    ambient: '/assets/crops/tomato-ambient.webp',
+  },
+  Mango: {
+    fresh: '/assets/crops/mango-fresh.webp',
+    ambient: '/assets/crops/mango-ambient.webp',
+  },
+  Banana: {
+    fresh: '/assets/crops/banana-fresh.webp',
+    ambient: '/assets/crops/banana-ambient.webp',
+  },
+};
 
-  if (crop === 'Mango') {
-    return (
-      <svg viewBox="0 0 200 200" className="h-44 w-44 drop-shadow-lg" aria-hidden="true">
-        <ellipse cx="100" cy="168" rx="48" ry="8" fill="rgba(0,0,0,0.28)" />
-        <path
-          d="M 100 48 C 146 50 168 96 156 132 C 144 166 92 176 76 146 C 60 116 64 52 100 48 Z"
-          fill={fresh ? '#F0A023' : '#6A4A22'}
-        />
-        {!fresh && <circle cx="118" cy="112" r="10" fill="#3A2612" />}
-        <circle cx="98" cy="44" r="4" fill="#3E2723" />
-      </svg>
-    );
-  }
-
+function CropPortrait({ crop, fresh, alt }: { crop: CropName; fresh: boolean; alt: string }) {
   return (
-    <svg viewBox="0 0 200 200" className="h-48 w-48 drop-shadow-lg" aria-hidden="true">
-      <ellipse cx="100" cy="172" rx="52" ry="9" fill="rgba(0,0,0,0.3)" />
-      <circle cx="100" cy="108" r="64" fill={fresh ? '#E23B2F' : '#7A3028'} />
-      {fresh ? (
-        <>
-          <ellipse cx="76" cy="84" rx="16" ry="8" transform="rotate(-28 76 84)" fill="rgba(255,255,255,0.38)" />
-          <circle cx="68" cy="124" r="3" fill="rgba(255,255,255,0.75)" />
-          <circle cx="132" cy="116" r="2.4" fill="rgba(255,255,255,0.7)" />
-          <circle cx="114" cy="142" r="2" fill="rgba(255,255,255,0.6)" />
-        </>
-      ) : (
-        <>
-          <circle cx="78" cy="122" r="13" fill="#2C120F" />
-          <circle cx="126" cy="98" r="9" fill="#3A1612" />
-          <circle cx="112" cy="138" r="7" fill="#4A1C16" />
-          <path d="M 72 112 Q 100 132 134 104" stroke="#3A1612" strokeWidth="2.5" fill="none" />
-        </>
-      )}
-      <polygon
-        points="100,36 94,52 78,46 90,58 74,70 94,68 96,84 100,72 104,84 106,68 126,70 110,58 122,46 106,52"
-        fill={fresh ? '#3C8F3A' : '#6E6844'}
+    <div className="flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-black/10 shadow-lg sm:h-64 sm:w-64">
+      <OptimizedImage
+        src={CROP_PHOTOS[crop][fresh ? 'fresh' : 'ambient']}
+        alt={alt}
+        className="h-full w-full object-cover"
       />
-    </svg>
+    </div>
   );
 }
 
@@ -285,8 +257,8 @@ export const SciencePage: React.FC = () => {
       </section>
 
       {/* Crop freshness: one board, toggled between ambient storage and ColdEasy Box.
-          Ambient marketability ~13% is the figure on the client note. ColdEasy
-          numeric results stay "Data to be added". */}
+          Figures are the tomato board in the client crop-freshness note. The same
+          board is shown for banana and mango; blanks stay "Data to be added". */}
       <section className="w-full bg-cream py-16 sm:py-24">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="rounded-[32px] bg-[#F7F3EA] p-5 sm:p-8">
@@ -331,13 +303,38 @@ export const SciencePage: React.FC = () => {
                     {isColdEasyView ? t('sci.in_box') : t('sci.ambient_storage')}
                   </p>
 
-                  <div className="relative mx-auto mt-6 flex h-64 w-full max-w-md items-center justify-center">
-                    <div className="pointer-events-none absolute h-52 w-52 rounded-full border border-white/15" aria-hidden="true" />
-                    <CropPortrait crop={selectedCrop} fresh={isColdEasyView} />
+                  <div className="relative mx-auto mt-6 flex h-72 w-full max-w-md items-center justify-center">
+                    <div className="pointer-events-none absolute h-64 w-64 rounded-full border border-white/15" aria-hidden="true" />
+                    <CropPortrait
+                      crop={selectedCrop}
+                      fresh={isColdEasyView}
+                      alt={t(isColdEasyView ? 'sci.photo_fresh' : 'sci.photo_ambient', {
+                        crop: t(CROP_KEYS[selectedCrop]),
+                      })}
+                    />
                   </div>
 
-                  <p className="mt-6 font-body text-sm text-white/85">
-                    {isColdEasyView ? t('works.temp_value') : t('sci.room_heat')}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="rounded-full bg-black/25 px-3 py-1 font-heading text-[11px] font-bold text-white">
+                      {isColdEasyView ? t('sci.index_high') : t('sci.index_low')}
+                    </span>
+                    <span className="rounded-full bg-black/25 px-3 py-1 font-heading text-[11px] font-bold text-white">
+                      {isColdEasyView ? t('sci.firm_high') : t('sci.firm_low')}
+                    </span>
+                    <span className="rounded-full bg-black/25 px-3 py-1 font-heading text-[11px] font-bold text-white">
+                      {isColdEasyView ? t('sci.gloss_note') : t('sci.spoil_note')}
+                    </span>
+                  </div>
+
+                  <p className="mt-4 font-body text-sm text-white/85">
+                    {isColdEasyView ? (
+                      <>
+                        {t('sci.box_cool')}
+                        <span className="mt-1 block text-white/70">{t('sci.zero_power')}</span>
+                      </>
+                    ) : (
+                      t('sci.room_heat')
+                    )}
                   </p>
                 </div>
 
@@ -346,34 +343,42 @@ export const SciencePage: React.FC = () => {
                     <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                       {t('sci.freshness')}
                     </span>
-                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('common.coming_soon')}</div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.empty')}</span>
+                    <div className="mt-1 font-heading text-3xl font-semibold leading-none">
+                      {t('sci.day_8')} <span className="text-lg">{t('sci.days')}</span>
+                    </div>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.days_watch')}</span>
                   </div>
 
                   <div className="rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
-                        {t('sci.marketability')}
-                      </span>
+                    <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
+                      {t('sci.marketability')}
+                    </span>
+                    <div
+                      className={
+                        isColdEasyView
+                          ? 'mt-1 font-heading text-lg font-semibold leading-snug'
+                          : 'mt-1 font-heading text-3xl font-semibold leading-none text-chilli'
+                      }
+                    >
+                      {isColdEasyView ? t('sci.data') : t('sci.ambient_market')}
                     </div>
-                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('common.coming_soon')}</div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.empty')}</span>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.saleable')}</span>
                   </div>
 
                   <div className="rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
                     <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                       {t('sci.weight')}
                     </span>
-                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('common.coming_soon')}</div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.empty')}</span>
+                    <div className="mt-1 font-heading text-3xl font-semibold leading-none">—</div>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.data')}</span>
                   </div>
 
                   <div className="rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
                     <span className="block font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                       {t('sci.ph')}
                     </span>
-                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('common.coming_soon')}</div>
-                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.empty')}</span>
+                    <div className="mt-1 font-heading text-lg font-semibold leading-snug">{t('sci.data')}</div>
+                    <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.ph_note')}</span>
                   </div>
 
                   <div className="col-span-2 rounded-2xl bg-[#F7F4EC] px-4 py-3 text-[#251A10]">
@@ -381,16 +386,37 @@ export const SciencePage: React.FC = () => {
                       <span className="font-heading text-[10px] font-bold uppercase tracking-wider text-[#7A7268]">
                         {t('sci.firmness')}
                       </span>
-                      <span className="font-heading text-sm font-semibold text-[#8A8176]">{t('common.coming_soon')}</span>
+                      <span
+                        className={`font-heading text-sm font-semibold ${
+                          isColdEasyView ? 'text-leaf' : 'text-chilli'
+                        }`}
+                      >
+                        {isColdEasyView ? t('sci.holding') : t('sci.declining')}
+                      </span>
                     </div>
-                    <div className="relative mt-3 h-1.5 rounded-full bg-[#E4DDD2]" />
+                    <div className="relative mt-3 h-1.5 rounded-full bg-gradient-to-r from-leaf via-marigold to-chilli">
+                      <span
+                        className="absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full border-2 border-white bg-[#251A10] shadow"
+                        style={{ left: isColdEasyView ? '8%' : '78%' }}
+                      />
+                    </div>
+                    <div className="mt-2 flex justify-between font-body text-[10px] text-[#8A8176]">
+                      <span>{t('sci.firm')}</span>
+                      <span>{t('sci.softening')}</span>
+                      <span>{t('sci.overripe')}</span>
+                    </div>
+                    {!isColdEasyView && (
+                      <span className="mt-1 block font-body text-[10px] text-[#8A8176]">{t('sci.turgor')}</span>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="mt-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-              <p className="max-w-md font-body text-xs text-[#8A8176]">{t('sci.figures_note')}</p>
+              <p className="max-w-md font-body text-xs text-[#8A8176]">
+                {t('sci.figures_note')} {t('sci.photo_credit')}
+              </p>
               <button
                 type="button"
                 onClick={() => setIsColdEasyView((prev) => !prev)}
