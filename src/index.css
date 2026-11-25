@@ -284,24 +284,24 @@ html.dark .media-logo {
 }
 
 .hero-scene {
-  /* Open backdrop of the approved hero photo. */
-  background-color: #f7ebde;
+  background-color: var(--color-cream);
   color: var(--color-ink);
 }
 
-.hero-frame {
-  -webkit-mask-image:
-    linear-gradient(to right, transparent, #000 5%, #000 95%, transparent),
-    linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent, #000 5%, #000 95%, transparent),
-    linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);
-  mask-composite: intersect;
+.hero-product {
+  filter:
+    drop-shadow(0 16px 12px rgba(37, 26, 16, 0.22))
+    drop-shadow(0 34px 28px rgba(37, 26, 16, 0.18));
 }
 
 html.dark .hero-scene {
   background-color: #14120e;
+}
+
+html.dark .hero-product {
+  filter:
+    drop-shadow(0 16px 16px rgba(0, 0, 0, 0.42))
+    drop-shadow(0 34px 40px rgba(0, 0, 0, 0.34));
 }
 
 html.dark .home-fade-hero {
@@ -353,7 +353,7 @@ html.dark .how-works-stage {
 }
 
 .home-fade-hero {
-  --home-fade-from: #f7ebde;
+  --home-fade-from: var(--color-cream);
 }
 
 .home-fade-works {
