@@ -284,19 +284,19 @@ html.dark .media-logo {
 }
 
 .hero-scene {
-  /* Matched to the open studio backdrop in the hero crate photo. */
-  background-color: #f7efe6;
+  /* Open backdrop of the approved hero photo. */
+  background-color: #f8eee4;
   color: var(--color-ink);
 }
 
-.hero-product {
+.hero-frame {
   -webkit-mask-image:
-    linear-gradient(to right, transparent, #000 3%, #000 97%, transparent),
-    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+    linear-gradient(to right, transparent, #000 9%, #000 91%, transparent),
+    linear-gradient(to bottom, transparent, #000 11%, #000 86%, transparent);
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(to right, transparent, #000 3%, #000 97%, transparent),
-    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+    linear-gradient(to right, transparent, #000 9%, #000 91%, transparent),
+    linear-gradient(to bottom, transparent, #000 11%, #000 86%, transparent);
   mask-composite: intersect;
 }
 
@@ -353,7 +353,7 @@ html.dark .how-works-stage {
 }
 
 .home-fade-hero {
-  --home-fade-from: #f7efe6;
+  --home-fade-from: #f8eee4;
 }
 
 .home-fade-works {

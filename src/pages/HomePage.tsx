@@ -80,7 +80,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
               </div>
             </div>
 
-            <div className="relative mt-2 lg:col-span-6">
+            <div className="hero-frame relative mt-2 lg:col-span-6">
               <OptimizedImage
                 src="/assets/hero/hero-box.webp"
                 alt={t('hero.image_alt')}
