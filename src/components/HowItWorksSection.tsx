@@ -486,7 +486,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
       ref={sectionRef}
       className={`home-fade home-fade-hero relative w-full overflow-hidden ${className}`}
       style={{
-        background: 'linear-gradient(to bottom, #fcfbf1 0%, #E4DCCB 100%)',
+        background: 'linear-gradient(to bottom, #dccfb8 0%, #E4DCCB 100%)',
       }}
     >
       <div className="relative z-10 max-w-[900px] mx-auto px-4 sm:px-6 py-14 sm:py-16 md:py-20 text-center">
