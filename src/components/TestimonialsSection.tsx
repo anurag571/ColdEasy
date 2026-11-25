@@ -81,20 +81,23 @@ export const TestimonialsSection: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-8">
-          <article className="relative overflow-hidden rounded-[28px] bg-sand lg:col-span-5">
-            <div className="relative flex min-h-[460px] flex-col justify-end p-5 sm:min-h-[520px] sm:p-6">
-              <div
-                className="mb-auto flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-studio"
-                aria-hidden="true"
-              >
+          <article className="flex flex-col overflow-hidden rounded-[28px] bg-sand lg:col-span-5">
+            <div className="flex flex-col p-3 pb-0 sm:p-4 sm:pb-0 lg:min-h-[360px] lg:flex-1">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-studio lg:aspect-auto lg:min-h-[320px] lg:flex-1">
                 {activeStory.image && !activeStory.photoPlaceholder ? (
-                  <img src={activeStory.image} alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={activeStory.image}
+                    alt={activeStory.customerName}
+                    className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
+                  />
                 ) : (
-                  <span className="font-heading text-xl font-black text-ink">
+                  <span className="absolute inset-0 flex items-center justify-center font-heading text-4xl font-black text-ink">
                     {initials(activeStory.customerName)}
                   </span>
                 )}
               </div>
+            </div>
+            <div className="p-5 sm:p-6">
               <Quote className="mb-3 h-7 w-7 fill-marigold text-marigold" />
               <blockquote className="font-body text-base font-medium leading-relaxed text-ink sm:text-lg">
                 {t(`story.${activeStory.id}.quote`)}
