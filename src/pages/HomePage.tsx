@@ -8,7 +8,7 @@ import { FaqSection } from '../components/FaqSection';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { OptimizedImage } from '../components/OptimizedImage';
 import { NotifyModal } from '../components/NotifyModal';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Droplets, Leaf, ZapOff } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -42,18 +42,33 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
   return (
     <div className="w-full">
       {/* 1. E-COMMERCE HERO FOR THE COLDEASY BOX */}
-      <section className="hero-scene relative w-full overflow-hidden py-12 sm:py-16 lg:py-20">
+      <section className="hero-scene relative w-full overflow-hidden bg-cream py-12 text-ink sm:py-16 lg:py-20">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center">
-            {/* Left Column: Headlines & Prominent BUY NOW */}
             <div className="relative z-10 lg:col-span-6 flex flex-col items-start text-left">
-              <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-[52px] text-[#251A10] leading-[1.05] tracking-tight break-words">
+              <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-[52px] text-ink leading-[1.05] tracking-tight break-words">
                 {t('hero.headline')}
               </h1>
 
-              <p className="mt-4 max-w-md text-sm sm:text-base text-[#5E554E] font-body leading-relaxed">
+              <p className="mt-4 max-w-md text-sm sm:text-base text-ink-60 font-body leading-relaxed">
                 {t('hero.desc')}
               </p>
+
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {[
+                  { icon: Droplets, label: t('hero.chip.evap') },
+                  { icon: ZapOff, label: t('hero.chip.power') },
+                  { icon: Leaf, label: t('hero.chip.produce') },
+                ].map(({ icon: Icon, label }) => (
+                  <li
+                    key={label}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-sand px-3 py-1.5 font-heading text-[11px] font-semibold text-ink"
+                  >
+                    <Icon className="h-3.5 w-3.5 text-leaf" aria-hidden="true" />
+                    {label}
+                  </li>
+                ))}
+              </ul>
 
               <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
                 <a
@@ -65,21 +80,20 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
 
                 <a
                   href="#/science?section=science-how"
-                  className="hero-secondary py-4 px-6 rounded-full border border-[#251A10]/20 text-[#251A10] font-heading font-bold text-xs uppercase tracking-wider hover:bg-[#EFE8DB] transition-all text-center"
+                  className="hero-secondary py-4 px-6 rounded-full border border-ink/20 text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-all text-center"
                 >
                   {t('hero.cta_works')}
                 </a>
               </div>
             </div>
 
-            {/* Product sits on the page colour and runs off the right, the way the Oura ring does. */}
-            <div className="relative mt-2 lg:col-span-6 lg:-ml-8 lg:mt-6 lg:-mr-2">
+            <div className="relative mt-2 lg:col-span-6">
               <OptimizedImage
-                src="/products/coldeasy-box/front.webp"
+                src="/assets/hero/hero-box.webp"
                 alt={t('hero.image_alt')}
-                className="hero-product ml-auto h-auto w-full object-contain object-left lg:w-[104%] lg:max-w-[640px]"
+                className="hero-product ml-auto h-auto w-full object-contain lg:max-w-[640px]"
                 width={1400}
-                height={1050}
+                height={788}
                 loading="eager"
                 fetchPriority="high"
               />

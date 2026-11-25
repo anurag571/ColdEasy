@@ -283,37 +283,13 @@ html.dark .media-logo {
   filter: brightness(0) invert(1);
 }
 
-/* Home hero uses the poster's own cream, so the photo has no rectangle edge.
-   Only the side toward the headline fades. */
 .hero-scene {
-  background-color: #f5f2e9;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
 }
 
-.hero-product {
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 100%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 100%);
-}
-
-@media (min-width: 1024px) {
-  .hero-product {
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 100%);
-  }
-}
-
-html.dark .hero-scene,
-html.dark .hero-scene h1,
-html.dark .hero-scene .hero-secondary {
-  background-color: #f5f2e9;
-  color: #251a10;
-}
-
-html.dark .hero-scene p {
-  color: #5e554e;
-}
-
-html.dark .hero-scene .hero-secondary {
-  border-color: rgba(37, 26, 16, 0.22);
+html.dark .home-fade-hero {
+  --home-fade-from: #14120e;
 }
 
 /* How It Works section background in dark mode */
@@ -361,7 +337,7 @@ html.dark .how-works-stage {
 }
 
 .home-fade-hero {
-  --home-fade-from: #f5f2e9;
+  --home-fade-from: var(--color-cream);
 }
 
 .home-fade-works {
@@ -382,10 +358,6 @@ html.dark .how-works-stage {
 
 .home-fade-studio {
   --home-fade-from: var(--color-studio);
-}
-
-html.dark .home-fade-hero {
-  --home-fade-from: #f5f2e9;
 }
 
 html.dark .home-fade-works {
