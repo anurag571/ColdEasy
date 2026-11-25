@@ -361,7 +361,7 @@ html.dark .how-works-stage {
 }
 
 .home-fade-sellers {
-  --home-fade-from: #ffffff;
+  --home-fade-from: var(--color-cream);
 }
 
 .home-fade-sand {
@@ -381,7 +381,7 @@ html.dark .home-fade-works {
 }
 
 html.dark .home-fade-sellers {
-  --home-fade-from: #1e1a14;
+  --home-fade-from: #14120e;
 }
 
 #bestsellers .bestseller-photo {
