@@ -99,7 +99,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowToast }) => {
       <HowItWorksSection />
 
       {/* 3. BEST SELLERS (3 PRODUCTS ONLY): Minimal layout */}
-      <section id="bestsellers" className="home-fade home-fade-works relative w-full bg-white pb-16 pt-10 md:pb-24 md:pt-14">
+      <section id="bestsellers" className="home-fade home-fade-works relative w-full bg-cream pb-16 pt-10 md:pb-24 md:pt-14">
         <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="mb-8 flex items-center justify-between">
             <h2 className="font-heading font-black text-2xl sm:text-3xl uppercase tracking-wider text-ink">

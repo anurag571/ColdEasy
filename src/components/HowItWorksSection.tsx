@@ -101,30 +101,55 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
     video.setAttribute('webkit-playsinline', 'true');
   }, []);
 
+  // The first clip is started by the in-view observer. Later toggles reuse the
+  // same element, so the source has to be reloaded or the previous file stays.
+  const didMountSource = useRef(false);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (!didMountSource.current) {
+      didMountSource.current = true;
+      return;
+    }
+
+    video.muted = true;
+    video.defaultMuted = true;
+    if (viewPerspective === 'hardware') video.removeAttribute('src');
+    else video.src = videoSrc;
+    video.load();
+
+    if (reducedMotion) return;
+
+    let cancelled = false;
+    const play = () => {
+      if (cancelled) return;
+      video
+        .play()
+        .then(() => {
+          if (!cancelled) {
+            setIsPlaying(true);
+            setIsEnded(false);
+          }
+        })
+        .catch(() => {});
+    };
+    video.addEventListener('loadeddata', play, { once: true });
+    return () => {
+      cancelled = true;
+      video.removeEventListener('loadeddata', play);
+    };
+  }, [viewPerspective, videoSrc, reducedMotion]);
+
   // Handle switching perspective tabs
   const handlePerspectiveChange = (perspective: ViewPerspective) => {
     if (perspective === viewPerspective) return;
     setIsUserPaused(false);
+    setIsPlaying(false);
     setViewPerspective(perspective);
-    const newSrc = resolveCurrentSource(perspective);
-    setVideoSrc(newSrc);
+    setVideoSrc(resolveCurrentSource(perspective));
     setCurrentTime(0);
     setIsEnded(false);
     setDuration(perspective === 'hardware' ? HARDWARE_VIDEO_DURATION : 7.93);
-
-    const video = videoRef.current;
-    if (video && !reducedMotion) {
-      if (perspective === 'hardware') video.removeAttribute('src');
-      else video.src = newSrc;
-      video.currentTime = 0;
-      video.muted = true;
-      video.defaultMuted = true;
-      video.load();
-      video
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {});
-    }
     track('video_step_click', { context: perspective });
   };
 
@@ -367,7 +392,6 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
             />
           ) : (
           <video
-            key={viewPerspective}
             ref={videoRef}
             className="h-full w-full object-cover"
             style={featheredMaskStyle}
@@ -466,7 +490,6 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
               <img src={currentPoster} alt="" className="block h-full w-full object-cover" />
             ) : (
             <video
-              key={viewPerspective}
               ref={videoRef}
               className="block h-full w-full object-cover"
               muted
