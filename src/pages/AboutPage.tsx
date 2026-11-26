@@ -118,24 +118,33 @@ export const AboutPage: React.FC = () => {
               >
                 <div>
                   <div className="w-full aspect-[588/640] rounded-[18px] sm:rounded-[20px] overflow-hidden bg-[#E9A93A] mb-3.5 relative shadow-inner">
-                    <img
-                      src={member.photo}
-                      alt={member.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-300"
-                      loading="lazy"
-                    />
-                    {member.linkedin && (
-                      <a
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="absolute bottom-2.5 right-2.5 w-7 h-7 rounded-md bg-[#0A66C2] text-white flex items-center justify-center shadow-md hover:bg-[#004182] transition-transform hover:scale-110 z-10"
-                        title={`${member.name} on LinkedIn`}
-                        aria-label={`${member.name} LinkedIn Profile`}
-                      >
-                        <Linkedin className="w-4 h-4 fill-current" />
-                      </a>
-                    )}
+                    <div className="absolute inset-0 origin-center transition-transform duration-300 group-hover:scale-[1.02]">
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        className="w-full h-full object-cover object-center"
+                        loading="lazy"
+                      />
+                      {member.linkedin && (
+                        <a
+                          href={member.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute z-10 flex items-center justify-center bg-[#0A66C2] text-white hover:bg-[#004182] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                          style={{
+                            right: '3.15%',
+                            bottom: '1.95%',
+                            width: '10%',
+                            height: '9.2%',
+                            borderRadius: '18%',
+                          }}
+                          title={`${member.name} on LinkedIn`}
+                          aria-label={`${member.name} LinkedIn Profile`}
+                        >
+                          <Linkedin className="h-[62%] w-[62%]" />
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                   <div className="px-1.5 pb-2">
