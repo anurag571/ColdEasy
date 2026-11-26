@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Thermometer, Droplets, ShoppingBag, Info, RotateCcw, Activity } from 'lucide-react';
 import { SeecAnimationPlayer } from '../components/SeecAnimationPlayer';
 import { OptimizedImage } from '../components/OptimizedImage';
+import { ImageComparison } from '../components/ImageComparison';
+import { WaveDivider } from '../components/WaveDivider';
 import { useLanguage } from '../context/LanguageContext';
 
 const CROP_KEYS = {
@@ -149,6 +151,7 @@ export const SciencePage: React.FC = () => {
   const [selectedCrop, setSelectedCrop] = useState<'Banana' | 'Tomato' | 'Mango'>('Tomato');
   const [isColdEasyView, setIsColdEasyView] = useState(false);
   const [cropDay, setCropDay] = useState(1);
+  const [comparePos, setComparePos] = useState(50);
   const [selectedLabCrop, setSelectedLabCrop] = useState<'Banana' | 'Tomato' | 'Mango'>('Tomato');
 
   // Tomato decay time-lapse. Loops while the hero is on screen.
@@ -226,7 +229,12 @@ export const SciencePage: React.FC = () => {
       seriesDays[0] ?? 1,
     );
   const seriesSrc = CROP_DAYS[selectedCrop]?.[activeDay]?.[storageSide];
+  const ambientFrame = CROP_DAYS[selectedCrop]?.[activeDay]?.ambient;
+  const boxFrame = CROP_DAYS[selectedCrop]?.[activeDay]?.box;
+  const canCompare = Boolean(ambientFrame && boxFrame && ambientFrame !== boxFrame);
   const hasDaySeries = seriesDays.length > 0;
+  const stageNumber = Math.max(1, seriesDays.indexOf(activeDay) + 1);
+  const stageLabel = t('sci.stage_n', { n: stageNumber });
   const freshLook = hasDaySeries ? activeDay === 1 || isColdEasyView : isColdEasyView;
   const showSkinChip = !hasDaySeries || !freshLook || !(isColdEasyView && activeDay === 8);
   const readout = PREVIEW_READOUT[storageSide][activeDay] ?? PREVIEW_READOUT[storageSide][1];
@@ -349,6 +357,7 @@ export const SciencePage: React.FC = () => {
           </div>
         </div>
       </section>
+      <WaveDivider variant="soft" className="-mt-10 text-cream md:-mt-[72px]" />
 
       {/* =========================================================================
           2. SCIENCE OF FRESHNESS INTRO
@@ -381,7 +390,7 @@ export const SciencePage: React.FC = () => {
       {/* Crop freshness: one board, toggled between ambient storage and ColdEasy Box.
           Figures are the tomato board in the client crop-freshness note. The same
           board is shown for banana and mango; blanks stay "Data to be added". */}
-      <section className="w-full bg-cream py-16 sm:py-24">
+      <section className="relative w-full bg-cream py-16 sm:py-24">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="rounded-[32px] bg-[#F7F3EA] p-5 sm:p-8">
             <div>
@@ -424,7 +433,10 @@ export const SciencePage: React.FC = () => {
                     >
                       <button
                         type="button"
-                        onClick={() => setIsColdEasyView(false)}
+                        onClick={() => {
+                          setIsColdEasyView(false);
+                          setComparePos(10);
+                        }}
                         aria-pressed={!isColdEasyView}
                         className={`min-h-11 cursor-pointer rounded-full px-2.5 font-heading text-[10px] font-bold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#102616] sm:px-3 sm:text-[11px] sm:tracking-wider ${
                           isColdEasyView ? 'text-[#5E554E] hover:text-[#251A10]' : 'bg-[#251A10] text-white'
@@ -434,7 +446,10 @@ export const SciencePage: React.FC = () => {
                       </button>
                       <button
                         type="button"
-                        onClick={() => setIsColdEasyView(true)}
+                        onClick={() => {
+                          setIsColdEasyView(true);
+                          setComparePos(90);
+                        }}
                         aria-pressed={isColdEasyView}
                         className={`min-h-11 cursor-pointer rounded-full px-2.5 font-heading text-[10px] font-bold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#102616] sm:px-3 sm:text-[11px] sm:tracking-wider ${
                           isColdEasyView ? 'bg-[#487537] text-white' : 'text-[#5E554E] hover:text-[#251A10]'
@@ -451,35 +466,46 @@ export const SciencePage: React.FC = () => {
                     {isColdEasyView ? t('sci.in_box') : t('sci.ambient_storage')}
                   </p>
 
-                  <div className="relative mx-auto mt-6 flex h-72 w-full max-w-md items-center justify-center">
-                    <div className="pointer-events-none absolute h-64 w-64 rounded-full border border-white/15" aria-hidden="true" />
-                    {seriesSrc ? (
-                      <div className="flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-black/40 shadow-lg sm:h-64 sm:w-64">
-                        <OptimizedImage
-                          src={seriesSrc}
-                          alt={t('sci.tomato_day_alt', {
-                            storage: t(isColdEasyView ? 'sci.in_box' : 'sci.ambient_storage'),
-                            day: activeDay,
-                          })}
-                          className={`h-full w-full ${selectedCrop === 'Tomato' ? 'object-cover' : 'object-contain'}`}
-                        />
-                      </div>
-                    ) : (
-                      <CropPortrait
-                        crop={selectedCrop}
-                        fresh={isColdEasyView}
-                        alt={t(isColdEasyView ? 'sci.photo_fresh' : 'sci.photo_ambient', {
-                          crop: t(CROP_KEYS[selectedCrop]),
-                        })}
+                  <div className={`relative mx-auto mt-6 flex w-full max-w-md items-center justify-center ${canCompare ? '' : 'h-72'}`}>
+                    {canCompare && ambientFrame && boxFrame ? (
+                      <ImageComparison
+                        beforeSrc={ambientFrame}
+                        afterSrc={boxFrame}
+                        beforeLabel={t('sci.ambient_storage')}
+                        afterLabel={t('sci.in_box')}
+                        alt={`${t(isColdEasyView ? 'sci.in_box' : 'sci.ambient_storage')}, ${stageLabel}`}
+                        badge={t('sci.illustrative_badge')}
+                        position={comparePos}
                       />
+                    ) : (
+                      <>
+                        <div className="pointer-events-none absolute h-64 w-64 rounded-full border border-white/15" aria-hidden="true" />
+                        {seriesSrc ? (
+                          <div className="flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-black/40 shadow-lg sm:h-64 sm:w-64">
+                            <OptimizedImage
+                              src={seriesSrc}
+                              alt={`${t(isColdEasyView ? 'sci.in_box' : 'sci.ambient_storage')}, ${stageLabel}`}
+                              className={`h-full w-full ${selectedCrop === 'Tomato' ? 'object-cover' : 'object-contain'}`}
+                            />
+                          </div>
+                        ) : (
+                          <CropPortrait
+                            crop={selectedCrop}
+                            fresh={isColdEasyView}
+                            alt={t(isColdEasyView ? 'sci.photo_fresh' : 'sci.photo_ambient', {
+                              crop: t(CROP_KEYS[selectedCrop]),
+                            })}
+                          />
+                        )}
+                      </>
                     )}
                   </div>
 
                   {hasDaySeries && (
                     <div className="mx-auto mt-4 w-full max-w-md">
                       <div className="mb-1 flex items-center justify-between font-heading text-[11px] font-bold uppercase tracking-wider text-white/80">
-                        <span>{t('sci.drag_days')}</span>
-                        <span>{t('sci.day_n', { day: activeDay })}</span>
+                        <span>{t('sci.drag_stages')}</span>
+                        <span>{stageLabel}</span>
                       </div>
                       <div className="relative">
                         <div className="pointer-events-none absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-white/25" aria-hidden="true">
@@ -495,8 +521,8 @@ export const SciencePage: React.FC = () => {
                           max={seriesDays.length - 1}
                           step={1}
                           value={seriesDays.indexOf(activeDay)}
-                          aria-label={t('sci.drag_days')}
-                          aria-valuetext={t('sci.day_n', { day: activeDay })}
+                          aria-label={t('sci.drag_stages')}
+                          aria-valuetext={stageLabel}
                           onChange={(event) => setCropDay(seriesDays[Number(event.target.value)])}
                         />
                       </div>
@@ -511,7 +537,7 @@ export const SciencePage: React.FC = () => {
                             }`}
                             aria-pressed={day === activeDay}
                           >
-                            {t('sci.day_n', { day })}
+                            {t('sci.stage_n', { n: seriesDays.indexOf(day) + 1 })}
                           </button>
                         ))}
                       </div>
@@ -622,6 +648,10 @@ export const SciencePage: React.FC = () => {
             </p>
           </div>
         </div>
+        <WaveDivider
+          variant="layered"
+          className="pointer-events-none absolute inset-x-0 bottom-0 text-leaf opacity-[0.06]"
+        />
       </section>
 
       {/* =========================================================================
