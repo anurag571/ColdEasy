@@ -1,177 +1,40 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Play, Quote } from 'lucide-react';
-import { TESTIMONIAL_STORIES, TestimonialStory } from '../data/mock';
+import React from 'react';
+import { TESTIMONIAL_STORIES } from '../data/mock';
 import { useLanguage } from '../context/LanguageContext';
+import { FeaturedStoryCard } from './testimonials/FeaturedStoryCard';
+import { StoryLinks } from './testimonials/StoryLinks';
+import { VideoRail } from './testimonials/VideoRail';
 
-interface VideoTile {
-  id: string;
-  customerName: string;
-  location: string;
-  videoUrl?: string;
-  portraitUrl?: string;
-}
-
-const VIDEO_TILES: VideoTile[] = [
-  {
-    id: 'vid-1',
-    customerName: 'Gunja Devi',
-    location: 'Patna, Bihar',
-    portraitUrl: '/stories/gunja-devi.webp',
-  },
-  {
-    id: 'vid-2',
-    customerName: 'Sobha Devi',
-    location: 'Bihar',
-  },
-  {
-    id: 'vid-3',
-    customerName: 'Lathabhai Jadhav',
-    location: 'Maharashtra',
-    videoUrl: 'https://www.youtube.com/shorts/R679p8fJiF4',
-  },
-];
-
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .filter((part) => part !== '&')
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join('')
-    .toUpperCase();
-}
-
-const PersonMark: React.FC<{ name: string; portraitUrl?: string }> = ({ name, portraitUrl }) => {
-  if (portraitUrl) {
-    return <img src={portraitUrl} alt="" className="h-full w-full object-cover" />;
-  }
-  return (
-    <span className="font-heading text-3xl font-black tracking-wide text-ink">{initials(name)}</span>
-  );
-};
+const featuredStories = TESTIMONIAL_STORIES.filter((story) => story.image && !story.photoPlaceholder);
 
 export const TestimonialsSection: React.FC = () => {
   const { t } = useLanguage();
-  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
-
-  const activeStory: TestimonialStory =
-    TESTIMONIAL_STORIES[activeStoryIndex] || TESTIMONIAL_STORIES[0];
-
-  const handleNextStory = () => {
-    setActiveStoryIndex((prev) => (prev + 1) % TESTIMONIAL_STORIES.length);
-  };
-
-  const handlePrevStory = () => {
-    setActiveStoryIndex((prev) => (prev === 0 ? TESTIMONIAL_STORIES.length - 1 : prev - 1));
-  };
 
   return (
-    <section className="home-fade home-fade-sand relative w-full overflow-hidden bg-cream py-16 md:py-20">
+    <section className="home-fade home-fade-sand relative w-full bg-cream py-16 md:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <div className="mb-8 flex items-center gap-3 sm:mb-10">
-          <div className="flex h-7 w-1 shrink-0 flex-col overflow-hidden rounded-full">
-            <span className="h-1/4 w-full bg-sky" />
-            <span className="h-1/4 w-full bg-marigold" />
-            <span className="h-1/4 w-full bg-chilli" />
-            <span className="h-1/4 w-full bg-leaf" />
+        <header className="mb-10 text-center md:mb-14">
+          <div className="mx-auto mb-4 flex h-1 w-12 overflow-hidden rounded-full" aria-hidden="true">
+            <span className="h-full flex-1 bg-sky" />
+            <span className="h-full flex-1 bg-marigold" />
+            <span className="h-full flex-1 bg-chilli" />
+            <span className="h-full flex-1 bg-leaf" />
           </div>
           <h2 className="font-heading text-2xl font-extrabold uppercase tracking-wider text-ink sm:text-3xl md:text-4xl">
             {t('testimonials.title')}
           </h2>
-        </div>
+          <p className="mx-auto mt-3 max-w-xl font-body text-base text-ink-60 md:text-lg">
+            {t('testimonials.subtitle')}
+          </p>
+        </header>
 
-        <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-8">
-          <article className="flex flex-col overflow-hidden rounded-[28px] bg-sand lg:col-span-5">
-            <div className="flex flex-col p-3 pb-0 sm:p-4 sm:pb-0 lg:min-h-[360px] lg:flex-1">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-studio lg:aspect-auto lg:min-h-[320px] lg:flex-1">
-                {activeStory.image && !activeStory.photoPlaceholder ? (
-                  <img
-                    src={activeStory.image}
-                    alt={activeStory.customerName}
-                    className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
-                  />
-                ) : (
-                  <span className="absolute inset-0 flex items-center justify-center font-heading text-4xl font-black text-ink">
-                    {initials(activeStory.customerName)}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="p-5 sm:p-6">
-              <Quote className="mb-3 h-7 w-7 fill-marigold text-marigold" />
-              <blockquote className="font-body text-base font-medium leading-relaxed text-ink sm:text-lg">
-                {t(`story.${activeStory.id}.quote`)}
-              </blockquote>
-              <p className="mt-4 font-heading text-sm font-extrabold text-ink">
-                {activeStory.customerName}
-              </p>
-              <p className="mt-0.5 text-xs text-ink-60">
-                {t(`story.${activeStory.id}.role`)} · {activeStory.location}
-              </p>
-              <div className="mt-4 flex items-center justify-between">
-                <a
-                  href={`#/story/${activeStory.id}`}
-                  className="text-xs font-heading font-bold uppercase tracking-wider text-leaf hover:underline"
-                >
-                  {t('testimonials.know_more')} →
-                </a>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={handlePrevStory}
-                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-ink/10 text-ink hover:bg-ink/15"
-                    aria-label={t('testimonials.prev')}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleNextStory}
-                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-ink/10 text-ink hover:bg-ink/15"
-                    aria-label={t('testimonials.next')}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:col-span-7">
-            {VIDEO_TILES.map((tile) => {
-              const body = (
-                <>
-                  <div className="relative flex aspect-[3/4] items-center justify-center overflow-hidden rounded-[28px] bg-sand">
-                    <PersonMark name={tile.customerName} portraitUrl={tile.portraitUrl} />
-                    {tile.videoUrl ? (
-                      <span className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-leaf text-white">
-                        <Play className="ml-0.5 h-5 w-5 fill-white" />
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-3 font-heading text-sm font-bold text-ink">{tile.customerName}</p>
-                  <p className="text-xs text-ink-60">{tile.location}</p>
-                </>
-              );
-              if (!tile.videoUrl) {
-                return (
-                  <div key={tile.id} className="block">
-                    {body}
-                  </div>
-                );
-              }
-              return (
-                <a
-                  key={tile.id}
-                  href={tile.videoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block"
-                >
-                  {body}
-                </a>
-              );
-            })}
+        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-12 lg:gap-8">
+          <div className="md:col-span-5 lg:col-span-4">
+            <FeaturedStoryCard stories={featuredStories} />
+          </div>
+          <div className="flex flex-col gap-6 md:col-span-7 lg:col-span-8">
+            <VideoRail />
+            <StoryLinks stories={TESTIMONIAL_STORIES} />
           </div>
         </div>
       </div>
