@@ -384,68 +384,70 @@ export const SciencePage: React.FC = () => {
       <section className="w-full bg-cream py-16 sm:py-24">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="rounded-[32px] bg-[#F7F3EA] p-5 sm:p-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <h2 className="font-heading text-sm font-bold uppercase tracking-[0.16em] text-leaf">
-                  {t('sci.fresh_kicker')}
-                </h2>
-                <p className="mt-1 max-w-sm font-body text-sm text-[#5E554E]">
-                  {isColdEasyView ? t('sci.fresh_box_sub') : t('sci.fresh_ambient_sub')}
-                </p>
-              </div>
-              <div className="flex flex-col items-start gap-2 sm:items-end">
-                <div className="inline-flex items-center gap-1 rounded-full bg-white/70 p-1">
-                  {(['Banana', 'Tomato', 'Mango'] as const).map((crop) => (
-                    <button
-                      key={crop}
-                      type="button"
-                      onClick={() => setSelectedCrop(crop)}
-                      className={`inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 font-heading text-[11px] font-bold uppercase tracking-wider transition-colors ${
-                        selectedCrop === crop ? 'bg-leaf text-white' : 'text-[#5E554E] hover:text-[#251A10]'
-                      }`}
-                    >
-                      <span
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          crop === 'Banana' ? 'bg-marigold' : crop === 'Tomato' ? 'bg-chilli' : 'bg-[#E07A1F]'
-                        }`}
-                        aria-hidden="true"
-                      />
-                      {t(CROP_KEYS[crop])}
-                    </button>
-                  ))}
-                </div>
-                <div className="inline-flex items-center gap-1 rounded-full bg-white/70 p-1" role="group" aria-label={t('sci.fresh_kicker')}>
-                  <button
-                    type="button"
-                    onClick={() => setIsColdEasyView(false)}
-                    aria-pressed={!isColdEasyView}
-                    className={`cursor-pointer rounded-full px-3 py-1.5 font-heading text-[11px] font-bold uppercase tracking-wider transition-colors ${
-                      isColdEasyView ? 'text-[#5E554E] hover:text-[#251A10]' : 'bg-ink text-white'
-                    }`}
-                  >
-                    {t('sci.ambient_storage')}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsColdEasyView(true)}
-                    aria-pressed={isColdEasyView}
-                    className={`cursor-pointer rounded-full px-3 py-1.5 font-heading text-[11px] font-bold uppercase tracking-wider transition-colors ${
-                      isColdEasyView ? 'bg-leaf text-white' : 'text-[#5E554E] hover:text-[#251A10]'
-                    }`}
-                  >
-                    {t('sci.in_box')}
-                  </button>
-                </div>
-              </div>
+            <div>
+              <h2 className="font-heading text-sm font-bold uppercase tracking-[0.16em] text-leaf">
+                {t('sci.fresh_kicker')}
+              </h2>
+              <p className="mt-1 max-w-sm font-body text-sm text-[#5E554E]">
+                {isColdEasyView ? t('sci.fresh_box_sub') : t('sci.fresh_ambient_sub')}
+              </p>
             </div>
 
             <div className="crop-board mt-6 overflow-hidden rounded-[28px] p-5 text-white sm:p-8">
               <div className="grid items-center gap-8 lg:grid-cols-12">
                 <div className="lg:col-span-7">
-                  <h3 className="font-heading text-3xl font-bold sm:text-4xl">
+                  <div className="mx-auto flex w-full max-w-md flex-col items-center gap-2">
+                    <div className="inline-flex max-w-full flex-nowrap items-center justify-center gap-0.5 rounded-full bg-[#F7F4EC] p-1 shadow-sm">
+                      {(['Banana', 'Tomato', 'Mango'] as const).map((crop) => (
+                        <button
+                          key={crop}
+                          type="button"
+                          onClick={() => setSelectedCrop(crop)}
+                          className={`inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full px-2.5 font-heading text-[10px] font-bold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#102616] sm:px-3 sm:text-[11px] sm:tracking-wider ${
+                            selectedCrop === crop ? 'bg-[#487537] text-white' : 'text-[#5E554E] hover:text-[#251A10]'
+                          }`}
+                        >
+                          <span
+                            className={`h-1.5 w-1.5 rounded-full ${
+                              crop === 'Banana' ? 'bg-marigold' : crop === 'Tomato' ? 'bg-chilli' : 'bg-[#E07A1F]'
+                            }`}
+                            aria-hidden="true"
+                          />
+                          {t(CROP_KEYS[crop])}
+                        </button>
+                      ))}
+                    </div>
+                    <div
+                      className="inline-flex max-w-full flex-nowrap items-center justify-center gap-0.5 rounded-full bg-[#F7F4EC] p-1 shadow-sm"
+                      role="group"
+                      aria-label={t('sci.fresh_kicker')}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setIsColdEasyView(false)}
+                        aria-pressed={!isColdEasyView}
+                        className={`min-h-11 cursor-pointer rounded-full px-2.5 font-heading text-[10px] font-bold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#102616] sm:px-3 sm:text-[11px] sm:tracking-wider ${
+                          isColdEasyView ? 'text-[#5E554E] hover:text-[#251A10]' : 'bg-[#251A10] text-white'
+                        }`}
+                      >
+                        {t('sci.ambient_storage')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIsColdEasyView(true)}
+                        aria-pressed={isColdEasyView}
+                        className={`min-h-11 cursor-pointer rounded-full px-2.5 font-heading text-[10px] font-bold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#102616] sm:px-3 sm:text-[11px] sm:tracking-wider ${
+                          isColdEasyView ? 'bg-[#487537] text-white' : 'text-[#5E554E] hover:text-[#251A10]'
+                        }`}
+                      >
+                        {t('sci.in_box')}
+                      </button>
+                    </div>
+                  </div>
+                  <h3 className="mt-6 text-center font-heading text-3xl font-bold sm:text-4xl">
                     {t(CROP_KEYS[selectedCrop])}
                   </h3>
-                  <p className="mt-1 font-body text-sm text-white/75">
+                  <p className="mt-1 text-center font-body text-sm text-white/75">
                     {isColdEasyView ? t('sci.in_box') : t('sci.ambient_storage')}
                   </p>
 
