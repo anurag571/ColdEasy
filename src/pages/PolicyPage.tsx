@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SectionHeading } from '../components/SectionHeading';
 import { useLanguage } from '../context/LanguageContext';
 import { AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { COMPANY } from '../content/company';
 
 export type PolicyType = 'terms' | 'privacy' | 'refund' | 'shipping';
 
@@ -63,6 +64,7 @@ export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
           id: 'governing-law',
           title: t('policy.terms.4.t'),
           content: (
+            // TODO(client): lawyer to confirm jurisdiction
             <p>
               {t('policy.terms.4.p')}
             </p>
@@ -74,8 +76,21 @@ export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
           content: (
             <div className="p-4 rounded-2xl bg-sand/60 border border-ink/5 space-y-1">
               <p className="font-semibold text-ink">{t('policy.terms.5.role')}</p>
-              <p className="text-ink-60">{t('policy.terms.5.name')}</p>
-              <p className="text-ink-60">{t('policy.terms.5.email')}</p>
+              <p className="text-ink">{COMPANY.grievanceOfficer.name}</p>
+              <p className="text-ink-60">{COMPANY.grievanceOfficer.designation}</p>
+              <p>
+                <a
+                  href={`mailto:${COMPANY.grievanceOfficer.email}`}
+                  className="text-leaf underline underline-offset-2"
+                >
+                  {COMPANY.grievanceOfficer.email}
+                </a>
+              </p>
+              <p>
+                <a href={`tel:${COMPANY.phoneTel}`} className="text-leaf underline underline-offset-2">
+                  {COMPANY.grievanceOfficer.phoneDisplay}
+                </a>
+              </p>
               <p className="text-ink-60">{t('policy.terms.5.time')}</p>
             </div>
           ),
@@ -118,9 +133,15 @@ export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
           id: 'grievance',
           title: t('policy.privacy.4.t'),
           content: (
-            <p>
-              {t('policy.privacy.4.p')}
-            </p>
+            <div className="space-y-2">
+              <p>{t('policy.privacy.4.p')}</p>
+              <p>
+                {t('policy.privacy.4.officer', {
+                  name: COMPANY.grievanceOfficer.name,
+                  email: COMPANY.grievanceOfficer.email,
+                })}
+              </p>
+            </div>
           ),
         },
       ],

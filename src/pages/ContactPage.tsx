@@ -5,6 +5,7 @@ import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { track } from '../lib/track';
 import { Mail, Phone, MessageCircle, MapPin, ExternalLink, CheckCircle2, Send } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { COMPANY } from '../content/company';
 
 export const ContactPage: React.FC = () => {
   const { t } = useLanguage();
@@ -143,12 +144,12 @@ export const ContactPage: React.FC = () => {
               <h3 className="font-heading font-bold text-xs text-ink mt-1 leading-snug">
                 {t('contact.company')}
               </h3>
-              <p className="text-[11px] text-ink-60 mt-1 break-words">{t('contact.cities')}</p>
+              <p className="text-[11px] text-ink-60 mt-1 break-words leading-relaxed">{COMPANY.office}</p>
             </div>
 
             <div className="mt-4 pt-3 border-t border-ink/5 flex items-center justify-between">
               <a
-                href="https://share.google/LrIPpJB1AfAGYPMW0"
+                href={COMPANY.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-semibold text-leaf hover:underline inline-flex items-center gap-1"
