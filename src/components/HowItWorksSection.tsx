@@ -212,8 +212,6 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
       : currentAirflowStepIndex !== -1
         ? currentAirflowStepIndex + 1
         : 1;
-  const totalSteps =
-    viewPerspective === 'hardware' ? HOW_IT_WORKS_STEPS.length : AIRFLOW_STEPS.length;
 
   const progressPct = Math.min(100, (currentTime / duration) * 100);
 

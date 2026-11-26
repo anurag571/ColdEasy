@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { INDIAN_STATES_AND_UTS, FORM_BENEFITS, PRODUCTS } from '../data/mock';
 import { SectionHeading } from '../components/SectionHeading';
 import { track } from '../lib/track';
 import { CheckCircle2, ArrowRight, ArrowLeft, MessageCircle, Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export type LeadFormType = 'distributor' | 'partner' | 'affiliate' | 'bulk';
 
@@ -12,9 +13,13 @@ interface LeadFormPageProps {
 }
 
 export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialProductSlug }) => {
+  const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const cardRef = useRef<HTMLDivElement>(null);
+  const skipFocus = useRef(true);
 
   // Unified Form State with URL query prefilling for bulk/calculator referrals
   const [formData, setFormData] = useState(() => {
@@ -142,12 +147,14 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
 
   const handleNext = () => {
     if (validateStep()) {
+      setDirection(1);
       setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handlePrev = () => {
     setErrors({});
+    setDirection(-1);
     setCurrentStep((prev) => Math.max(0, prev - 1));
   };
 
@@ -179,6 +186,19 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
 
     setIsSuccess(true);
   };
+
+  useEffect(() => {
+    if (skipFocus.current) {
+      skipFocus.current = false;
+      return;
+    }
+    const heading = cardRef.current?.querySelector<HTMLElement>('[data-step-heading]');
+    heading?.focus({ preventScroll: true });
+    const card = cardRef.current;
+    if (card && card.getBoundingClientRect().top < 0) {
+      card.scrollIntoView({ block: 'start' });
+    }
+  }, [currentStep, isSuccess]);
 
   const toggleProductSelect = (slug: string) => {
     setFormData((prev) => {
@@ -222,7 +242,7 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
         </div>
 
         {/* Multi-step Form Card */}
-        <div className="bg-white rounded-[28px] p-6 sm:p-10 border border-ink/10 shadow-md">
+        <div ref={cardRef} className="bg-white rounded-[28px] p-6 sm:p-10 border border-ink/10 shadow-md">
           {/* Progress Indicator Dots (sky, marigold, chilli, leaf) */}
           <div className="flex items-center justify-center gap-3 mb-8">
             {[...Array(totalSteps)].map((_, i) => (
@@ -246,13 +266,20 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
           </div>
 
           {!isSuccess ? (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-6"
+              style={{ ['--dir' as string]: direction }}
+            >
+              <p className="sr-only" aria-live="polite">
+                {t('form.step_of', { n: currentStep + 1, total: totalSteps })}
+              </p>
               {/* DISTRIBUTOR FORM STEPS */}
               {formType === 'distributor' && (
                 <>
                   {currentStep === 0 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 1: About You
                       </h4>
                       <div>
@@ -322,8 +349,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
                   )}
 
                   {currentStep === 1 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 2: Location
                       </h4>
                       <div>
@@ -396,8 +423,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
                   )}
 
                   {currentStep === 2 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 3: Capacity & Capabilities
                       </h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -511,8 +538,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
                   )}
 
                   {currentStep === 3 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 4: Review and Consent
                       </h4>
 
@@ -562,8 +589,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
               {formType === 'partner' && (
                 <>
                   {currentStep === 0 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 1: Organisation & Contact
                       </h4>
                       <div>
@@ -641,8 +668,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
                   )}
 
                   {currentStep === 1 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 2: Partnership Focus
                       </h4>
                       <div>
@@ -702,8 +729,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
               {formType === 'affiliate' && (
                 <>
                   {currentStep === 0 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 1: Your Profile
                       </h4>
                       <div>
@@ -758,8 +785,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
                   )}
 
                   {currentStep === 1 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 2: Platform & Network
                       </h4>
                       <div>
@@ -835,8 +862,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
               {formType === 'bulk' && (
                 <>
                   {currentStep === 0 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 1: Contact & Product Interest
                       </h4>
                       <div>
@@ -923,8 +950,8 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
                   )}
 
                   {currentStep === 1 && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <h4 className="font-heading font-bold text-base uppercase text-ink">
+                    <div className="step-panel space-y-4">
+                      <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink">
                         Step 2: Order Requirements
                       </h4>
 
@@ -1021,7 +1048,7 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
                   <button
                     type="button"
                     onClick={handlePrev}
-                    className="min-h-[44px] py-2.5 px-5 rounded-full border border-ink-40 text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand transition-all flex items-center gap-1.5 cursor-pointer"
+                    className="min-h-12 py-2.5 px-5 rounded-full border border-ink-40 text-ink font-heading font-bold text-xs uppercase tracking-wider hover:bg-sand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf flex items-center gap-1.5 cursor-pointer"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     Back
@@ -1034,7 +1061,7 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="min-h-[44px] py-2.5 px-6 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-leaf/90 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs ml-auto"
+                    className="min-h-12 py-2.5 px-6 rounded-full bg-leaf text-white font-heading font-bold text-xs uppercase tracking-wider hover:bg-leaf/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink flex items-center gap-1.5 cursor-pointer shadow-xs ml-auto"
                   >
                     Next Step
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -1055,7 +1082,7 @@ export const LeadFormPage: React.FC<LeadFormPageProps> = ({ formType, initialPro
               <div className="w-14 h-14 rounded-full bg-leaf text-white flex items-center justify-center mx-auto shadow-sm">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h4 className="font-heading font-bold text-xl uppercase tracking-wider text-ink">
+              <h4 data-step-heading tabIndex={-1} className="font-heading font-bold text-xl uppercase tracking-wider text-ink">
                 Application Received
               </h4>
               <p className="text-sm text-ink-60 font-body max-w-md mx-auto leading-relaxed">

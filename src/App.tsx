@@ -5,6 +5,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import { TopBar } from './components/TopBar';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { WaveDivider } from './components/WaveDivider';
 import { CartDrawer } from './components/CartDrawer';
 import { TrackingDebugPanel } from './components/TrackingDebugPanel';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
@@ -205,7 +206,12 @@ function AppContent() {
       <main className="flex-1">{renderCurrentView()}</main>
 
       {/* Global Footer (hidden on checkout page which has its own legal footer) */}
-      {!isCheckoutView && <Footer />}
+      {!isCheckoutView && (
+        <>
+          <WaveDivider variant="layered" className="text-[#18140E]" />
+          <Footer />
+        </>
+      )}
 
       {/* Slide-in Cart Drawer */}
       <CartDrawer />

@@ -64,6 +64,7 @@ export const CALCULATOR_PRODUCTS: CalculatorProductAssumption[] = [
   },
 ];
 import { SectionHeading } from './SectionHeading';
+import { AnimatedNumber } from './AnimatedNumber';
 import { useCart } from '../context/CartContext';
 import { waLink } from '../lib/wa';
 import { track } from '../lib/track';
@@ -750,8 +751,8 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
           </div>
 
           <div className="text-2xl font-heading font-black text-leaf mt-1 tracking-tight">
-            ₹{calculations.savedLowMonthly.toLocaleString('en-IN')} – ₹
-            {calculations.savedHighMonthly.toLocaleString('en-IN')}
+            ₹<AnimatedNumber value={calculations.savedLowMonthly} /> – ₹
+            <AnimatedNumber value={calculations.savedHighMonthly} />
             <span className="text-xs font-normal text-ink-60 ml-1">/ month</span>
           </div>
 
@@ -1406,8 +1407,8 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                     {t('calc.retained')}
                   </span>
                   <div className="text-3xl sm:text-4xl font-heading font-black text-leaf tracking-tight mt-1">
-                    ₹{calculations.savedLow.toLocaleString('en-IN')} – ₹
-                    {calculations.savedHigh.toLocaleString('en-IN')}
+                    ₹<AnimatedNumber value={calculations.savedLow} /> – ₹
+                    <AnimatedNumber value={calculations.savedHigh} />
                     <span className="text-xs sm:text-sm font-semibold text-ink-60 block sm:inline sm:ml-1">
                       {timeframe === 'annual'
                         ? t('calc.per_year')
@@ -1459,7 +1460,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                       Without ColdEasy
                     </span>
                     <span className="text-base sm:text-lg font-heading font-black text-chilli mt-0.5 block">
-                      ₹{calculations.lossDisplay.toLocaleString('en-IN')}
+                      ₹<AnimatedNumber value={calculations.lossDisplay} />
                     </span>
                     <span className="text-[10px] text-chilli font-medium block">
                       Lost to spoilage (
@@ -1473,7 +1474,7 @@ export const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({
                       With ColdEasy
                     </span>
                     <span className="text-base sm:text-lg font-heading font-black text-leaf mt-0.5 block">
-                      ₹{calculations.savedLow.toLocaleString('en-IN')}+
+                      ₹<AnimatedNumber value={calculations.savedLow} suffix="+" />
                     </span>
                     <span className="text-[10px] text-leaf font-medium block">
                       Kept in your pocket

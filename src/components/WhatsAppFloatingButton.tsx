@@ -10,7 +10,7 @@ export const WhatsAppFloatingButton: React.FC = () => {
     'https://api.whatsapp.com/send/?phone=919182968542&text&type=phone_number&app_absent=0';
 
   return (
-    <div className="fixed bottom-6 right-5 sm:bottom-8 sm:right-8 z-40 flex items-end gap-2.5">
+    <div className="fixed bottom-24 right-5 sm:bottom-8 sm:right-8 z-40 flex items-end gap-2.5">
       {/* Friendly Tooltip Pill */}
       {!isTooltipDismissed && (
         <div className="hidden sm:flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-lg border border-ink/10 text-xs font-heading font-medium text-ink animate-in fade-in slide-in-from-right-4 duration-300">

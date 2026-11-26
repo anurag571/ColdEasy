@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SectionHeading } from '../components/SectionHeading';
 import { useLanguage } from '../context/LanguageContext';
 import { AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
@@ -14,6 +14,27 @@ export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
   const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState<string>('intro');
   const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>('intro');
+
+  useEffect(() => {
+    const openSection = () => {
+      const section = new URLSearchParams(window.location.hash.split('?')[1] || '').get('section');
+      if (!section) return;
+      setActiveSection(section);
+      setOpenMobileAccordion(section);
+      window.setTimeout(() => {
+        const candidates = [
+          ...document.querySelectorAll<HTMLElement>(`[data-policy-section="${CSS.escape(section)}"]`),
+        ];
+        const visible = candidates.find((node) => node.getClientRects().length > 0);
+        if (!visible) return;
+        visible.scrollIntoView({ block: 'start' });
+        visible.querySelector<HTMLElement>('h3, [data-policy-heading]')?.focus({ preventScroll: true });
+      }, 0);
+    };
+    openSection();
+    window.addEventListener('hashchange', openSection);
+    return () => window.removeEventListener('hashchange', openSection);
+  }, [type]);
 
   const policyMeta: Record<
     PolicyType,
@@ -283,9 +304,10 @@ export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
               <div
                 key={sec.id}
                 id={sec.id}
+                data-policy-section={sec.id}
                 className="bg-white rounded-[24px] p-6 sm:p-8 border border-ink/10 shadow-xs"
               >
-                <h3 className="font-heading font-bold text-base uppercase text-ink mb-3">
+                <h3 tabIndex={-1} className="font-heading font-bold text-base uppercase text-ink mb-3">
                   {sec.title}
                 </h3>
                 <div className="text-xs sm:text-sm text-ink-60 leading-relaxed font-body">
@@ -303,9 +325,11 @@ export const PolicyPage: React.FC<PolicyPageProps> = ({ type }) => {
             return (
               <div
                 key={sec.id}
+                data-policy-section={sec.id}
                 className="bg-white rounded-[20px] border border-ink/10 overflow-hidden shadow-2xs"
               >
                 <button
+                  data-policy-heading
                   onClick={() => setOpenMobileAccordion(isOpen ? null : sec.id)}
                   className="w-full p-4 flex items-center justify-between text-left cursor-pointer"
                 >

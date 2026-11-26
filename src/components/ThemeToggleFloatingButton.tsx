@@ -10,7 +10,7 @@ export const ThemeToggleFloatingButton: React.FC = () => {
 
   return (
     <div
-      className="fixed bottom-6 left-5 sm:bottom-8 sm:left-8 z-40 flex items-center gap-2.5 pointer-events-auto"
+      className="fixed bottom-24 left-5 sm:bottom-8 sm:left-8 z-40 flex items-center gap-2.5 pointer-events-auto"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
