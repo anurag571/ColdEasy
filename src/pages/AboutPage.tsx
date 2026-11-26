@@ -1,12 +1,13 @@
 import React from 'react';
 import { SectionHeading } from '../components/SectionHeading';
-import { TEAM_MEMBERS } from '../data/mock';
+import { TEAM_MEMBERS, type TeamMember } from '../data/mock';
 import { PartnerEcosystem } from '../components/PartnerEcosystem';
 import milestonesData from '../content/milestones.json';
 import { MessageCircle, ShoppingBag, Linkedin, Compass, Target } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 const ROLE_KEYS: Record<string, string> = {
+  'Founder & CEO': 'team.role.founder',
   'PM – New Product Development': 'team.role.npd',
   'PM – R&D': 'team.role.rnd',
   Engineer: 'team.role.engineer',
@@ -101,7 +102,7 @@ export const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. TEAM: 11 Members */}
+      {/* 3. TEAM */}
       <section className="w-full bg-cream py-16 md:py-24 border-b border-ink/5">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <SectionHeading
@@ -110,7 +111,7 @@ export const AboutPage: React.FC = () => {
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
-            {TEAM_MEMBERS.map((member) => (
+            {TEAM_MEMBERS.filter((member): member is TeamMember & { photo: string } => Boolean(member.photo)).map((member) => (
               <div
                 key={member.name}
                 className="bg-white rounded-[24px] p-2.5 sm:p-3 border border-ink/10 shadow-xs flex flex-col justify-between hover:shadow-md hover:border-leaf/30 transition-all group"
