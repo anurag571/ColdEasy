@@ -892,73 +892,30 @@ export const IMPACT_METRICS = [
 export interface TeamMember {
   name: string;
   role: string;
-  photo: string;
+  photo?: string;
   linkedin?: string;
 }
 
 export const TEAM_MEMBERS: TeamMember[] = [
-  {
-    name: 'Vishal Singhal',
-    role: 'CEO',
-    photo: '/assets/team/vishal_singhal.jpg',
-    linkedin: 'https://www.linkedin.com/search/results/all/?keywords=Vishal%20Singhal%20Temperate',
-  },
-  {
-    name: 'Rishabh Anand',
-    role: 'PM – New Product Development',
-    photo: '/assets/team/rishabh_anand.jpg',
-    linkedin: 'https://www.linkedin.com/search/results/all/?keywords=Rishabh%20Anand%20Temperate',
-  },
-  {
-    name: 'Abdul Nazim',
-    role: 'PM – R&D',
-    photo: '/assets/team/abdul_nazim.jpg',
-    linkedin: 'https://www.linkedin.com/search/results/all/?keywords=Abdul%20Nazim%20Temperate',
-  },
-  {
-    name: 'Vijay Nakkala',
-    role: 'Engineer',
-    photo: '/assets/team/vijay_nakkala.jpg',
-    linkedin: 'https://www.linkedin.com/search/results/all/?keywords=Vijay%20Nakkala%20Temperate',
-  },
-  {
-    name: 'Sanchi Madan',
-    role: 'Impact and Partnerships Manager',
-    photo: '/assets/team/sanchi_madan.jpg',
-    linkedin: 'https://www.linkedin.com/search/results/all/?keywords=Sanchi%20Madan%20Temperate',
-  },
-  {
-    name: 'Saptarshi Paul',
-    role: "Marketing & Founder's Office",
-    photo: '/assets/team/saptarshi_paul.jpg',
-    linkedin: 'https://www.linkedin.com/search/results/all/?keywords=Saptarshi%20Paul%20Temperate',
-  },
-  {
-    name: 'Bala Karthik',
-    role: 'Engineer',
-    photo: '/assets/team/bala_karthik.jpg',
-    linkedin: 'https://www.linkedin.com/search/results/all/?keywords=Bala%20Karthik%20Temperate',
-  },
-  {
-    name: 'P Manoj Kumar',
-    role: 'Technician',
-    photo: '/assets/team/p_manoj_kumar.jpg',
-  },
-  {
-    name: 'Krishna Verma',
-    role: 'Technician',
-    photo: '/assets/team/krishna_verma.jpg',
-  },
-  {
-    name: 'Anil Yadav',
-    role: 'Technician',
-    photo: '/assets/team/anil_yadav.jpg',
-  },
-  {
-    name: 'Bhim Kumar Verma',
-    role: 'Technician',
-    photo: '/assets/team/bhim_kumar_verma.jpg',
-  },
+  { name: 'Vishal Singhal', role: 'Founder & CEO', photo: '/assets/team/vishal_singhal.jpg', linkedin: 'https://www.linkedin.com/in/vishalsinghal/' },
+  { name: 'Rishabh Anand', role: 'PM – New Product Development', photo: '/assets/team/rishabh_anand.jpg', linkedin: 'https://www.linkedin.com/in/rishabhsunshine/' },
+  { name: 'Abdul Najim, Ph.D.', role: 'PM – R&D', photo: '/assets/team/abdul_nazim.jpg', linkedin: 'https://www.linkedin.com/in/abdul-najim-ph-d-16b15467/' },
+  { name: 'Sanchi Madan', role: 'Impact and Partnerships Manager', photo: '/assets/team/sanchi_madan.jpg', linkedin: 'https://www.linkedin.com/in/sanchimadan/' },
+  { name: 'Saptarshi Paul', role: "Marketing & Founder's Office", photo: '/assets/team/saptarshi_paul.jpg', linkedin: 'https://www.linkedin.com/in/saptarshi-paul-188a19252/' },
+  { name: 'Vijay Reddy', role: 'Engineer', photo: '/assets/team/vijay_nakkala.jpg', linkedin: 'https://www.linkedin.com/in/vijay-paul-reddy-nakkala-20a06a237/' },
+  { name: 'Bala Karthik', role: 'Engineer', photo: '/assets/team/bala_karthik.jpg', linkedin: 'https://www.linkedin.com/in/bala-karthik-1893472a2/' },
+  { name: 'Manoj Kumar Paslaadi', role: 'Technician', photo: '/assets/team/p_manoj_kumar.jpg' },
+  { name: 'Krishna Varma', role: 'Technician', photo: '/assets/team/krishna_verma.jpg' },
+  { name: 'Anil Kumar Yadav', role: 'Technician', photo: '/assets/team/anil_yadav.jpg' },
+  { name: 'Bhim Kumar Verma', role: 'Technician', photo: '/assets/team/bhim_kumar_verma.jpg' },
+  // TODO(client): photo + consent
+  { name: 'Yeddu Yadamma', role: 'Technician' },
+  // TODO(client): photo + consent
+  { name: 'Vishal Verma', role: 'Technician' },
+  // TODO(client): photo + consent
+  { name: 'Ganesh Kaitha', role: 'Technician' },
+  // TODO(client): photo + consent
+  { name: 'Uday Mudiraj', role: 'Technician' },
 ];
 
 // Lead form benefit points

@@ -13,6 +13,7 @@ import { Logo } from './Logo';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { LanguageMenu } from './LanguageMenu';
+import { COMPANY } from '../content/company';
 import { CartCount } from './CartCount';
 
 interface HeaderProps {
@@ -157,7 +158,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
                             </a>
 
                             <a
-                              href="https://share.google/LrIPpJB1AfAGYPMW0"
+                              href={COMPANY.mapsUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-ink hover:bg-sand hover:text-leaf transition-colors"

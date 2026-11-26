@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Logo } from './Logo';
 import { useLanguage } from '../context/LanguageContext';
 import { MessageCircle, ChevronDown, ShieldCheck, Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { COMPANY } from '../content/company';
 
 export const Footer: React.FC = () => {
   const { t } = useLanguage();
@@ -121,6 +122,12 @@ export const Footer: React.FC = () => {
             <p className="text-xs text-[#EDE8DE]/60 mt-8 font-body">
               {t('footer.copyright')}
             </p>
+            <p className="mt-2 max-w-md text-xs leading-relaxed text-[#EDE8DE] font-body">
+              {COMPANY.legalName} · CIN {COMPANY.cin} · GSTIN {COMPANY.gstin}
+            </p>
+            <p className="mt-1 max-w-md text-xs leading-relaxed text-[#EDE8DE] font-body">
+              Registered office: {COMPANY.registeredOffice}
+            </p>
           </div>
 
           {/* Column 2: Navigation & Partner (5 cols) */}
@@ -169,7 +176,7 @@ export const Footer: React.FC = () => {
                       <span>{t('contact.hours')}</span>
                     </div>
                     <a
-                      href="https://share.google/LrIPpJB1AfAGYPMW0"
+                      href={COMPANY.mapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-start gap-2 text-[#EDE8DE]/95 hover:text-white underline decoration-dotted"
@@ -308,7 +315,7 @@ export const Footer: React.FC = () => {
                   <div>{t('footer.email')}</div>
                   <div>{t('footer.hours')}</div>
                   <a
-                    href="https://share.google/LrIPpJB1AfAGYPMW0"
+                    href={COMPANY.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sky hover:underline block"
@@ -358,7 +365,15 @@ export const Footer: React.FC = () => {
                 </React.Fragment>
               ))}
             </div>
-            <div>{t('footer.copyright')}</div>
+            <div className="text-center sm:text-right">
+              <div>{t('footer.copyright')}</div>
+              <p className="mt-2 max-w-sm text-xs leading-relaxed text-[#EDE8DE] sm:ml-auto">
+                {COMPANY.legalName} · CIN {COMPANY.cin} · GSTIN {COMPANY.gstin}
+              </p>
+              <p className="mt-1 max-w-sm text-xs leading-relaxed text-[#EDE8DE] sm:ml-auto">
+                Registered office: {COMPANY.registeredOffice}
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { SectionHeading } from '../components/SectionHeading';
-import { TEAM_MEMBERS } from '../data/mock';
+import { TEAM_MEMBERS, type TeamMember } from '../data/mock';
 import { PartnerEcosystem } from '../components/PartnerEcosystem';
 import milestonesData from '../content/milestones.json';
 import { MessageCircle, ShoppingBag, Linkedin, Compass, Target } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 const ROLE_KEYS: Record<string, string> = {
+  'Founder & CEO': 'team.role.founder',
   'PM – New Product Development': 'team.role.npd',
   'PM – R&D': 'team.role.rnd',
   Engineer: 'team.role.engineer',
@@ -101,7 +102,7 @@ export const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. TEAM: 11 Members */}
+      {/* 3. TEAM */}
       <section className="w-full bg-cream py-16 md:py-24 border-b border-ink/5">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <SectionHeading
@@ -110,31 +111,40 @@ export const AboutPage: React.FC = () => {
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
-            {TEAM_MEMBERS.map((member) => (
+            {TEAM_MEMBERS.filter((member): member is TeamMember & { photo: string } => Boolean(member.photo)).map((member) => (
               <div
                 key={member.name}
                 className="bg-white rounded-[24px] p-2.5 sm:p-3 border border-ink/10 shadow-xs flex flex-col justify-between hover:shadow-md hover:border-leaf/30 transition-all group"
               >
                 <div>
                   <div className="w-full aspect-[588/640] rounded-[18px] sm:rounded-[20px] overflow-hidden bg-[#E9A93A] mb-3.5 relative shadow-inner">
-                    <img
-                      src={member.photo}
-                      alt={member.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-300"
-                      loading="lazy"
-                    />
-                    {member.linkedin && (
-                      <a
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="absolute bottom-2.5 right-2.5 w-7 h-7 rounded-md bg-[#0A66C2] text-white flex items-center justify-center shadow-md hover:bg-[#004182] transition-transform hover:scale-110 z-10"
-                        title={`${member.name} on LinkedIn`}
-                        aria-label={`${member.name} LinkedIn Profile`}
-                      >
-                        <Linkedin className="w-4 h-4 fill-current" />
-                      </a>
-                    )}
+                    <div className="absolute inset-0 origin-center transition-transform duration-300 group-hover:scale-[1.02]">
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        className="w-full h-full object-cover object-center"
+                        loading="lazy"
+                      />
+                      {member.linkedin && (
+                        <a
+                          href={member.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute z-10 flex items-center justify-center bg-[#0A66C2] text-white hover:bg-[#004182] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                          style={{
+                            right: '3.15%',
+                            bottom: '1.95%',
+                            width: '10%',
+                            height: '9.2%',
+                            borderRadius: '18%',
+                          }}
+                          title={`${member.name} on LinkedIn`}
+                          aria-label={`${member.name} LinkedIn Profile`}
+                        >
+                          <Linkedin className="h-[62%] w-[62%]" />
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                   <div className="px-1.5 pb-2">
