@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import {
-  Play,
-  Pause,
   RotateCcw,
   Maximize2,
   X,
@@ -75,7 +73,6 @@ export const SeecAnimationPlayer: React.FC = () => {
   const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(7.93);
   const [activeStageId, setActiveStageId] = useState<string>('intake');
@@ -118,33 +115,43 @@ export const SeecAnimationPlayer: React.FC = () => {
     }
   }, [currentTime]);
 
-  // Pause when out of viewport, play when in view
+  // Play on a loop while the section is on screen. Pause when it scrolls away.
   useEffect(() => {
     const target = containerRef.current;
-    if (!target) return;
+    const video = videoRef.current;
+    if (!target || !video) return;
+
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const sync = (ratio: number) => {
+      video.loop = true;
+      video.muted = true;
+      const inView = ratio >= 0.25;
+      if (inView && !motion.matches) {
+        video.play().catch(() => {});
+      } else if (!video.paused) {
+        video.pause();
+      }
+    };
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        const video = videoRef.current;
-        if (!video) return;
-
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
-          if (video.paused && isPlaying) {
-            video.play().catch(() => {});
-          }
-        } else {
-          if (!video.paused) {
-            video.pause();
-          }
-        }
-      },
-      { threshold: [0.1, 0.25] },
+      (entries) => sync(entries[0]?.intersectionRatio ?? 0),
+      { threshold: [0, 0.25, 0.5] },
     );
 
     observer.observe(target);
-    return () => observer.disconnect();
-  }, [isPlaying]);
+    const onMotion = () => {
+      const rect = target.getBoundingClientRect();
+      const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+      const ratio = rect.height > 0 ? Math.max(0, visible) / rect.height : 0;
+      sync(ratio);
+    };
+    motion.addEventListener('change', onMotion);
+    return () => {
+      observer.disconnect();
+      motion.removeEventListener('change', onMotion);
+    };
+  }, [videoSrc]);
 
   // Handle keyboard escape for lightbox
   useEffect(() => {
@@ -165,31 +172,13 @@ export const SeecAnimationPlayer: React.FC = () => {
     };
   }, [isLightboxOpen]);
 
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (video.paused) {
-      video.muted = true;
-      video
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {});
-    } else {
-      video.pause();
-      setIsPlaying(false);
-    }
-  };
-
   const handleReplay = () => {
     const video = videoRef.current;
     if (!video) return;
     video.currentTime = 0;
     video.muted = true;
-    video
-      .play()
-      .then(() => setIsPlaying(true))
-      .catch(() => {});
+    video.loop = true;
+    video.play().catch(() => {});
   };
 
   const handleTimeUpdate = () => {
@@ -207,10 +196,8 @@ export const SeecAnimationPlayer: React.FC = () => {
     if (!video) return;
     video.currentTime = stage.time;
     video.muted = true;
-    video
-      .play()
-      .then(() => setIsPlaying(true))
-      .catch(() => {});
+    video.loop = true;
+    video.play().catch(() => {});
   };
 
   const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -242,14 +229,11 @@ export const SeecAnimationPlayer: React.FC = () => {
           src={videoSrc}
           poster="/assets/aistudio/seec_thermodynamics_poster.jpg"
           className="w-full h-full object-contain block"
-          autoPlay
           loop
           muted
           playsInline
           preload="metadata"
           onTimeUpdate={handleTimeUpdate}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
           aria-label="Thermodynamic airflow animation showing water wicking up SEEC pads, latent heat absorption, and natural exhaust without fans"
         />
 
@@ -264,40 +248,9 @@ export const SeecAnimationPlayer: React.FC = () => {
           <Maximize2 className="w-4 h-4 text-white group-hover/btn:scale-110 transition-transform" />
         </button>
 
-        {/* Central Tap-to-Play Overlay if Paused */}
-        {!isPlaying && (
-          <button
-            type="button"
-            onClick={togglePlay}
-            className="absolute inset-0 flex flex-col items-center justify-center bg-ink/20 hover:bg-ink/30 transition-colors z-10 cursor-pointer"
-            aria-label="Resume animation"
-          >
-            <div className="w-14 h-14 rounded-full bg-leaf text-white flex items-center justify-center shadow-lg transform active:scale-95 transition-transform">
-              <Play className="w-6 h-6 ml-0.5 fill-white" />
-            </div>
-            <span className="mt-2 px-3 py-1 rounded-full bg-ink/75 backdrop-blur-xs text-white text-[11px] font-heading font-semibold uppercase tracking-wider">
-              Resume Cycle
-            </span>
-          </button>
-        )}
-
         {/* Bottom Control Bar */}
         <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-ink/80 via-ink/40 to-transparent p-3 sm:p-4 flex items-center justify-between text-white z-10 opacity-90 group-hover:opacity-100 transition-opacity">
           <div className="flex items-center gap-2">
-            {/* Play/Pause Button */}
-            <button
-              type="button"
-              onClick={togglePlay}
-              className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all cursor-pointer"
-              aria-label={isPlaying ? t('seec.pause') : t('seec.play')}
-            >
-              {isPlaying ? (
-                <Pause className="w-4 h-4 fill-white" />
-              ) : (
-                <Play className="w-4 h-4 ml-0.5 fill-white" />
-              )}
-            </button>
-
             {/* Replay Button */}
             <button
               type="button"
@@ -425,7 +378,6 @@ export const SeecAnimationPlayer: React.FC = () => {
                 loop
                 muted
                 playsInline
-                controls
               />
             </div>
 
