@@ -748,6 +748,19 @@ export interface TestimonialStory {
   videoUrl?: string;
   image?: string;
   photoPlaceholder?: boolean;
+  photoStatus: 'real-consented' | 'pending';
+  quoteStatus: 'verbatim-consented' | 'pending';
+}
+
+export interface TestimonialVideo {
+  id: string;
+  personName: string;
+  location: string;
+  platform: 'youtube' | 'instagram';
+  url: string;
+  youtubeId?: string;
+  posterUrl?: string;
+  durationLabel?: string;
 }
 
 // 4 Verified Real Customer Stories from the client brief
@@ -763,6 +776,9 @@ export const TESTIMONIAL_STORIES: TestimonialStory[] = [
     description: 'Improving livelihood resilience for smallholder vegetable retailers.',
     storyUrl: 'https://www.coldeasy.in/deployment-story/improving-livelihood-resilience',
     image: '/stories/gunja-devi.webp',
+    photoStatus: 'pending',
+    quoteStatus: 'pending',
+    // TODO(client): verbatim quote + written consent
   },
   {
     id: 'sobha-devi',
@@ -775,6 +791,9 @@ export const TESTIMONIAL_STORIES: TestimonialStory[] = [
     description: 'Reducing post-harvest loss and protecting vendor margins in regional markets.',
     storyUrl: 'https://www.coldeasy.in/deployment-story/improving-livelihood-resilience',
     photoPlaceholder: true, // TODO(client): Provide actual photo of Sobha Devi
+    photoStatus: 'pending',
+    quoteStatus: 'pending',
+    // TODO(client): verbatim quote + written consent
   },
   {
     id: 'lathabhai-jadhav',
@@ -787,6 +806,9 @@ export const TESTIMONIAL_STORIES: TestimonialStory[] = [
     storyUrl: 'https://www.youtube.com/shorts/R679p8fJiF4',
     videoUrl: 'https://www.youtube.com/shorts/R679p8fJiF4',
     photoPlaceholder: true, // TODO(client): Provide actual photo of Lathabhai Jadhav
+    photoStatus: 'pending',
+    quoteStatus: 'pending',
+    // TODO(client): verbatim quote + written consent
   },
   {
     id: 'vannama-lakshmi',
@@ -799,6 +821,20 @@ export const TESTIMONIAL_STORIES: TestimonialStory[] = [
       'Decentralized cooling enabling smallholder producers to protect their harvest value.',
     storyUrl: 'https://www.coldeasy.in/deployment-story/everyday-efficiency-coldeasy-box',
     photoPlaceholder: true, // TODO(client): Provide actual photo of Vannama & Lakshmi
+    photoStatus: 'pending',
+    quoteStatus: 'pending',
+    // TODO(client): verbatim quote + written consent
+  },
+];
+
+export const TESTIMONIAL_VIDEOS: TestimonialVideo[] = [
+  {
+    id: 'lathabhai-jadhav',
+    personName: 'Lathabhai Jadhav',
+    location: 'Latur, Maharashtra',
+    platform: 'youtube',
+    url: 'https://www.youtube.com/shorts/R679p8fJiF4',
+    youtubeId: 'R679p8fJiF4',
   },
 ];
 

@@ -788,6 +788,132 @@ html.dark .shadow-2xl {
   }
 }
 
+.testimonial-featured {
+  transition:
+    transform 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.testimonial-icon-btn {
+  background-color: color-mix(in srgb, var(--color-ink) 8%, transparent);
+}
+
+.testimonial-video-media,
+.testimonial-video-play,
+.testimonial-story-arrow {
+  transition: transform 400ms ease;
+}
+
+.testimonial-rail-scroll {
+  scrollbar-width: none;
+}
+
+.testimonial-rail-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonial-lightbox {
+  border: 0;
+  max-width: none;
+}
+
+.testimonial-lightbox::backdrop {
+  background: rgb(0 0 0 / 0.8);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .testimonial-featured:hover,
+  .testimonial-featured:focus-within {
+    transform: translateY(-2px);
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  .testimonial-icon-btn:hover,
+  .testimonial-icon-btn:focus-visible {
+    background-color: color-mix(in srgb, var(--color-ink) 14%, transparent);
+  }
+
+  .testimonial-more:hover,
+  .testimonial-more:focus-visible {
+    text-decoration: underline;
+  }
+
+  .testimonial-video:hover .testimonial-video-media,
+  .testimonial-video:focus-visible .testimonial-video-media {
+    transform: scale(1.03);
+  }
+
+  .testimonial-video:hover .testimonial-video-play,
+  .testimonial-video:focus-visible .testimonial-video-play {
+    transform: scale(1.1);
+  }
+
+  .testimonial-story-link:hover,
+  .testimonial-story-link:focus-visible {
+    border-color: var(--color-leaf);
+  }
+
+  .testimonial-story-link:hover .testimonial-story-arrow,
+  .testimonial-story-link:focus-visible .testimonial-story-arrow {
+    transform: translateX(2px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes testimonial-slide-next {
+    from {
+      opacity: 0;
+      transform: translateX(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes testimonial-slide-prev {
+    from {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .testimonial-slide-next {
+    animation: testimonial-slide-next 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .testimonial-slide-prev {
+    animation: testimonial-slide-prev 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes rail-drift {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .testimonial-rail-track {
+    animation-name: rail-drift;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .testimonial-rail:hover .testimonial-rail-track,
+  .testimonial-rail:focus-within .testimonial-rail-track,
+  .testimonial-rail.is-paused .testimonial-rail-track {
+    animation-play-state: paused;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
