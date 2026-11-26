@@ -175,7 +175,10 @@ export const PartnerEcosystem: React.FC = () => {
           className="partner-marquee overflow-hidden rounded-[24px] bg-white border border-ink/10 py-6"
           aria-label="Organisations"
         >
-          <div className={`flex items-center gap-4 px-6 ${reducedMotion ? 'flex-wrap justify-center' : 'partner-marquee-track w-max'}`}>
+          <div
+            className={`flex items-center gap-4 px-6 ${reducedMotion ? 'flex-wrap justify-center' : 'partner-marquee-track w-max'}`}
+            style={reducedMotion ? undefined : { animationDuration: `${Math.max(48, tiles.length * 4)}s` }}
+          >
             {loop.map((tile, index) => {
               const chip = tile.showLogo ? (
                 <img
