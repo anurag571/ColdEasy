@@ -89,8 +89,6 @@ export const Footer: React.FC = () => {
     },
   ];
 
-  const visibleSocials = socialIcons.filter((soc) => soc.href !== '#');
-
   const linkList = (links: { label: string; href: string }[]) => (
     <ul className="space-y-1">
       {links.map((link) => (
@@ -194,20 +192,29 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="mt-4 flex flex-wrap gap-3">
-          {visibleSocials.map((soc) => (
-            <a
-              key={soc.name}
-              href={soc.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EDE8DE]"
-              style={{ color: soc.color }}
-              aria-label={soc.name}
-              onClick={soc.name === 'WhatsApp' ? () => handleWaClick({ type: 'general' }) : undefined}
-            >
-              {soc.svg}
-            </a>
-          ))}
+          {socialIcons.map((soc) => {
+            const ready = soc.href !== '#';
+            return (
+              <a
+                key={soc.name}
+                href={soc.href}
+                target={ready ? '_blank' : undefined}
+                rel={ready ? 'noopener noreferrer' : undefined}
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EDE8DE]"
+                style={{ color: soc.color }}
+                aria-label={soc.name}
+                onClick={
+                  soc.name === 'WhatsApp'
+                    ? () => handleWaClick({ type: 'general' })
+                    : ready
+                      ? undefined
+                      : (event) => event.preventDefault()
+                }
+              >
+                {soc.svg}
+              </a>
+            );
+          })}
         </div>
 
         <div className="mt-4 max-w-md space-y-2 text-xs leading-relaxed text-[#EDE8DE]">
