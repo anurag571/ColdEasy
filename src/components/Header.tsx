@@ -32,12 +32,17 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
       : 'normal-case tracking-normal break-words';
 
   useEffect(() => {
+    // The bar gets shorter when it compacts. One threshold makes that
+    // height change pull scroll position back across the same line, so
+    // the bar grows and shrinks in a loop. Compact only after a clear
+    // scroll, and expand only once the page is nearly back at the top.
     const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      const y = window.scrollY;
+      setIsScrolled((current) => {
+        if (!current && y > 96) return true;
+        if (current && y < 12) return false;
+        return current;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -78,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute }) => {
     <>
       <nav
         aria-label="Main Navigation"
-        className={`w-full bg-cream sticky top-[36px] z-30 transition-all duration-250 ${
+        className={`w-full bg-cream sticky top-[36px] z-30 overflow-anchor-none transition-all duration-250 ${
           isScrolled ? 'min-h-[56px] shadow-xs border-b border-ink/10' : 'min-h-[72px] md:min-h-[80px]'
         }`}
       >
