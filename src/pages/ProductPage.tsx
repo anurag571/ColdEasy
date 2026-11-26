@@ -36,7 +36,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ slug = 'coldeasy-box',
   };
 
   // Compute pricing and highlights based on variant for AutoBox
-  let displayPrice = baseProduct.price;
+  const displayPrice = baseProduct.price;
 
   const activeHighlights = (baseProduct.highlights || [])
     .filter((h) => !h.includes('[TBC]') && !h.includes('[CONFIRM]'))
