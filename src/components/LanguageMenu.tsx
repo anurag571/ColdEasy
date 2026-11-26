@@ -1,10 +1,11 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { LANGUAGES, useLanguage, type Language } from '../context/LanguageContext';
 
-export const LanguageMenu: React.FC<{ onSelect?: () => void; align?: 'left' | 'right' }> = ({
-  onSelect,
-  align = 'right',
-}) => {
+export const LanguageMenu: React.FC<{
+  onSelect?: () => void;
+  align?: 'left' | 'right';
+  placement?: 'down' | 'up';
+}> = ({ onSelect, align = 'right', placement = 'down' }) => {
   const { language, setLanguage, t } = useLanguage();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -58,7 +59,7 @@ export const LanguageMenu: React.FC<{ onSelect?: () => void; align?: 'left' | 'r
     <div ref={rootRef} className="relative">
       <button
         type="button"
-        className="min-h-11 px-3 py-2 rounded-full border border-ink/15 bg-white text-ink font-heading font-bold text-sm cursor-pointer hover:border-leaf"
+        className="min-h-11 px-3 py-2 rounded-full border border-ink/15 bg-white text-ink font-heading font-bold text-sm cursor-pointer hover:border-leaf focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
@@ -83,9 +84,9 @@ export const LanguageMenu: React.FC<{ onSelect?: () => void; align?: 'left' | 'r
           aria-label={t('lang.label')}
           tabIndex={-1}
           onKeyDown={onListKeyDown}
-          className={`absolute top-full z-50 mt-2 min-w-44 max-w-[16rem] rounded-2xl border border-ink/10 bg-white p-1.5 shadow-xl ${
-            align === 'right' ? 'right-0' : 'left-0'
-          }`}
+          className={`absolute z-50 min-w-44 max-w-[16rem] rounded-2xl border border-ink/10 bg-white p-1.5 shadow-xl ${
+            placement === 'up' ? 'bottom-full mb-2' : 'top-full mt-2'
+          } ${align === 'right' ? 'right-0' : 'left-0'}`}
         >
           {LANGUAGES.map((item) => {
             const selected = item.id === language;
@@ -96,7 +97,7 @@ export const LanguageMenu: React.FC<{ onSelect?: () => void; align?: 'left' | 'r
                   type="button"
                   role="option"
                   aria-selected={selected}
-                  className={`w-full min-h-11 rounded-xl px-3 py-2 text-left text-sm font-heading cursor-pointer break-words ${
+                  className={`w-full min-h-11 rounded-xl px-3 py-2 text-left text-sm font-heading cursor-pointer break-words focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf ${
                     selected ? 'bg-leaf text-white' : 'text-ink hover:bg-sand'
                   }`}
                   onClick={() => choose(item.id)}
