@@ -339,6 +339,7 @@
   "sci.box_p1": "ColdEasy Box uses passive cooling technology to create a controlled storage environment for fresh produce. The system uses water evaporation and airflow to maintain lower storage temperatures and improved humidity levels. This helps slow down the deterioration of fruits and vegetables while preserving their freshness.",
   "sci.box_lead": "ColdEasy takes a different approach.",
   "sci.box_p2": "By deploying SEEC (Structurally Enhanced Evaporative Cooling) technology, the system operates without conventional refrigeration compressors or electricity, providing an accessible cold chain solution directly at farm gates and local markets.",
+  "sci.box_diagram_alt": "Exploded ColdEasy Box: ventilated top lid and perforated frame, SEEC honeycomb evaporative core, perforated structural housing, and reservoir base tray.",
   "sci.seec_kicker": "Proprietary Thermodynamic System",
   "sci.seec_title": "SEEC TECHNOLOGY",
   "sci.seec_sub": "Structurally Enhanced Evaporative Cooling engineered for rural farm and retail conditions.",

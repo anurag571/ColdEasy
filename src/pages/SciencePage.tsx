@@ -87,6 +87,51 @@ function daysFor(crop: CropName, side: StorageSide) {
     .sort((a, b) => a - b);
 }
 
+function EnvironmentDiagram({
+  src,
+  title,
+  body,
+  steps,
+  accentClass,
+  delay,
+  showCaption,
+}: {
+  src: string;
+  title: string;
+  body: string;
+  steps: [string, string, string];
+  accentClass: string;
+  delay: string;
+  showCaption: boolean;
+}) {
+  return (
+    <figure className="relative overflow-hidden rounded-[28px] border border-ink/10 bg-[#FBFAF5] shadow-xs">
+      <span
+        className={`pointer-events-none absolute inset-0 z-10 rounded-[28px] border animate-science-pulse ${accentClass}`}
+        style={{ animationDelay: delay }}
+        aria-hidden="true"
+      />
+      <OptimizedImage
+        src={src}
+        width={1024}
+        height={1024}
+        alt=""
+        className="relative block h-auto w-full"
+        loading="lazy"
+      />
+      <figcaption
+        className={showCaption ? 'border-t border-black/10 px-5 py-4 text-left sm:px-6' : 'sr-only'}
+      >
+        <h3 className="font-heading text-lg font-black uppercase tracking-wider text-[#251A10]">{title}</h3>
+        <p className="mt-2 font-body text-xs leading-relaxed text-[#5E554E] sm:text-sm">{body}</p>
+        <p className="mt-3 font-heading text-xs font-bold text-[#251A10]">
+          {steps[0]} → {steps[1]} → {steps[2]}
+        </p>
+      </figcaption>
+    </figure>
+  );
+}
+
 function CropPortrait({ crop, fresh, alt }: { crop: CropName; fresh: boolean; alt: string }) {
   return (
     <div className="flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-black/10 shadow-lg sm:h-64 sm:w-64">
@@ -100,7 +145,7 @@ function CropPortrait({ crop, fresh, alt }: { crop: CropName; fresh: boolean; al
 }
 
 export const SciencePage: React.FC = () => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [selectedCrop, setSelectedCrop] = useState<'Banana' | 'Tomato' | 'Mango'>('Tomato');
   const [isColdEasyView, setIsColdEasyView] = useState(false);
   const [cropDay, setCropDay] = useState(1);
@@ -600,78 +645,25 @@ export const SciencePage: React.FC = () => {
             </p>
           </div>
 
-          {/* Two Pathways */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {/* Pathway 1: High Temperature */}
-            <div className="relative p-6 sm:p-8 rounded-[28px] bg-[#FAF7F0] border border-ink/10 shadow-xs flex flex-col justify-between">
-              <span
-                className="pointer-events-none absolute inset-0 rounded-[28px] border border-chilli/30 animate-science-pulse"
-                style={{ animationDelay: '0ms' }}
-                aria-hidden="true"
-              />
-              <div>
-                <div className="relative w-12 h-12 mb-4">
-                  <span
-                    className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-chilli/45 animate-indicator-beacon"
-                    style={{ animationDelay: '0ms' }}
-                    aria-hidden="true"
-                  />
-                  <div className="relative w-12 h-12 rounded-2xl bg-chilli-light flex items-center justify-center text-chilli shadow-2xs">
-                    <Thermometer className="w-6 h-6 stroke-[2.5]" />
-                  </div>
-                </div>
-                <h3 className="font-heading font-black text-lg uppercase tracking-wider text-chilli">
-                  {t('sci.hot')}
-                </h3>
-                <p className="mt-3 text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  {t('sci.hot_body')}
-                </p>
-              </div>
-              <div className="mt-5 pt-4 border-t border-ink/10 flex items-center gap-2 text-xs font-heading font-bold text-chilli animate-metric-breath">
-                <span>{t('sci.resp')}</span>
-                <span>→</span>
-                <span>{t('sci.ripe')}</span>
-                <span>→</span>
-                <span>{t('sci.decay')}</span>
-              </div>
-            </div>
-
-            {/* Pathway 2: Low Humidity */}
-            <div className="relative p-6 sm:p-8 rounded-[28px] bg-[#FAF7F0] border border-ink/10 shadow-xs flex flex-col justify-between">
-              <span
-                className="pointer-events-none absolute inset-0 rounded-[28px] border border-sky/40 animate-science-pulse"
-                style={{ animationDelay: '1200ms' }}
-                aria-hidden="true"
-              />
-              <div>
-                <div className="relative w-12 h-12 mb-4">
-                  <span
-                    className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-sky/55 animate-indicator-beacon"
-                    style={{ animationDelay: '1200ms' }}
-                    aria-hidden="true"
-                  />
-                  <div className="relative w-12 h-12 rounded-2xl bg-sky-light flex items-center justify-center text-sky shadow-2xs">
-                    <Droplets className="w-6 h-6 text-leaf stroke-[2.5]" />
-                  </div>
-                </div>
-                <h3 className="font-heading font-black text-lg uppercase tracking-wider text-leaf">
-                  {t('sci.dry')}
-                </h3>
-                <p className="mt-3 text-xs sm:text-sm text-ink-70 font-body leading-relaxed">
-                  {t('sci.dry_body')}
-                </p>
-              </div>
-              <div
-                className="mt-5 pt-4 border-t border-ink/10 flex items-center gap-2 text-xs font-heading font-bold text-leaf animate-metric-breath"
-                style={{ animationDelay: '1200ms' }}
-              >
-                <span>{t('sci.moist')}</span>
-                <span>→</span>
-                <span>{t('sci.weight')}</span>
-                <span>→</span>
-                <span>{t('sci.wilt')}</span>
-              </div>
-            </div>
+          <div className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-6 lg:grid-cols-2">
+            <EnvironmentDiagram
+              src="/assets/science/high-temperature.webp"
+              title={t('sci.hot')}
+              body={t('sci.hot_body')}
+              steps={[t('sci.resp'), t('sci.ripe'), t('sci.decay')]}
+              accentClass="border-chilli/30"
+              delay="0ms"
+              showCaption={language !== 'en'}
+            />
+            <EnvironmentDiagram
+              src="/assets/science/low-humidity.webp"
+              title={t('sci.dry')}
+              body={t('sci.dry_body')}
+              steps={[t('sci.moist'), t('sci.weight'), t('sci.wilt')]}
+              accentClass="border-sky/40"
+              delay="1200ms"
+              showCaption={language !== 'en'}
+            />
           </div>
 
           {/* Converging Banner: LOWER QUALITY + SHORTER SELLING WINDOW */}
@@ -752,6 +744,17 @@ export const SciencePage: React.FC = () => {
               {t('sci.box_p2')}
             </p>
           </div>
+
+          <figure className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-[28px] border border-ink/10 shadow-xs">
+            <OptimizedImage
+              src="/assets/science/box-breakup.webp"
+              width={1024}
+              height={896}
+              alt={t('sci.box_diagram_alt')}
+              className="block h-auto w-full"
+              loading="lazy"
+            />
+          </figure>
         </div>
       </section>
 
